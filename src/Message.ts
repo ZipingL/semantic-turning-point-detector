@@ -16,7 +16,7 @@ export interface MessageSpan {
   endIndex: number;
   /** Original message span if this is a meta-message span */
   originalSpan?: MessageSpan;
-  }
+}
 
 
 /**

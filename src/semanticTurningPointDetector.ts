@@ -1,7 +1,7 @@
 // file: semanticTurningPointDetector.ts
 import fs from "fs-extra";
 import winston from "winston";
-import ollama, { Ollama } from "ollama";
+import { Ollama } from "ollama";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -32,21 +32,19 @@ import { OpenAI } from "openai";
 import { LRUCache } from "lru-cache";
 import crypto from "crypto";
 import { countTokens, createEmbeddingCache } from "./tokensUtil";
-import { conversation } from "./conversation";
-import { ResponseFormatJSONSchema } from "openai/resources/shared";
-import { MetaMessage, type Message } from "./Message";
+import    { MetaMessage, Message,   MessageSpan } from "./Message";
 import { returnFormattedMessageContent } from "./stripContent";
 import {
   formResponseFormatSchema,
-  formSystemMessage,
-  formSystemPromptEnding,
-  formUserMessage,
+  // No longer used but kept for potential needs later, as prompts have now become modularized.
+  // formSystemMessage,
+  // formSystemPromptEnding,
+  // formUserMessage,
 } from "./prompt";
 import {
   ChunkingResult,
   ConvergenceState,
   MessageEmbedding,
-  MessageSpan,
   TurningPoint,
   turningPointCategories,
   TurningPointCategory,

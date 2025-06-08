@@ -3,28 +3,17 @@
 // -----------------------------------------------------------------------------
 
 import type winston from "winston";
-import type { Message } from "./Message";
+import type { Message, MessageSpan } from "./Message";
 
 // -----------------------------------------------------------------------------
 // Core Interfaces
 // -----------------------------------------------------------------------------
 
+
 /**
- * Message span identifies a range of messages
- * Used for tracking dimensional representations across recursion levels
+ * Represents a single message in a conversation
+ * This is used to track the content, author, and metadata of each message
  */
-export interface MessageSpan {
-  /** Start message ID */
-  startId: string;
-  /** End message ID */
-  endId: string;
-  /** Start index in the original message array */
-  startIndex: number;
-  /** End index in the original message array */
-  endIndex: number;
-  /** Original message span if this is a meta-message span */
-  originalSpan?: MessageSpan;
-}
 
 /**
  * Represents a semantic turning point in a conversation
