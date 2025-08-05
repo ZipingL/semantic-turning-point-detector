@@ -1,3 +1,5 @@
+These results are now considered as no longer relevant and dated, as they were from May of 2025. However, it is left here as a way of assessing and seeing what baseline was achieved at that time.
+
 ## Test Case Simple Conversation
 - from `src/conversations.ts`
 

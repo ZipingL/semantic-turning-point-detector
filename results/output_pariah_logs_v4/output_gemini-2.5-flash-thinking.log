@@ -1,0 +1,1281 @@
+2025-08-05 06:38:44 [32minfo[39m: Starting turning-point detection (ARC/CRA) on with provided 155 messages
+2025-08-05 06:38:44 [32minfo[39m:  Turning Point Detection Configuration:
+      dynamicallyAdjustSemanticShiftThreshold: true,
+      dynamicallyAdjustComplexitySaturation: false,
+      
+      enableExperimentalPhi: true,
+      endpoint: https://openrouter.ai/api/v1,
+      maxTurningPoints: 16,    
+      significanceThreshold: 0.3,
+      semanticShiftThreshold: 0.7,
+      minTokensPerChunk: 1024,
+      maxTokensPerChunk: 8192,
+      classificationModel: google/gemini-2.5-flash,    
+      
+2025-08-05 06:38:44 [32minfo[39m: Total conversation tokens: 6126
+2025-08-05 06:38:44 [32minfo[39m: Starting dimensional analysis at n=0
+2025-08-05 06:38:44 [32minfo[39m:     Chunking 155 messages. MinMsgs: 22, MaxTokens: 8192, IdealMsgCount: 22, Overlap: 2
+2025-08-05 06:38:44 [32minfo[39m:       Created chunk 1 with 22 messages, 846 tokens. Ends at index 21.
+2025-08-05 06:38:44 [32minfo[39m:       Starting next chunk with 2 overlapping messages, 63 tokens.
+2025-08-05 06:38:44 [32minfo[39m:       Created chunk 2 with 22 messages, 1238 tokens. Ends at index 41.
+2025-08-05 06:38:44 [32minfo[39m:       Starting next chunk with 2 overlapping messages, 22 tokens.
+2025-08-05 06:38:44 [32minfo[39m:       Created chunk 3 with 22 messages, 557 tokens. Ends at index 61.
+2025-08-05 06:38:44 [32minfo[39m:       Starting next chunk with 2 overlapping messages, 29 tokens.
+2025-08-05 06:38:44 [32minfo[39m:       Created chunk 4 with 22 messages, 1357 tokens. Ends at index 81.
+2025-08-05 06:38:44 [32minfo[39m:       Starting next chunk with 2 overlapping messages, 19 tokens.
+2025-08-05 06:38:44 [32minfo[39m:       Created chunk 5 with 22 messages, 584 tokens. Ends at index 101.
+2025-08-05 06:38:44 [32minfo[39m:       Starting next chunk with 2 overlapping messages, 19 tokens.
+2025-08-05 06:38:44 [32minfo[39m:       Created chunk 6 with 22 messages, 602 tokens. Ends at index 121.
+2025-08-05 06:38:44 [32minfo[39m:       Starting next chunk with 2 overlapping messages, 37 tokens.
+2025-08-05 06:38:44 [32minfo[39m:       Created chunk 7 with 22 messages, 695 tokens. Ends at index 141.
+2025-08-05 06:38:44 [32minfo[39m:       Starting next chunk with 2 overlapping messages, 63 tokens.
+2025-08-05 06:38:44 [32minfo[39m:       Created chunk 8 with 15 messages, 499 tokens. Ends at index 154.
+2025-08-05 06:38:44 [32minfo[39m:     Last chunk (15 msgs) is smaller than min size (22). Merging with previous.
+2025-08-05 06:38:44 [32minfo[39m:     Merged last two chunks. New chunk count: 7.
+2025-08-05 06:38:44 [32minfo[39m:     Finished chunking. Created 7 chunks. Avg Tokens: 875, Avg Msgs: 22.1
+2025-08-05 06:38:44 [32minfo[39m: Dimension 0: Split into 7 chunks
+2025-08-05 06:38:44 [32minfo[39m:  - Dimension 0: Processing chunk 1/7 (22 messages)
+2025-08-05 06:38:47 [32minfo[39m: For a total number of points: 22, there were 13 distances found as being greater than the dynamically adjusted threshold of 0.700. Across this span of messages of length 22, the following distances were found:
+    - The top 3 greatest distances are: 0.856, 0.845, 0.842
+      
+      
+      This means there were 13 potential turning points detected with valid user-assistant turn pairs
+2025-08-05 06:39:03 [32minfo[39m: Now proceeding to process every turning point
+2025-08-05 06:39:03 [32minfo[39m:     ...Potential turning point detected between messages 0 and 1 (distance: 0.856, complexity: 3.1), signif: 0.52 category: clarification, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:39:16 [32minfo[39m:     ...Potential turning point detected between messages 1 and 2 (distance: 0.734, complexity: 3.9), signif: 0.70 category: emotion, number of quotes: 2, emotionalTone: anxious
+2025-08-05 06:39:26 [32minfo[39m:     ...Potential turning point detected between messages 2 and 3 (distance: 0.779, complexity: 3.7), signif: 0.65 category: emotion, number of quotes: 2, emotionalTone: anxious
+2025-08-05 06:39:37 [32minfo[39m:     ...Potential turning point detected between messages 3 and 4 (distance: 0.814, complexity: 3.2), signif: 0.53 category: emotion, number of quotes: 2, emotionalTone: worried
+2025-08-05 06:39:48 [32minfo[39m:     ...Potential turning point detected between messages 4 and 5 (distance: 0.794, complexity: 2.7), signif: 0.42 category: clarification, number of quotes: 2, emotionalTone: surprised
+2025-08-05 06:39:58 [32minfo[39m:     ...Potential turning point detected between messages 5 and 6 (distance: 0.801, complexity: 4.6), signif: 0.84 category: problem, number of quotes: 3, emotionalTone: worried
+2025-08-05 06:40:15 [32minfo[39m:     ...Potential turning point detected between messages 6 and 7 (distance: 0.842, complexity: 3.8), signif: 0.67 category: problem, number of quotes: 3, emotionalTone: worried
+2025-08-05 06:40:28 [32minfo[39m:     ...Potential turning point detected between messages 7 and 8 (distance: 0.845, complexity: 5.0), signif: 0.95 category: problem, number of quotes: 3, emotionalTone: anxious
+2025-08-05 06:40:41 [32minfo[39m:     ...Potential turning point detected between messages 8 and 9 (distance: 0.830, complexity: 4.2), signif: 0.77 category: insight, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:40:51 [32minfo[39m:     ...Potential turning point detected between messages 10 and 11 (distance: 0.748, complexity: 4.0), signif: 0.73 category: problem, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:41:01 [32minfo[39m:     ...Potential turning point detected between messages 11 and 12 (distance: 0.811, complexity: 3.9), signif: 0.71 category: action, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:41:31 [32minfo[39m:     ...Potential turning point detected between messages 12 and 13 (distance: 0.806, complexity: 1.2), signif: 0.10 category: clarification, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:41:47 [32minfo[39m:     ...Potential turning point detected between messages 13 and 14 (distance: 0.794, complexity: 4.2), signif: 0.76 category: meta-reflection, number of quotes: 3, emotionalTone: surprised
+2025-08-05 06:41:47 [32minfo[39m:     - Chunk 1 processed in 182.2s. Est. remaining: 1093.5s (14.3% complete)
+2025-08-05 06:41:47 [32minfo[39m:  - Dimension 0: Processing chunk 2/7 (22 messages)
+2025-08-05 06:41:49 [32minfo[39m: For a total number of points: 22, there were 16 distances found as being greater than the dynamically adjusted threshold of 0.700. Across this span of messages of length 22, the following distances were found:
+    - The top 3 greatest distances are: 0.932, 0.921, 0.885
+      
+      
+      This means there were 16 potential turning points detected with valid user-assistant turn pairs
+2025-08-05 06:41:59 [32minfo[39m: Now proceeding to process every turning point
+2025-08-05 06:41:59 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages 22 and 23 (distance: 0.932, complexity: 4.3), signif: 0.78 category: topic, number of quotes: 2, emotionalTone: worried
+2025-08-05 06:42:13 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages 24 and 25 (distance: 0.921, complexity: 3.8), signif: 0.67 category: objection, number of quotes: 2, emotionalTone: worried
+2025-08-05 06:42:29 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages 25 and 26 (distance: 0.885, complexity: 4.3), signif: 0.79 category: insight, number of quotes: 3, emotionalTone: skeptical
+2025-08-05 06:42:40 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages 26 and 27 (distance: 0.839, complexity: 4.0), signif: 0.72 category: objection, number of quotes: 2, emotionalTone: anxious
+2025-08-05 06:42:57 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages 27 and 28 (distance: 0.769, complexity: 4.7), signif: 0.88 category: insight, number of quotes: 3, emotionalTone: skeptical
+2025-08-05 06:43:07 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages 28 and 29 (distance: 0.834, complexity: 4.7), signif: 0.88 category: emotion, number of quotes: 3, emotionalTone: anxious
+2025-08-05 06:43:17 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages 29 and 30 (distance: 0.719, complexity: 4.3), signif: 0.78 category: emotion, number of quotes: 3, emotionalTone: worried
+2025-08-05 06:43:40 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages 31 and 32 (distance: 0.805, complexity: 4.5), signif: 0.85 category: topic, number of quotes: 3, emotionalTone: skeptical
+2025-08-05 06:43:56 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages 32 and 33 (distance: 0.822, complexity: 3.8), signif: 0.67 category: topic, number of quotes: 2, emotionalTone: surprised
+2025-08-05 06:44:11 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages 33 and 34 (distance: 0.786, complexity: 4.5), signif: 0.83 category: topic, number of quotes: 3, emotionalTone: skeptical
+2025-08-05 06:44:22 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages 34 and 35 (distance: 0.725, complexity: 4.1), signif: 0.75 category: question, number of quotes: 1, emotionalTone: skeptical
+2025-08-05 06:44:39 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages 36 and 37 (distance: 0.810, complexity: 3.3), signif: 0.57 category: insight, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:44:57 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages 37 and 38 (distance: 0.825, complexity: 1.1), signif: 0.08 category: clarification, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:45:20 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages 38 and 39 (distance: 0.812, complexity: 3.5), signif: 0.62 category: clarification, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:45:41 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages 39 and 40 (distance: 0.750, complexity: 1.6), signif: 0.18 category: insight, number of quotes: 1, emotionalTone: worried
+2025-08-05 06:45:53 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages 40 and 41 (distance: 0.746, complexity: 3.6), signif: 0.64 category: question, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:45:53 [32minfo[39m:     - Chunk 2 processed in 246.2s. Est. remaining: 1071.0s (28.6% complete)
+2025-08-05 06:45:53 [32minfo[39m:  - Dimension 0: Processing chunk 3/7 (22 messages)
+2025-08-05 06:45:55 [32minfo[39m: For a total number of points: 22, there were 15 distances found as being greater than the dynamically adjusted threshold of 0.700. Across this span of messages of length 22, the following distances were found:
+    - The top 3 greatest distances are: 0.892, 0.883, 0.845
+      
+      
+      This means there were 15 potential turning points detected with valid user-assistant turn pairs
+2025-08-05 06:46:11 [32minfo[39m: Now proceeding to process every turning point
+2025-08-05 06:46:11 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages 40 and 41 (distance: 0.746, complexity: 3.7), signif: 0.66 category: question, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:46:25 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages 41 and 42 (distance: 0.845, complexity: 4.6), signif: 0.85 category: insight, number of quotes: 2, emotionalTone: surprised
+2025-08-05 06:46:41 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages 42 and 43 (distance: 0.892, complexity: 3.7), signif: 0.65 category: emotion, number of quotes: 2, emotionalTone: anxious
+2025-08-05 06:46:52 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages 43 and 44 (distance: 0.842, complexity: 4.3), signif: 0.79 category: question, number of quotes: 3, emotionalTone: skeptical
+2025-08-05 06:47:05 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages 45 and 46 (distance: 0.727, complexity: 4.8), signif: 0.90 category: insight, number of quotes: 2, emotionalTone: surprised
+2025-08-05 06:47:21 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages 46 and 47 (distance: 0.766, complexity: 4.7), signif: 0.88 category: emotion, number of quotes: 2, emotionalTone: surprised
+2025-08-05 06:47:39 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages 48 and 49 (distance: 0.835, complexity: 4.7), signif: 0.88 category: action, number of quotes: 2, emotionalTone: anxious
+2025-08-05 06:47:49 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages 49 and 50 (distance: 0.747, complexity: 4.3), signif: 0.79 category: objection, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:48:04 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages 50 and 51 (distance: 0.835, complexity: 4.2), signif: 0.76 category: objection, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:48:20 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages 52 and 53 (distance: 0.883, complexity: 3.5), signif: 0.60 category: clarification, number of quotes: 2, emotionalTone: worried
+2025-08-05 06:48:38 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages 55 and 56 (distance: 0.770, complexity: 4.7), signif: 0.88 category: meta-reflection, number of quotes: 2, emotionalTone: sad
+2025-08-05 06:48:57 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages 56 and 57 (distance: 0.806, complexity: 4.4), signif: 0.81 category: emotion, number of quotes: 2, emotionalTone: worried
+2025-08-05 06:49:22 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages 57 and 58 (distance: 0.718, complexity: 4.2), signif: 0.76 category: objection, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:49:43 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages 58 and 59 (distance: 0.798, complexity: 4.2), signif: 0.77 category: action, number of quotes: 2, emotionalTone: surprised
+2025-08-05 06:49:55 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages 60 and 61 (distance: 0.749, complexity: 4.6), signif: 0.86 category: insight, number of quotes: 2, emotionalTone: surprised
+2025-08-05 06:49:55 [32minfo[39m:     - Chunk 3 processed in 241.9s. Est. remaining: 893.8s (42.9% complete)
+2025-08-05 06:49:55 [32minfo[39m:  - Dimension 0: Processing chunk 4/7 (22 messages)
+2025-08-05 06:49:57 [32minfo[39m: For a total number of points: 22, there were 15 distances found as being greater than the dynamically adjusted threshold of 0.700. Across this span of messages of length 22, the following distances were found:
+    - The top 3 greatest distances are: 0.903, 0.876, 0.840
+      
+      
+      This means there were 15 potential turning points detected with valid user-assistant turn pairs
+2025-08-05 06:50:08 [32minfo[39m: Now proceeding to process every turning point
+2025-08-05 06:50:08 [32minfo[39m:     ...[Chunk 3] Potential turning point detected between messages 60 and 61 (distance: 0.749, complexity: 4.7), signif: 0.88 category: insight, number of quotes: 2, emotionalTone: surprised
+2025-08-05 06:50:22 [32minfo[39m:     ...[Chunk 3] Potential turning point detected between messages 63 and 64 (distance: 0.755, complexity: 4.0), signif: 0.71 category: action, number of quotes: 2, emotionalTone: anxious
+2025-08-05 06:50:36 [32minfo[39m:     ...[Chunk 3] Potential turning point detected between messages 64 and 65 (distance: 0.840, complexity: 4.6), signif: 0.85 category: problem, number of quotes: 3, emotionalTone: anxious
+2025-08-05 06:50:47 [32minfo[39m:     ...[Chunk 3] Potential turning point detected between messages 67 and 68 (distance: 0.774, complexity: 4.1), signif: 0.75 category: question, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:51:01 [32minfo[39m:     ...[Chunk 3] Potential turning point detected between messages 69 and 70 (distance: 0.809, complexity: 5.0), signif: 0.95 category: topic, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:51:10 [32minfo[39m:     ...[Chunk 3] Potential turning point detected between messages 70 and 71 (distance: 0.754, complexity: 4.7), signif: 0.88 category: insight, number of quotes: 2, emotionalTone: surprised
+2025-08-05 06:51:35 [32minfo[39m:     ...[Chunk 3] Potential turning point detected between messages 72 and 73 (distance: 0.876, complexity: 4.3), signif: 0.79 category: emotion, number of quotes: 2, emotionalTone: surprised
+2025-08-05 06:51:50 [32minfo[39m:     ...[Chunk 3] Potential turning point detected between messages 73 and 74 (distance: 0.903, complexity: 4.7), signif: 0.88 category: problem, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:51:59 [32minfo[39m:     ...[Chunk 3] Potential turning point detected between messages 74 and 75 (distance: 0.780, complexity: 4.2), signif: 0.77 category: question, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:52:12 [32minfo[39m:     ...[Chunk 3] Potential turning point detected between messages 75 and 76 (distance: 0.767, complexity: 4.7), signif: 0.88 category: insight, number of quotes: 3, emotionalTone: surprised
+2025-08-05 06:52:23 [32minfo[39m:     ...[Chunk 3] Potential turning point detected between messages 76 and 77 (distance: 0.770, complexity: 4.3), signif: 0.79 category: objection, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:52:33 [32minfo[39m: Error during LLM call for turning point classification: Invalid response body while trying to fetch https://openrouter.ai/api/v1/chat/completions: Premature close
+2025-08-05 06:52:33 [32minfo[39m:     ...[Chunk 3] Potential turning point detected between messages 77 and 78 (distance: 0.761, complexity: 1.0), signif: 0.10 category: Other, number of quotes: 0, emotionalTone: neutral
+2025-08-05 06:52:47 [32minfo[39m:     ...[Chunk 3] Potential turning point detected between messages 78 and 79 (distance: 0.711, complexity: 4.7), signif: 0.86 category: objection, number of quotes: 1, emotionalTone: disgusted
+2025-08-05 06:53:04 [32minfo[39m:     ...[Chunk 3] Potential turning point detected between messages 79 and 80 (distance: 0.744, complexity: 4.7), signif: 0.86 category: objection, number of quotes: 2, emotionalTone: surprised
+2025-08-05 06:53:16 [32minfo[39m:     ...[Chunk 3] Potential turning point detected between messages 80 and 81 (distance: 0.819, complexity: 4.4), signif: 0.81 category: problem, number of quotes: 1, emotionalTone: skeptical
+2025-08-05 06:53:16 [32minfo[39m:     - Chunk 4 processed in 201.1s. Est. remaining: 653.6s (57.1% complete)
+2025-08-05 06:53:16 [32minfo[39m:  - Dimension 0: Processing chunk 5/7 (22 messages)
+2025-08-05 06:53:18 [32minfo[39m: For a total number of points: 22, there were 14 distances found as being greater than the dynamically adjusted threshold of 0.700. Across this span of messages of length 22, the following distances were found:
+    - The top 3 greatest distances are: 0.892, 0.880, 0.877
+      
+      
+      This means there were 14 potential turning points detected with valid user-assistant turn pairs
+2025-08-05 06:53:32 [32minfo[39m: Now proceeding to process every turning point
+2025-08-05 06:53:32 [32minfo[39m:     ...[Chunk 4] Potential turning point detected between messages 80 and 81 (distance: 0.819, complexity: 4.2), signif: 0.75 category: question, number of quotes: 1, emotionalTone: anxious
+2025-08-05 06:53:51 [32minfo[39m:     ...[Chunk 4] Potential turning point detected between messages 82 and 83 (distance: 0.733, complexity: 4.3), signif: 0.80 category: objection, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:54:01 [32minfo[39m:     ...[Chunk 4] Potential turning point detected between messages 83 and 84 (distance: 0.726, complexity: 4.6), signif: 0.84 category: emotion, number of quotes: 2, emotionalTone: anxious
+2025-08-05 06:54:16 [32minfo[39m:     ...[Chunk 4] Potential turning point detected between messages 85 and 86 (distance: 0.724, complexity: 4.4), signif: 0.81 category: insight, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:54:26 [32minfo[39m:     ...[Chunk 4] Potential turning point detected between messages 86 and 87 (distance: 0.880, complexity: 4.8), signif: 0.88 category: emotion, number of quotes: 3, emotionalTone: angry
+2025-08-05 06:54:38 [32minfo[39m:     ...[Chunk 4] Potential turning point detected between messages 87 and 88 (distance: 0.703, complexity: 4.5), signif: 0.81 category: objection, number of quotes: 2, emotionalTone: angry
+2025-08-05 06:54:53 [32minfo[39m:     ...[Chunk 4] Potential turning point detected between messages 90 and 91 (distance: 0.762, complexity: 4.6), signif: 0.84 category: objection, number of quotes: 2, emotionalTone: angry
+2025-08-05 06:55:02 [32minfo[39m:     ...[Chunk 4] Potential turning point detected between messages 91 and 92 (distance: 0.751, complexity: 4.7), signif: 0.86 category: objection, number of quotes: 3, emotionalTone: angry
+2025-08-05 06:55:15 [32minfo[39m:     ...[Chunk 4] Potential turning point detected between messages 93 and 94 (distance: 0.792, complexity: 4.0), signif: 0.73 category: clarification, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:55:34 [32minfo[39m:     ...[Chunk 4] Potential turning point detected between messages 94 and 95 (distance: 0.742, complexity: 3.2), signif: 0.54 category: problem, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:55:46 [32minfo[39m:     ...[Chunk 4] Potential turning point detected between messages 95 and 96 (distance: 0.892, complexity: 4.2), signif: 0.77 category: question, number of quotes: 2, emotionalTone: worried
+2025-08-05 06:56:04 [32minfo[39m:     ...[Chunk 4] Potential turning point detected between messages 96 and 97 (distance: 0.795, complexity: 1.5), signif: 0.14 category: clarification, number of quotes: 2, emotionalTone: worried
+2025-08-05 06:56:22 [32minfo[39m:     ...[Chunk 4] Potential turning point detected between messages 97 and 98 (distance: 0.877, complexity: 3.6), signif: 0.63 category: objection, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:56:37 [32minfo[39m:     ...[Chunk 4] Potential turning point detected between messages 99 and 100 (distance: 0.812, complexity: 3.6), signif: 0.63 category: clarification, number of quotes: 1, emotionalTone: skeptical
+2025-08-05 06:56:37 [32minfo[39m:     - Chunk 5 processed in 201.6s. Est. remaining: 429.2s (71.4% complete)
+2025-08-05 06:56:37 [32minfo[39m:  - Dimension 0: Processing chunk 6/7 (22 messages)
+2025-08-05 06:56:40 [32minfo[39m: For a total number of points: 22, there were 10 distances found as being greater than the dynamically adjusted threshold of 0.700. Across this span of messages of length 22, the following distances were found:
+    - The top 3 greatest distances are: 0.900, 0.868, 0.831
+      
+      
+      This means there were 10 potential turning points detected with valid user-assistant turn pairs
+2025-08-05 06:56:51 [32minfo[39m: Now proceeding to process every turning point
+2025-08-05 06:56:51 [32minfo[39m:     ...[Chunk 5] Potential turning point detected between messages 104 and 105 (distance: 0.725, complexity: 4.8), signif: 0.88 category: objection, number of quotes: 2, emotionalTone: angry
+2025-08-05 06:57:12 [32minfo[39m:     ...[Chunk 5] Potential turning point detected between messages 106 and 107 (distance: 0.831, complexity: 4.7), signif: 0.88 category: problem, number of quotes: 2, emotionalTone: anxious
+2025-08-05 06:57:25 [32minfo[39m:     ...[Chunk 5] Potential turning point detected between messages 107 and 108 (distance: 0.783, complexity: 4.7), signif: 0.88 category: decision, number of quotes: 2, emotionalTone: worried
+2025-08-05 06:57:38 [32minfo[39m:     ...[Chunk 5] Potential turning point detected between messages 108 and 109 (distance: 0.710, complexity: 4.5), signif: 0.84 category: action, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 06:57:56 [32minfo[39m:     ...[Chunk 5] Potential turning point detected between messages 110 and 111 (distance: 0.745, complexity: 4.6), signif: 0.84 category: clarification, number of quotes: 3, emotionalTone: angry
+2025-08-05 06:58:12 [32minfo[39m:     ...[Chunk 5] Potential turning point detected between messages 112 and 113 (distance: 0.900, complexity: 4.6), signif: 0.84 category: insight, number of quotes: 2, emotionalTone: worried
+2025-08-05 06:58:31 [32minfo[39m:     ...[Chunk 5] Potential turning point detected between messages 113 and 114 (distance: 0.758, complexity: 4.7), signif: 0.88 category: action, number of quotes: 2, emotionalTone: surprised
+2025-08-05 06:58:55 [32minfo[39m:     ...[Chunk 5] Potential turning point detected between messages 114 and 115 (distance: 0.733, complexity: 4.6), signif: 0.85 category: problem, number of quotes: 2, emotionalTone: worried
+2025-08-05 06:59:11 [32minfo[39m:     ...[Chunk 5] Potential turning point detected between messages 119 and 120 (distance: 0.804, complexity: 4.4), signif: 0.81 category: problem, number of quotes: 1, emotionalTone: worried
+2025-08-05 06:59:24 [32minfo[39m:     ...[Chunk 5] Potential turning point detected between messages 120 and 121 (distance: 0.868, complexity: 4.6), signif: 0.85 category: decision, number of quotes: 3, emotionalTone: angry
+2025-08-05 06:59:24 [32minfo[39m:     - Chunk 6 processed in 167.2s. Est. remaining: 206.7s (85.7% complete)
+2025-08-05 06:59:24 [32minfo[39m:  - Dimension 0: Processing chunk 7/7 (37 messages)
+2025-08-05 06:59:28 [32minfo[39m: For a total number of points: 37, there were 17 distances found as being greater than the dynamically adjusted threshold of 0.700. Across this span of messages of length 37, the following distances were found:
+    - The top 3 greatest distances are: 0.916, 0.868, 0.828
+      
+      
+      This means there were 17 potential turning points detected with valid user-assistant turn pairs
+2025-08-05 06:59:42 [32minfo[39m: Now proceeding to process every turning point
+2025-08-05 06:59:42 [32minfo[39m:     ...[Chunk 6] Potential turning point detected between messages 120 and 121 (distance: 0.868, complexity: 4.6), signif: 0.86 category: problem, number of quotes: 2, emotionalTone: anxious
+2025-08-05 06:59:57 [32minfo[39m:     ...[Chunk 6] Potential turning point detected between messages 121 and 122 (distance: 0.804, complexity: 4.8), signif: 0.90 category: decision, number of quotes: 3, emotionalTone: anxious
+2025-08-05 07:00:08 [32minfo[39m:     ...[Chunk 6] Potential turning point detected between messages 122 and 123 (distance: 0.770, complexity: 4.8), signif: 0.90 category: action, number of quotes: 2, emotionalTone: anxious
+2025-08-05 07:00:22 [32minfo[39m:     ...[Chunk 6] Potential turning point detected between messages 123 and 124 (distance: 0.806, complexity: 4.5), signif: 0.84 category: question, number of quotes: 2, emotionalTone: skeptical
+2025-08-05 07:00:33 [32minfo[39m:     ...[Chunk 6] Potential turning point detected between messages 124 and 125 (distance: 0.823, complexity: 4.2), signif: 0.76 category: decision, number of quotes: 2, emotionalTone: anxious
+2025-08-05 07:00:47 [32minfo[39m:     ...[Chunk 6] Potential turning point detected between messages 125 and 126 (distance: 0.811, complexity: 4.6), signif: 0.84 category: objection, number of quotes: 3, emotionalTone: angry
+2025-08-05 07:00:56 [32minfo[39m:     ...[Chunk 6] Potential turning point detected between messages 127 and 128 (distance: 0.718, complexity: 4.7), signif: 0.88 category: insight, number of quotes: 2, emotionalTone: surprised
+2025-08-05 07:01:12 [32minfo[39m:     ...[Chunk 6] Potential turning point detected between messages 130 and 131 (distance: 0.716, complexity: 4.6), signif: 0.84 category: clarification, number of quotes: 3, emotionalTone: sad
+2025-08-05 07:01:25 [32minfo[39m:     ...[Chunk 6] Potential turning point detected between messages 132 and 133 (distance: 0.802, complexity: 4.4), signif: 0.81 category: objection, number of quotes: 2, emotionalTone: anxious
+2025-08-05 07:01:36 [32minfo[39m:     ...[Chunk 6] Potential turning point detected between messages 133 and 134 (distance: 0.828, complexity: 4.7), signif: 0.88 category: problem, number of quotes: 3, emotionalTone: anxious
+2025-08-05 07:01:51 [32minfo[39m:     ...[Chunk 6] Potential turning point detected between messages 134 and 135 (distance: 0.751, complexity: 4.7), signif: 0.88 category: emotion, number of quotes: 2, emotionalTone: discouraged
+2025-08-05 07:02:00 [32minfo[39m:     ...[Chunk 6] Potential turning point detected between messages 136 and 137 (distance: 0.726, complexity: 4.4), signif: 0.80 category: emotion, number of quotes: 2, emotionalTone: worried
+2025-08-05 07:02:14 [32minfo[39m:     ...[Chunk 6] Potential turning point detected between messages 141 and 142 (distance: 0.758, complexity: 4.4), signif: 0.80 category: action, number of quotes: 3, emotionalTone: angry
+2025-08-05 07:02:28 [32minfo[39m:     ...[Chunk 6] Potential turning point detected between messages 142 and 143 (distance: 0.808, complexity: 4.4), signif: 0.80 category: problem, number of quotes: 2, emotionalTone: angry
+2025-08-05 07:02:41 [32minfo[39m:     ...[Chunk 6] Potential turning point detected between messages 144 and 145 (distance: 0.705, complexity: 4.7), signif: 0.86 category: action, number of quotes: 3, emotionalTone: angry
+2025-08-05 07:02:51 [32minfo[39m:     ...[Chunk 6] Potential turning point detected between messages 150 and 151 (distance: 0.797, complexity: 4.8), signif: 0.88 category: problem, number of quotes: 3, emotionalTone: furious
+2025-08-05 07:03:10 [32minfo[39m:     ...[Chunk 6] Potential turning point detected between messages 152 and 153 (distance: 0.916, complexity: 4.7), signif: 0.88 category: emotion, number of quotes: 2, emotionalTone: anxious
+2025-08-05 07:03:10 [32minfo[39m:     - Chunk 7 processed in 225.3s. Est. remaining: 0.0s (100.0% complete)
+2025-08-05 07:03:10 [32minfo[39m: Dimension 0: Found 100 raw turning points
+2025-08-05 07:03:10 [32minfo[39m: mergeSimilarTurningPoints: Calculating dynamic phi divergence threshold for merging based on 100 TPs since enableExperimentalPhi is true.
+2025-08-05 07:03:10 [32minfo[39m: Dynamically calculated phi divergence threshold for merging: 0.400
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m:     Merging similar TPs (Dim 0): tp-0-1-2 and tp-0-2-3
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.6000000000000001)
+2025-08-05 07:03:10 [32minfo[39m:     Merging similar TPs (Dim 0): tp-0-1-2-merged-2 and tp-0-3-4
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.6000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m:     Merging similar TPs (Dim 0): tp-0-5-6 and tp-0-6-7
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m:     Merging similar TPs (Dim 0): tp-0-5-6-merged-6 and tp-0-7-8
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.6000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.6000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m:     Merging similar TPs (Dim 0): tp-0-28-29 and tp-0-29-30
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m:     Merging similar TPs (Dim 0): tp-0-31-32 and tp-0-32-33
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m:     Merging similar TPs (Dim 0): tp-0-31-32-merged-32 and tp-0-33-34
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.6000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.6000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.6000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.6000000000000001)
+2025-08-05 07:03:10 [32minfo[39m:     Merging similar TPs (Dim 0): tp-0-37-38 and tp-0-38-39
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.6000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.6000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m:     Merging similar TPs (Dim 0): tp-0-49-50 and tp-0-50-51
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.6000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: false (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m:     Merging similar TPs (Dim 0): tp-0-78-79 and tp-0-79-80
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m:     Merging similar TPs (Dim 0): tp-0-87-88 and tp-0-90-91
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m:     Merging similar TPs (Dim 0): tp-0-87-88-merged-90 and tp-0-91-92
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.6000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.6000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.6000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.6000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m:     Merging similar TPs (Dim 0): tp-0-120-121 and tp-0-121-122
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m:     Merging similar TPs (Dim 0): tp-0-134-135 and tp-0-136-137
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:03:10 [32minfo[39m: Dimension 0: Merged similar TPs to 82
+2025-08-05 07:03:10 [32minfo[39m: Dimension 0: Enhancing significance scores with phi-field influence.
+2025-08-05 07:03:10 [32minfo[39m: Dimension 0: Max complexity = 5.00, Saturation threshold = 3
+2025-08-05 07:03:10 [32minfo[39m: Dimension 0: Needs Escalation (Ψ)? true
+2025-08-05 07:03:10 [32minfo[39m: Dimension 0: Escalating to dimension 1
+2025-08-05 07:03:10 [32minfo[39m: Grouped turning points into 11 categories.
+2025-08-05 07:03:10 [32minfo[39m: Applying φ-aware thematic and chronological merging.
+2025-08-05 07:03:10 [32minfo[39m: Segmented the timeline into 15 thematic sections.
+2025-08-05 07:03:10 [32minfo[39m: Created a total of 28 meta-messages for dimensional expansion.
+2025-08-05 07:03:10 [32minfo[39m: Dimension 0: Created 28 meta-messages for dimension 1
+2025-08-05 07:03:10 [32minfo[39m: Starting dimensional analysis at n=1
+2025-08-05 07:03:10 [32minfo[39m:     Chunking 28 messages. MinMsgs: 8, MaxTokens: 4096, IdealMsgCount: 10, Overlap: 2
+2025-08-05 07:03:10 [32minfo[39m:       Created chunk 1 with 9 messages, 4146 tokens. Ends at index 8.
+2025-08-05 07:03:10 [32minfo[39m:       Starting next chunk with 2 overlapping messages, 1202 tokens.
+2025-08-05 07:03:10 [32minfo[39m:       Created chunk 2 with 10 messages, 3625 tokens. Ends at index 16.
+2025-08-05 07:03:10 [32minfo[39m:       Starting next chunk with 2 overlapping messages, 248 tokens.
+2025-08-05 07:03:10 [32minfo[39m:       Created chunk 3 with 10 messages, 1495 tokens. Ends at index 24.
+2025-08-05 07:03:10 [32minfo[39m:       Starting next chunk with 2 overlapping messages, 694 tokens.
+2025-08-05 07:03:10 [32minfo[39m:       Created chunk 4 with 5 messages, 1944 tokens. Ends at index 27.
+2025-08-05 07:03:10 [32minfo[39m:     Last chunk (5 msgs) is smaller than min size (8). Merging with previous.
+2025-08-05 07:03:10 [32minfo[39m:     Merged last two chunks. New chunk count: 3.
+2025-08-05 07:03:10 [32minfo[39m:     Finished chunking. Created 3 chunks. Avg Tokens: 3022, Avg Msgs: 9.3
+2025-08-05 07:03:10 [32minfo[39m: Dimension 1: Split into 3 chunks
+2025-08-05 07:03:10 [32minfo[39m:  - Dimension 1: Processing chunk 1/3 (9 messages)
+Meta message meta-cat-0 contains 21 messages.
+Meta message meta-cat-101 contains 56 messages.
+Meta message meta-section-0 contains 14 messages.
+Meta message meta-cat-1 contains 25 messages.
+Meta message meta-cat-100 contains 79 messages.
+Meta message meta-cat-2 contains 26 messages.
+Meta message meta-cat-3 contains 26 messages.
+Meta message meta-cat-4 contains 18 messages.
+Meta message meta-cat-5 contains 4 messages.
+2025-08-05 07:03:12 [32minfo[39m: For a total number of points: 9, there were 8 distances found as being greater than the dynamically adjusted threshold of 0.245. Across this span of messages of length 9, the following distances were found:
+    - The top 3 greatest distances are: 0.906, 0.835, 0.825
+      
+      
+      This means there were 8 potential turning points detected with valid meta-messages
+getMessagesContentContextualAid: meta-cat-0 - 10 turning points, original messages length: 21, org ids: tp-0-0-1, tp-0-4-5, tp-0-12-13, tp-0-37-38-merged-38, tp-0-52-53, tp-0-93-94, tp-0-96-97, tp-0-99-100, tp-0-110-111, tp-0-130-131
+getMessagesContentContextualAid: meta-cat-101 - 29 turning points, original messages length: 56, org ids: tp-0-27-28, tp-0-49-50-merged-50, tp-0-55-56, tp-0-69-70, tp-0-73-74, tp-0-108-109, tp-0-123-124, tp-0-130-131, tp-0-80-81, tp-0-25-26, tp-0-43-44, tp-0-82-83, tp-0-76-77, tp-0-85-86, tp-0-8-9, tp-0-74-75, tp-0-57-58, tp-0-67-68, tp-0-34-35, tp-0-93-94, tp-0-10-11, tp-0-11-12, tp-0-97-98, tp-0-99-100, tp-0-40-41, tp-0-36-37, tp-0-0-1, tp-0-94-95, tp-0-37-38-merged-38
+getMessagesContentContextualAid: meta-cat-0 - 10 turning points, original messages length: 21, org ids: tp-0-0-1, tp-0-4-5, tp-0-12-13, tp-0-37-38-merged-38, tp-0-52-53, tp-0-93-94, tp-0-96-97, tp-0-99-100, tp-0-110-111, tp-0-130-131
+getMessagesContentContextualAid: meta-cat-101 - 29 turning points, original messages length: 56, org ids: tp-0-27-28, tp-0-49-50-merged-50, tp-0-55-56, tp-0-69-70, tp-0-73-74, tp-0-108-109, tp-0-123-124, tp-0-130-131, tp-0-80-81, tp-0-25-26, tp-0-43-44, tp-0-82-83, tp-0-76-77, tp-0-85-86, tp-0-8-9, tp-0-74-75, tp-0-57-58, tp-0-67-68, tp-0-34-35, tp-0-93-94, tp-0-10-11, tp-0-11-12, tp-0-97-98, tp-0-99-100, tp-0-40-41, tp-0-36-37, tp-0-0-1, tp-0-94-95, tp-0-37-38-merged-38
+2025-08-05 07:03:48 [32minfo[39m: Now proceeding to process every turning point
+2025-08-05 07:03:48 [32minfo[39m:     ...Potential turning point detected between messages meta-cat-0 and meta-cat-101 (distance: 0.812, complexity: 4.1), signif: 0.75 category: insight, number of quotes: 3, emotionalTone: skeptical
+getMessagesContentContextualAid: meta-cat-101 - 29 turning points, original messages length: 56, org ids: tp-0-27-28, tp-0-49-50-merged-50, tp-0-55-56, tp-0-69-70, tp-0-73-74, tp-0-108-109, tp-0-123-124, tp-0-130-131, tp-0-80-81, tp-0-25-26, tp-0-43-44, tp-0-82-83, tp-0-76-77, tp-0-85-86, tp-0-8-9, tp-0-74-75, tp-0-57-58, tp-0-67-68, tp-0-34-35, tp-0-93-94, tp-0-10-11, tp-0-11-12, tp-0-97-98, tp-0-99-100, tp-0-40-41, tp-0-36-37, tp-0-0-1, tp-0-94-95, tp-0-37-38-merged-38
+getMessagesContentContextualAid: meta-section-0 - 8 turning points, original messages length: 14, org ids: tp-0-0-1, tp-0-1-2-merged-2-merged-3, tp-0-4-5, tp-0-5-6-merged-6-merged-7, tp-0-8-9, tp-0-10-11, tp-0-11-12, tp-0-12-13
+getMessagesContentContextualAid: meta-cat-101 - 29 turning points, original messages length: 56, org ids: tp-0-27-28, tp-0-49-50-merged-50, tp-0-55-56, tp-0-69-70, tp-0-73-74, tp-0-108-109, tp-0-123-124, tp-0-130-131, tp-0-80-81, tp-0-25-26, tp-0-43-44, tp-0-82-83, tp-0-76-77, tp-0-85-86, tp-0-8-9, tp-0-74-75, tp-0-57-58, tp-0-67-68, tp-0-34-35, tp-0-93-94, tp-0-10-11, tp-0-11-12, tp-0-97-98, tp-0-99-100, tp-0-40-41, tp-0-36-37, tp-0-0-1, tp-0-94-95, tp-0-37-38-merged-38
+getMessagesContentContextualAid: meta-section-0 - 8 turning points, original messages length: 14, org ids: tp-0-0-1, tp-0-1-2-merged-2-merged-3, tp-0-4-5, tp-0-5-6-merged-6-merged-7, tp-0-8-9, tp-0-10-11, tp-0-11-12, tp-0-12-13
+2025-08-05 07:04:19 [32minfo[39m:     ...Potential turning point detected between messages meta-cat-101 and meta-section-0 (distance: 0.906, complexity: 4.6), signif: 0.85 category: topic, number of quotes: 2, emotionalTone: anxious
+getMessagesContentContextualAid: meta-section-0 - 8 turning points, original messages length: 14, org ids: tp-0-0-1, tp-0-1-2-merged-2-merged-3, tp-0-4-5, tp-0-5-6-merged-6-merged-7, tp-0-8-9, tp-0-10-11, tp-0-11-12, tp-0-12-13
+getMessagesContentContextualAid: meta-cat-1 - 10 turning points, original messages length: 25, org ids: tp-0-1-2-merged-2-merged-3, tp-0-28-29-merged-29, tp-0-42-43, tp-0-46-47, tp-0-56-57, tp-0-72-73, tp-0-83-84, tp-0-86-87, tp-0-134-135-merged-136, tp-0-152-153
+getMessagesContentContextualAid: meta-section-0 - 8 turning points, original messages length: 14, org ids: tp-0-0-1, tp-0-1-2-merged-2-merged-3, tp-0-4-5, tp-0-5-6-merged-6-merged-7, tp-0-8-9, tp-0-10-11, tp-0-11-12, tp-0-12-13
+getMessagesContentContextualAid: meta-cat-1 - 10 turning points, original messages length: 25, org ids: tp-0-1-2-merged-2-merged-3, tp-0-28-29-merged-29, tp-0-42-43, tp-0-46-47, tp-0-56-57, tp-0-72-73, tp-0-83-84, tp-0-86-87, tp-0-134-135-merged-136, tp-0-152-153
+2025-08-05 07:04:41 [32minfo[39m:     ...Potential turning point detected between messages meta-section-0 and meta-cat-1 (distance: 0.825, complexity: 4.7), signif: 0.86 category: meta-reflection, number of quotes: 3, emotionalTone: angry
+getMessagesContentContextualAid: meta-cat-1 - 10 turning points, original messages length: 25, org ids: tp-0-1-2-merged-2-merged-3, tp-0-28-29-merged-29, tp-0-42-43, tp-0-46-47, tp-0-56-57, tp-0-72-73, tp-0-83-84, tp-0-86-87, tp-0-134-135-merged-136, tp-0-152-153
+getMessagesContentContextualAid: meta-cat-100 - 43 turning points, original messages length: 79, org ids: tp-0-13-14, tp-0-22-23, tp-0-41-42, tp-0-45-46, tp-0-46-47, tp-0-48-49, tp-0-56-57, tp-0-58-59, tp-0-60-61, tp-0-64-65, tp-0-70-71, tp-0-72-73, tp-0-75-76, tp-0-83-84, tp-0-86-87, tp-0-87-88-merged-90-merged-91, tp-0-95-96, tp-0-104-105, tp-0-106-107, tp-0-107-108, tp-0-110-111, tp-0-112-113, tp-0-113-114, tp-0-114-115, tp-0-119-120, tp-0-122-123, tp-0-124-125, tp-0-125-126, tp-0-127-128, tp-0-132-133, tp-0-133-134, tp-0-141-142, tp-0-142-143, tp-0-144-145, tp-0-150-151, tp-0-152-153, tp-0-26-27, tp-0-24-25, tp-0-63-64, tp-0-42-43, tp-0-4-5, tp-0-39-40, tp-0-96-97
+getMessagesContentContextualAid: meta-cat-1 - 10 turning points, original messages length: 25, org ids: tp-0-1-2-merged-2-merged-3, tp-0-28-29-merged-29, tp-0-42-43, tp-0-46-47, tp-0-56-57, tp-0-72-73, tp-0-83-84, tp-0-86-87, tp-0-134-135-merged-136, tp-0-152-153
+getMessagesContentContextualAid: meta-cat-100 - 43 turning points, original messages length: 79, org ids: tp-0-13-14, tp-0-22-23, tp-0-41-42, tp-0-45-46, tp-0-46-47, tp-0-48-49, tp-0-56-57, tp-0-58-59, tp-0-60-61, tp-0-64-65, tp-0-70-71, tp-0-72-73, tp-0-75-76, tp-0-83-84, tp-0-86-87, tp-0-87-88-merged-90-merged-91, tp-0-95-96, tp-0-104-105, tp-0-106-107, tp-0-107-108, tp-0-110-111, tp-0-112-113, tp-0-113-114, tp-0-114-115, tp-0-119-120, tp-0-122-123, tp-0-124-125, tp-0-125-126, tp-0-127-128, tp-0-132-133, tp-0-133-134, tp-0-141-142, tp-0-142-143, tp-0-144-145, tp-0-150-151, tp-0-152-153, tp-0-26-27, tp-0-24-25, tp-0-63-64, tp-0-42-43, tp-0-4-5, tp-0-39-40, tp-0-96-97
+2025-08-05 07:05:11 [32minfo[39m:     ...Potential turning point detected between messages meta-cat-1 and meta-cat-100 (distance: 0.610, complexity: 4.0), signif: 0.70 category: topic, number of quotes: 3, emotionalTone: furious
+getMessagesContentContextualAid: meta-cat-100 - 43 turning points, original messages length: 79, org ids: tp-0-13-14, tp-0-22-23, tp-0-41-42, tp-0-45-46, tp-0-46-47, tp-0-48-49, tp-0-56-57, tp-0-58-59, tp-0-60-61, tp-0-64-65, tp-0-70-71, tp-0-72-73, tp-0-75-76, tp-0-83-84, tp-0-86-87, tp-0-87-88-merged-90-merged-91, tp-0-95-96, tp-0-104-105, tp-0-106-107, tp-0-107-108, tp-0-110-111, tp-0-112-113, tp-0-113-114, tp-0-114-115, tp-0-119-120, tp-0-122-123, tp-0-124-125, tp-0-125-126, tp-0-127-128, tp-0-132-133, tp-0-133-134, tp-0-141-142, tp-0-142-143, tp-0-144-145, tp-0-150-151, tp-0-152-153, tp-0-26-27, tp-0-24-25, tp-0-63-64, tp-0-42-43, tp-0-4-5, tp-0-39-40, tp-0-96-97
+getMessagesContentContextualAid: meta-cat-2 - 12 turning points, original messages length: 26, org ids: tp-0-5-6-merged-6-merged-7, tp-0-10-11, tp-0-64-65, tp-0-73-74, tp-0-80-81, tp-0-94-95, tp-0-106-107, tp-0-114-115, tp-0-119-120, tp-0-133-134, tp-0-142-143, tp-0-150-151
+getMessagesContentContextualAid: meta-cat-100 - 43 turning points, original messages length: 79, org ids: tp-0-13-14, tp-0-22-23, tp-0-41-42, tp-0-45-46, tp-0-46-47, tp-0-48-49, tp-0-56-57, tp-0-58-59, tp-0-60-61, tp-0-64-65, tp-0-70-71, tp-0-72-73, tp-0-75-76, tp-0-83-84, tp-0-86-87, tp-0-87-88-merged-90-merged-91, tp-0-95-96, tp-0-104-105, tp-0-106-107, tp-0-107-108, tp-0-110-111, tp-0-112-113, tp-0-113-114, tp-0-114-115, tp-0-119-120, tp-0-122-123, tp-0-124-125, tp-0-125-126, tp-0-127-128, tp-0-132-133, tp-0-133-134, tp-0-141-142, tp-0-142-143, tp-0-144-145, tp-0-150-151, tp-0-152-153, tp-0-26-27, tp-0-24-25, tp-0-63-64, tp-0-42-43, tp-0-4-5, tp-0-39-40, tp-0-96-97
+getMessagesContentContextualAid: meta-cat-2 - 12 turning points, original messages length: 26, org ids: tp-0-5-6-merged-6-merged-7, tp-0-10-11, tp-0-64-65, tp-0-73-74, tp-0-80-81, tp-0-94-95, tp-0-106-107, tp-0-114-115, tp-0-119-120, tp-0-133-134, tp-0-142-143, tp-0-150-151
+2025-08-05 07:05:38 [32minfo[39m:     ...Potential turning point detected between messages meta-cat-100 and meta-cat-2 (distance: 0.835, complexity: 4.1), signif: 0.74 category: problem, number of quotes: 3, emotionalTone: angry
+getMessagesContentContextualAid: meta-cat-2 - 12 turning points, original messages length: 26, org ids: tp-0-5-6-merged-6-merged-7, tp-0-10-11, tp-0-64-65, tp-0-73-74, tp-0-80-81, tp-0-94-95, tp-0-106-107, tp-0-114-115, tp-0-119-120, tp-0-133-134, tp-0-142-143, tp-0-150-151
+getMessagesContentContextualAid: meta-cat-3 - 13 turning points, original messages length: 26, org ids: tp-0-8-9, tp-0-25-26, tp-0-27-28, tp-0-36-37, tp-0-39-40, tp-0-41-42, tp-0-45-46, tp-0-60-61, tp-0-70-71, tp-0-75-76, tp-0-85-86, tp-0-112-113, tp-0-127-128
+getMessagesContentContextualAid: meta-cat-2 - 12 turning points, original messages length: 26, org ids: tp-0-5-6-merged-6-merged-7, tp-0-10-11, tp-0-64-65, tp-0-73-74, tp-0-80-81, tp-0-94-95, tp-0-106-107, tp-0-114-115, tp-0-119-120, tp-0-133-134, tp-0-142-143, tp-0-150-151
+getMessagesContentContextualAid: meta-cat-3 - 13 turning points, original messages length: 26, org ids: tp-0-8-9, tp-0-25-26, tp-0-27-28, tp-0-36-37, tp-0-39-40, tp-0-41-42, tp-0-45-46, tp-0-60-61, tp-0-70-71, tp-0-75-76, tp-0-85-86, tp-0-112-113, tp-0-127-128
+2025-08-05 07:06:16 [32minfo[39m:     ...Potential turning point detected between messages meta-cat-2 and meta-cat-3 (distance: 0.735, complexity: 4.3), signif: 0.78 category: insight, number of quotes: 3, emotionalTone: surprised
+getMessagesContentContextualAid: meta-cat-3 - 13 turning points, original messages length: 26, org ids: tp-0-8-9, tp-0-25-26, tp-0-27-28, tp-0-36-37, tp-0-39-40, tp-0-41-42, tp-0-45-46, tp-0-60-61, tp-0-70-71, tp-0-75-76, tp-0-85-86, tp-0-112-113, tp-0-127-128
+getMessagesContentContextualAid: meta-cat-4 - 9 turning points, original messages length: 18, org ids: tp-0-11-12, tp-0-48-49, tp-0-58-59, tp-0-63-64, tp-0-108-109, tp-0-113-114, tp-0-122-123, tp-0-141-142, tp-0-144-145
+getMessagesContentContextualAid: meta-cat-3 - 13 turning points, original messages length: 26, org ids: tp-0-8-9, tp-0-25-26, tp-0-27-28, tp-0-36-37, tp-0-39-40, tp-0-41-42, tp-0-45-46, tp-0-60-61, tp-0-70-71, tp-0-75-76, tp-0-85-86, tp-0-112-113, tp-0-127-128
+getMessagesContentContextualAid: meta-cat-4 - 9 turning points, original messages length: 18, org ids: tp-0-11-12, tp-0-48-49, tp-0-58-59, tp-0-63-64, tp-0-108-109, tp-0-113-114, tp-0-122-123, tp-0-141-142, tp-0-144-145
+2025-08-05 07:06:34 [32minfo[39m:     ...Potential turning point detected between messages meta-cat-3 and meta-cat-4 (distance: 0.717, complexity: 4.7), signif: 0.86 category: problem, number of quotes: 3, emotionalTone: angry
+getMessagesContentContextualAid: meta-cat-4 - 9 turning points, original messages length: 18, org ids: tp-0-11-12, tp-0-48-49, tp-0-58-59, tp-0-63-64, tp-0-108-109, tp-0-113-114, tp-0-122-123, tp-0-141-142, tp-0-144-145
+getMessagesContentContextualAid: meta-cat-5 - 2 turning points, original messages length: 4, org ids: tp-0-13-14, tp-0-55-56
+getMessagesContentContextualAid: meta-cat-4 - 9 turning points, original messages length: 18, org ids: tp-0-11-12, tp-0-48-49, tp-0-58-59, tp-0-63-64, tp-0-108-109, tp-0-113-114, tp-0-122-123, tp-0-141-142, tp-0-144-145
+getMessagesContentContextualAid: meta-cat-5 - 2 turning points, original messages length: 4, org ids: tp-0-13-14, tp-0-55-56
+2025-08-05 07:06:59 [32minfo[39m:     ...Potential turning point detected between messages meta-cat-4 and meta-cat-5 (distance: 0.740, complexity: 4.4), signif: 0.80 category: emotion, number of quotes: 3, emotionalTone: angry
+2025-08-05 07:06:59 [32minfo[39m:     - Chunk 1 processed in 229.1s. Est. remaining: 458.1s (33.3% complete)
+2025-08-05 07:06:59 [32minfo[39m:  - Dimension 1: Processing chunk 2/3 (10 messages)
+Meta message meta-cat-4 contains 18 messages.
+Meta message meta-cat-5 contains 4 messages.
+Meta message meta-section-1 contains 11 messages.
+Meta message meta-cat-6 contains 8 messages.
+Meta message meta-cat-7 contains 30 messages.
+Meta message meta-section-2 contains 9 messages.
+Meta message meta-cat-8 contains 14 messages.
+Meta message meta-section-3 contains 2 messages.
+Meta message meta-section-4 contains 12 messages.
+Meta message meta-section-5 contains 2 messages.
+2025-08-05 07:07:00 [32minfo[39m: For a total number of points: 10, there were 9 distances found as being greater than the dynamically adjusted threshold of 0.245. Across this span of messages of length 10, the following distances were found:
+    - The top 3 greatest distances are: 0.807, 0.786, 0.780
+      
+      
+      This means there were 9 potential turning points detected with valid meta-messages
+getMessagesContentContextualAid: meta-cat-4 - 9 turning points, original messages length: 18, org ids: tp-0-11-12, tp-0-48-49, tp-0-58-59, tp-0-63-64, tp-0-108-109, tp-0-113-114, tp-0-122-123, tp-0-141-142, tp-0-144-145
+getMessagesContentContextualAid: meta-cat-5 - 2 turning points, original messages length: 4, org ids: tp-0-13-14, tp-0-55-56
+getMessagesContentContextualAid: meta-cat-4 - 9 turning points, original messages length: 18, org ids: tp-0-11-12, tp-0-48-49, tp-0-58-59, tp-0-63-64, tp-0-108-109, tp-0-113-114, tp-0-122-123, tp-0-141-142, tp-0-144-145
+getMessagesContentContextualAid: meta-cat-5 - 2 turning points, original messages length: 4, org ids: tp-0-13-14, tp-0-55-56
+2025-08-05 07:07:20 [32minfo[39m: Now proceeding to process every turning point
+2025-08-05 07:07:20 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages meta-cat-4 and meta-cat-5 (distance: 0.740, complexity: 4.7), signif: 0.88 category: emotion, number of quotes: 3, emotionalTone: surprised
+getMessagesContentContextualAid: meta-cat-5 - 2 turning points, original messages length: 4, org ids: tp-0-13-14, tp-0-55-56
+getMessagesContentContextualAid: meta-section-1 - 7 turning points, original messages length: 11, org ids: tp-0-13-14, tp-0-22-23, tp-0-24-25, tp-0-25-26, tp-0-26-27, tp-0-27-28, tp-0-28-29-merged-29
+getMessagesContentContextualAid: meta-cat-5 - 2 turning points, original messages length: 4, org ids: tp-0-13-14, tp-0-55-56
+getMessagesContentContextualAid: meta-section-1 - 7 turning points, original messages length: 11, org ids: tp-0-13-14, tp-0-22-23, tp-0-24-25, tp-0-25-26, tp-0-26-27, tp-0-27-28, tp-0-28-29-merged-29
+2025-08-05 07:07:56 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages meta-cat-5 and meta-section-1 (distance: 0.743, complexity: 3.8), signif: 0.67 category: emotion, number of quotes: 2, emotionalTone: sad
+getMessagesContentContextualAid: meta-section-1 - 7 turning points, original messages length: 11, org ids: tp-0-13-14, tp-0-22-23, tp-0-24-25, tp-0-25-26, tp-0-26-27, tp-0-27-28, tp-0-28-29-merged-29
+getMessagesContentContextualAid: meta-cat-6 - 3 turning points, original messages length: 8, org ids: tp-0-22-23, tp-0-31-32-merged-32-merged-33, tp-0-69-70
+getMessagesContentContextualAid: meta-section-1 - 7 turning points, original messages length: 11, org ids: tp-0-13-14, tp-0-22-23, tp-0-24-25, tp-0-25-26, tp-0-26-27, tp-0-27-28, tp-0-28-29-merged-29
+getMessagesContentContextualAid: meta-cat-6 - 3 turning points, original messages length: 8, org ids: tp-0-22-23, tp-0-31-32-merged-32-merged-33, tp-0-69-70
+2025-08-05 07:08:23 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages meta-section-1 and meta-cat-6 (distance: 0.747, complexity: 4.8), signif: 0.90 category: meta-reflection, number of quotes: 3, emotionalTone: worried
+getMessagesContentContextualAid: meta-cat-6 - 3 turning points, original messages length: 8, org ids: tp-0-22-23, tp-0-31-32-merged-32-merged-33, tp-0-69-70
+getMessagesContentContextualAid: meta-cat-7 - 12 turning points, original messages length: 30, org ids: tp-0-24-25, tp-0-26-27, tp-0-49-50-merged-50, tp-0-57-58, tp-0-76-77, tp-0-78-79-merged-79, tp-0-82-83, tp-0-87-88-merged-90-merged-91, tp-0-97-98, tp-0-104-105, tp-0-125-126, tp-0-132-133
+getMessagesContentContextualAid: meta-cat-6 - 3 turning points, original messages length: 8, org ids: tp-0-22-23, tp-0-31-32-merged-32-merged-33, tp-0-69-70
+getMessagesContentContextualAid: meta-cat-7 - 12 turning points, original messages length: 30, org ids: tp-0-24-25, tp-0-26-27, tp-0-49-50-merged-50, tp-0-57-58, tp-0-76-77, tp-0-78-79-merged-79, tp-0-82-83, tp-0-87-88-merged-90-merged-91, tp-0-97-98, tp-0-104-105, tp-0-125-126, tp-0-132-133
+2025-08-05 07:08:50 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages meta-cat-6 and meta-cat-7 (distance: 0.807, complexity: 4.7), signif: 0.88 category: topic, number of quotes: 3, emotionalTone: anxious
+getMessagesContentContextualAid: meta-cat-7 - 12 turning points, original messages length: 30, org ids: tp-0-24-25, tp-0-26-27, tp-0-49-50-merged-50, tp-0-57-58, tp-0-76-77, tp-0-78-79-merged-79, tp-0-82-83, tp-0-87-88-merged-90-merged-91, tp-0-97-98, tp-0-104-105, tp-0-125-126, tp-0-132-133
+getMessagesContentContextualAid: meta-section-2 - 4 turning points, original messages length: 9, org ids: tp-0-31-32-merged-32-merged-33, tp-0-34-35, tp-0-36-37, tp-0-37-38-merged-38
+getMessagesContentContextualAid: meta-cat-7 - 12 turning points, original messages length: 30, org ids: tp-0-24-25, tp-0-26-27, tp-0-49-50-merged-50, tp-0-57-58, tp-0-76-77, tp-0-78-79-merged-79, tp-0-82-83, tp-0-87-88-merged-90-merged-91, tp-0-97-98, tp-0-104-105, tp-0-125-126, tp-0-132-133
+getMessagesContentContextualAid: meta-section-2 - 4 turning points, original messages length: 9, org ids: tp-0-31-32-merged-32-merged-33, tp-0-34-35, tp-0-36-37, tp-0-37-38-merged-38
+2025-08-05 07:09:14 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages meta-cat-7 and meta-section-2 (distance: 0.780, complexity: 4.1), signif: 0.73 category: topic, number of quotes: 3, emotionalTone: anxious
+getMessagesContentContextualAid: meta-section-2 - 4 turning points, original messages length: 9, org ids: tp-0-31-32-merged-32-merged-33, tp-0-34-35, tp-0-36-37, tp-0-37-38-merged-38
+getMessagesContentContextualAid: meta-cat-8 - 7 turning points, original messages length: 14, org ids: tp-0-34-35, tp-0-40-41, tp-0-43-44, tp-0-67-68, tp-0-74-75, tp-0-95-96, tp-0-123-124
+getMessagesContentContextualAid: meta-section-2 - 4 turning points, original messages length: 9, org ids: tp-0-31-32-merged-32-merged-33, tp-0-34-35, tp-0-36-37, tp-0-37-38-merged-38
+getMessagesContentContextualAid: meta-cat-8 - 7 turning points, original messages length: 14, org ids: tp-0-34-35, tp-0-40-41, tp-0-43-44, tp-0-67-68, tp-0-74-75, tp-0-95-96, tp-0-123-124
+2025-08-05 07:09:42 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages meta-section-2 and meta-cat-8 (distance: 0.586, complexity: 4.5), signif: 0.84 category: meta-reflection, number of quotes: 3, emotionalTone: skeptical
+getMessagesContentContextualAid: meta-cat-8 - 7 turning points, original messages length: 14, org ids: tp-0-34-35, tp-0-40-41, tp-0-43-44, tp-0-67-68, tp-0-74-75, tp-0-95-96, tp-0-123-124
+getMessagesContentContextualAid: meta-section-3 - 1 turning points, original messages length: 2, org ids: tp-0-39-40
+getMessagesContentContextualAid: meta-cat-8 - 7 turning points, original messages length: 14, org ids: tp-0-34-35, tp-0-40-41, tp-0-43-44, tp-0-67-68, tp-0-74-75, tp-0-95-96, tp-0-123-124
+getMessagesContentContextualAid: meta-section-3 - 1 turning points, original messages length: 2, org ids: tp-0-39-40
+2025-08-05 07:10:18 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages meta-cat-8 and meta-section-3 (distance: 0.671, complexity: 4.0), signif: 0.71 category: insight, number of quotes: 3, emotionalTone: disgusted
+getMessagesContentContextualAid: meta-section-3 - 1 turning points, original messages length: 2, org ids: tp-0-39-40
+getMessagesContentContextualAid: meta-section-4 - 8 turning points, original messages length: 12, org ids: tp-0-40-41, tp-0-41-42, tp-0-42-43, tp-0-43-44, tp-0-45-46, tp-0-46-47, tp-0-48-49, tp-0-49-50-merged-50
+getMessagesContentContextualAid: meta-section-3 - 1 turning points, original messages length: 2, org ids: tp-0-39-40
+getMessagesContentContextualAid: meta-section-4 - 8 turning points, original messages length: 12, org ids: tp-0-40-41, tp-0-41-42, tp-0-42-43, tp-0-43-44, tp-0-45-46, tp-0-46-47, tp-0-48-49, tp-0-49-50-merged-50
+2025-08-05 07:10:40 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages meta-section-3 and meta-section-4 (distance: 0.464, complexity: 4.4), signif: 0.81 category: topic, number of quotes: 3, emotionalTone: anxious
+getMessagesContentContextualAid: meta-section-4 - 8 turning points, original messages length: 12, org ids: tp-0-40-41, tp-0-41-42, tp-0-42-43, tp-0-43-44, tp-0-45-46, tp-0-46-47, tp-0-48-49, tp-0-49-50-merged-50
+getMessagesContentContextualAid: meta-section-5 - 1 turning points, original messages length: 2, org ids: tp-0-52-53
+getMessagesContentContextualAid: meta-section-4 - 8 turning points, original messages length: 12, org ids: tp-0-40-41, tp-0-41-42, tp-0-42-43, tp-0-43-44, tp-0-45-46, tp-0-46-47, tp-0-48-49, tp-0-49-50-merged-50
+getMessagesContentContextualAid: meta-section-5 - 1 turning points, original messages length: 2, org ids: tp-0-52-53
+2025-08-05 07:11:09 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages meta-section-4 and meta-section-5 (distance: 0.786, complexity: 4.0), signif: 0.73 category: action, number of quotes: 2, emotionalTone: hopeful
+2025-08-05 07:11:09 [32minfo[39m:     - Chunk 2 processed in 250.0s. Est. remaining: 239.5s (66.7% complete)
+2025-08-05 07:11:09 [32minfo[39m:  - Dimension 1: Processing chunk 3/3 (15 messages)
+Meta message meta-section-4 contains 12 messages.
+Meta message meta-section-5 contains 2 messages.
+Meta message meta-section-6 contains 2 messages.
+Meta message meta-section-7 contains 2 messages.
+Meta message meta-section-8 contains 2 messages.
+Meta message meta-section-9 contains 14 messages.
+Meta message meta-section-10 contains 3 messages.
+Meta message meta-section-11 contains 3 messages.
+Meta message meta-cat-9 contains 2 messages.
+Meta message meta-section-12 contains 2 messages.
+Meta message meta-cat-9 contains 2 messages.
+Meta message meta-section-12 contains 2 messages.
+Meta message meta-section-13 contains 45 messages.
+Meta message meta-cat-10 contains 7 messages.
+Meta message meta-section-14 contains 17 messages.
+2025-08-05 07:11:10 [32minfo[39m: For a total number of points: 15, there were 9 distances found as being greater than the dynamically adjusted threshold of 0.245. Across this span of messages of length 15, the following distances were found:
+    - The top 3 greatest distances are: 0.786, 0.730, 0.662
+      
+      
+      This means there were 9 potential turning points detected with valid meta-messages
+getMessagesContentContextualAid: meta-section-4 - 8 turning points, original messages length: 12, org ids: tp-0-40-41, tp-0-41-42, tp-0-42-43, tp-0-43-44, tp-0-45-46, tp-0-46-47, tp-0-48-49, tp-0-49-50-merged-50
+getMessagesContentContextualAid: meta-section-5 - 1 turning points, original messages length: 2, org ids: tp-0-52-53
+getMessagesContentContextualAid: meta-section-4 - 8 turning points, original messages length: 12, org ids: tp-0-40-41, tp-0-41-42, tp-0-42-43, tp-0-43-44, tp-0-45-46, tp-0-46-47, tp-0-48-49, tp-0-49-50-merged-50
+getMessagesContentContextualAid: meta-section-5 - 1 turning points, original messages length: 2, org ids: tp-0-52-53
+2025-08-05 07:11:29 [32minfo[39m: Now proceeding to process every turning point
+2025-08-05 07:11:29 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages meta-section-4 and meta-section-5 (distance: 0.786, complexity: 4.2), signif: 0.77 category: action, number of quotes: 3, emotionalTone: hopeful
+getMessagesContentContextualAid: meta-section-5 - 1 turning points, original messages length: 2, org ids: tp-0-52-53
+getMessagesContentContextualAid: meta-section-6 - 1 turning points, original messages length: 2, org ids: tp-0-55-56
+getMessagesContentContextualAid: meta-section-5 - 1 turning points, original messages length: 2, org ids: tp-0-52-53
+getMessagesContentContextualAid: meta-section-6 - 1 turning points, original messages length: 2, org ids: tp-0-55-56
+2025-08-05 07:11:40 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages meta-section-5 and meta-section-6 (distance: 0.730, complexity: 4.9), signif: 0.90 category: emotion, number of quotes: 2, emotionalTone: angry
+getMessagesContentContextualAid: meta-section-6 - 1 turning points, original messages length: 2, org ids: tp-0-55-56
+getMessagesContentContextualAid: meta-section-7 - 1 turning points, original messages length: 2, org ids: tp-0-56-57
+getMessagesContentContextualAid: meta-section-6 - 1 turning points, original messages length: 2, org ids: tp-0-55-56
+getMessagesContentContextualAid: meta-section-7 - 1 turning points, original messages length: 2, org ids: tp-0-56-57
+2025-08-05 07:12:01 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages meta-section-6 and meta-section-7 (distance: 0.662, complexity: 4.5), signif: 0.81 category: objection, number of quotes: 2, emotionalTone: angry
+getMessagesContentContextualAid: meta-section-7 - 1 turning points, original messages length: 2, org ids: tp-0-56-57
+getMessagesContentContextualAid: meta-section-8 - 1 turning points, original messages length: 2, org ids: tp-0-57-58
+getMessagesContentContextualAid: meta-section-7 - 1 turning points, original messages length: 2, org ids: tp-0-56-57
+getMessagesContentContextualAid: meta-section-8 - 1 turning points, original messages length: 2, org ids: tp-0-57-58
+2025-08-05 07:12:18 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages meta-section-7 and meta-section-8 (distance: 0.645, complexity: 4.0), signif: 0.71 category: objection, number of quotes: 2, emotionalTone: angry
+getMessagesContentContextualAid: meta-section-8 - 1 turning points, original messages length: 2, org ids: tp-0-57-58
+getMessagesContentContextualAid: meta-section-9 - 8 turning points, original messages length: 14, org ids: tp-0-58-59, tp-0-60-61, tp-0-63-64, tp-0-64-65, tp-0-67-68, tp-0-69-70, tp-0-70-71, tp-0-72-73
+getMessagesContentContextualAid: meta-section-8 - 1 turning points, original messages length: 2, org ids: tp-0-57-58
+getMessagesContentContextualAid: meta-section-9 - 8 turning points, original messages length: 14, org ids: tp-0-58-59, tp-0-60-61, tp-0-63-64, tp-0-64-65, tp-0-67-68, tp-0-69-70, tp-0-70-71, tp-0-72-73
+2025-08-05 07:12:45 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages meta-section-8 and meta-section-9 (distance: 0.261, complexity: 4.8), signif: 0.90 category: insight, number of quotes: 2, emotionalTone: surprised
+getMessagesContentContextualAid: meta-section-9 - 8 turning points, original messages length: 14, org ids: tp-0-58-59, tp-0-60-61, tp-0-63-64, tp-0-64-65, tp-0-67-68, tp-0-69-70, tp-0-70-71, tp-0-72-73
+getMessagesContentContextualAid: meta-section-10 - 2 turning points, original messages length: 3, org ids: tp-0-73-74, tp-0-74-75
+getMessagesContentContextualAid: meta-section-9 - 8 turning points, original messages length: 14, org ids: tp-0-58-59, tp-0-60-61, tp-0-63-64, tp-0-64-65, tp-0-67-68, tp-0-69-70, tp-0-70-71, tp-0-72-73
+getMessagesContentContextualAid: meta-section-10 - 2 turning points, original messages length: 3, org ids: tp-0-73-74, tp-0-74-75
+2025-08-05 07:13:01 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages meta-section-9 and meta-section-10 (distance: 0.430, complexity: 4.4), signif: 0.81 category: problem, number of quotes: 3, emotionalTone: skeptical
+getMessagesContentContextualAid: meta-section-11 - 2 turning points, original messages length: 3, org ids: tp-0-75-76, tp-0-76-77
+getMessagesContentContextualAid: meta-cat-9 - 1 turning points, original messages length: 2, org ids: tp-err-0-77
+getMessagesContentContextualAid: meta-section-11 - 2 turning points, original messages length: 3, org ids: tp-0-75-76, tp-0-76-77
+getMessagesContentContextualAid: meta-cat-9 - 1 turning points, original messages length: 2, org ids: tp-err-0-77
+2025-08-05 07:13:16 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages meta-section-11 and meta-cat-9 (distance: 0.473, complexity: 4.7), signif: 0.88 category: objection, number of quotes: 2, emotionalTone: skeptical
+getMessagesContentContextualAid: meta-section-13 - 28 turning points, original messages length: 45, org ids: tp-0-78-79-merged-79, tp-0-80-81, tp-0-82-83, tp-0-83-84, tp-0-85-86, tp-0-86-87, tp-0-87-88-merged-90-merged-91, tp-0-93-94, tp-0-94-95, tp-0-95-96, tp-0-96-97, tp-0-97-98, tp-0-99-100, tp-0-104-105, tp-0-106-107, tp-0-107-108, tp-0-108-109, tp-0-110-111, tp-0-112-113, tp-0-113-114, tp-0-114-115, tp-0-119-120, tp-0-120-121-merged-121, tp-0-122-123, tp-0-123-124, tp-0-124-125, tp-0-125-126, tp-0-127-128
+getMessagesContentContextualAid: meta-cat-10 - 3 turning points, original messages length: 7, org ids: tp-0-107-108, tp-0-120-121-merged-121, tp-0-124-125
+getMessagesContentContextualAid: meta-section-13 - 28 turning points, original messages length: 45, org ids: tp-0-78-79-merged-79, tp-0-80-81, tp-0-82-83, tp-0-83-84, tp-0-85-86, tp-0-86-87, tp-0-87-88-merged-90-merged-91, tp-0-93-94, tp-0-94-95, tp-0-95-96, tp-0-96-97, tp-0-97-98, tp-0-99-100, tp-0-104-105, tp-0-106-107, tp-0-107-108, tp-0-108-109, tp-0-110-111, tp-0-112-113, tp-0-113-114, tp-0-114-115, tp-0-119-120, tp-0-120-121-merged-121, tp-0-122-123, tp-0-123-124, tp-0-124-125, tp-0-125-126, tp-0-127-128
+getMessagesContentContextualAid: meta-cat-10 - 3 turning points, original messages length: 7, org ids: tp-0-107-108, tp-0-120-121-merged-121, tp-0-124-125
+2025-08-05 07:13:46 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages meta-section-13 and meta-cat-10 (distance: 0.399, complexity: 4.5), signif: 0.83 category: objection, number of quotes: 2, emotionalTone: anxious
+getMessagesContentContextualAid: meta-cat-10 - 3 turning points, original messages length: 7, org ids: tp-0-107-108, tp-0-120-121-merged-121, tp-0-124-125
+getMessagesContentContextualAid: meta-section-14 - 9 turning points, original messages length: 17, org ids: tp-0-130-131, tp-0-132-133, tp-0-133-134, tp-0-134-135-merged-136, tp-0-141-142, tp-0-142-143, tp-0-144-145, tp-0-150-151, tp-0-152-153
+getMessagesContentContextualAid: meta-cat-10 - 3 turning points, original messages length: 7, org ids: tp-0-107-108, tp-0-120-121-merged-121, tp-0-124-125
+getMessagesContentContextualAid: meta-section-14 - 9 turning points, original messages length: 17, org ids: tp-0-130-131, tp-0-132-133, tp-0-133-134, tp-0-134-135-merged-136, tp-0-141-142, tp-0-142-143, tp-0-144-145, tp-0-150-151, tp-0-152-153
+2025-08-05 07:14:08 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages meta-cat-10 and meta-section-14 (distance: 0.390, complexity: 4.7), signif: 0.88 category: problem, number of quotes: 3, emotionalTone: anxious
+2025-08-05 07:14:08 [32minfo[39m:     - Chunk 3 processed in 179.1s. Est. remaining: 0.0s (100.0% complete)
+2025-08-05 07:14:08 [32minfo[39m: Dimension 1: Found 26 raw turning points
+2025-08-05 07:14:08 [32minfo[39m: mergeSimilarTurningPoints: Calculating dynamic phi divergence threshold for merging based on 26 TPs since enableExperimentalPhi is true.
+2025-08-05 07:14:08 [32minfo[39m: Dynamically calculated phi divergence threshold for merging: 0.400
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m:     Merging similar TPs (Dim 1): tp-1-22-24 and tp-1-24-31
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m:     Merging similar TPs (Dim 1): tp-1-22-24-merged-24 and tp-1-27-0
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m:     Merging similar TPs (Dim 1): tp-1-55-56 and tp-1-56-57
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m:     Merging similar TPs (Dim 1): tp-1-75-77 and tp-1-78-107
+2025-08-05 07:14:08 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:14:08 [32minfo[39m: Dimension 1: Merged similar TPs to 20
+2025-08-05 07:14:08 [32minfo[39m: Dimension 1: Enhancing significance scores with phi-field influence.
+2025-08-05 07:14:08 [32minfo[39m: Dimension 1: Max complexity = 5.00, Saturation threshold = 3
+2025-08-05 07:14:08 [32minfo[39m: Dimension 1: Needs Escalation (Ψ)? true
+2025-08-05 07:14:08 [32minfo[39m: Dimension 1: Escalating to dimension 2
+2025-08-05 07:14:08 [32minfo[39m: Grouped turning points into 7 categories.
+2025-08-05 07:14:08 [32minfo[39m: Applying φ-aware thematic and chronological merging.
+2025-08-05 07:14:08 [32minfo[39m: Segmented the timeline into 5 thematic sections.
+2025-08-05 07:14:08 [32minfo[39m: Created a total of 14 meta-messages for dimensional expansion.
+2025-08-05 07:14:08 [32minfo[39m: Dimension 1: Created 14 meta-messages for dimension 2
+2025-08-05 07:14:08 [32minfo[39m: Starting dimensional analysis at n=2
+2025-08-05 07:14:08 [32minfo[39m:     Chunking 14 messages. MinMsgs: 3, MaxTokens: 2048, IdealMsgCount: 10, Overlap: 1
+2025-08-05 07:14:08 [32minfo[39m:       Created chunk 1 with 5 messages, 1939 tokens. Ends at index 4.
+2025-08-05 07:14:08 [32minfo[39m:       Starting next chunk with 1 overlapping messages, 349 tokens.
+2025-08-05 07:14:08 [32minfo[39m:       Created chunk 2 with 5 messages, 2555 tokens. Ends at index 8.
+2025-08-05 07:14:08 [32minfo[39m:       Starting next chunk with 1 overlapping messages, 856 tokens.
+2025-08-05 07:14:08 [32minfo[39m:       Created chunk 3 with 6 messages, 2227 tokens. Ends at index 13.
+2025-08-05 07:14:08 [32minfo[39m:     Finished chunking. Created 3 chunks. Avg Tokens: 1839, Avg Msgs: 4.7
+2025-08-05 07:14:08 [32minfo[39m: Dimension 2: Split into 3 chunks
+2025-08-05 07:14:08 [32minfo[39m:  - Dimension 2: Processing chunk 1/3 (5 messages)
+Meta message meta-cat-0 contains 36 messages.
+Meta message meta-cat-1 contains 16 messages.
+Meta message meta-cat-100 contains 85 messages.
+Meta message meta-section-0 contains 28 messages.
+Meta message meta-cat-2 contains 25 messages.
+2025-08-05 07:14:08 [32minfo[39m: For a total number of points: 5, there were 4 distances found as being greater than the dynamically adjusted threshold of 0.086. Across this span of messages of length 5, the following distances were found:
+    - The top 3 greatest distances are: 0.849, 0.538, 0.535
+      
+      
+      This means there were 4 potential turning points detected with valid meta-messages
+getMessagesContentContextualAid: meta-cat-0 - 4 turning points, original messages length: 36, org ids: tp-1-0-27, tp-1-5-8, tp-1-34-39, tp-1-57-58
+getMessagesContentContextualAid: meta-cat-1 - 3 turning points, original messages length: 16, org ids: tp-1-0-1, tp-1-13-22, tp-1-31-34
+getMessagesContentContextualAid: meta-cat-0 - 4 turning points, original messages length: 36, org ids: tp-1-0-27, tp-1-5-8, tp-1-34-39, tp-1-57-58
+getMessagesContentContextualAid: meta-cat-1 - 3 turning points, original messages length: 16, org ids: tp-1-0-1, tp-1-13-22, tp-1-31-34
+2025-08-05 07:14:28 [32minfo[39m: Now proceeding to process every turning point
+2025-08-05 07:14:28 [32minfo[39m:     ...Potential turning point detected between messages meta-cat-0 and meta-cat-1 (distance: 0.538, complexity: 4.4), signif: 0.81 category: topic, number of quotes: 3, emotionalTone: skeptical
+getMessagesContentContextualAid: meta-cat-1 - 3 turning points, original messages length: 16, org ids: tp-1-0-1, tp-1-13-22, tp-1-31-34
+getMessagesContentContextualAid: meta-cat-100 - 15 turning points, original messages length: 85, org ids: tp-1-0-1, tp-1-8-11, tp-1-11-13, tp-1-13-5, tp-1-22-24-merged-24-merged-27, tp-1-34-39, tp-1-52-55, tp-1-55-56-merged-56, tp-1-1-13, tp-1-107-130, tp-1-39-40, tp-1-57-58, tp-1-13-13, tp-1-0-27, tp-1-58-73
+getMessagesContentContextualAid: meta-cat-1 - 3 turning points, original messages length: 16, org ids: tp-1-0-1, tp-1-13-22, tp-1-31-34
+getMessagesContentContextualAid: meta-cat-100 - 15 turning points, original messages length: 85, org ids: tp-1-0-1, tp-1-8-11, tp-1-11-13, tp-1-13-5, tp-1-22-24-merged-24-merged-27, tp-1-34-39, tp-1-52-55, tp-1-55-56-merged-56, tp-1-1-13, tp-1-107-130, tp-1-39-40, tp-1-57-58, tp-1-13-13, tp-1-0-27, tp-1-58-73
+2025-08-05 07:14:41 [32minfo[39m:     ...Potential turning point detected between messages meta-cat-1 and meta-cat-100 (distance: 0.535, complexity: 5.0), signif: 1.00 category: problem, number of quotes: 3, emotionalTone: furious
+getMessagesContentContextualAid: meta-cat-100 - 15 turning points, original messages length: 85, org ids: tp-1-0-1, tp-1-8-11, tp-1-11-13, tp-1-13-5, tp-1-22-24-merged-24-merged-27, tp-1-34-39, tp-1-52-55, tp-1-55-56-merged-56, tp-1-1-13, tp-1-107-130, tp-1-39-40, tp-1-57-58, tp-1-13-13, tp-1-0-27, tp-1-58-73
+getMessagesContentContextualAid: meta-section-0 - 3 turning points, original messages length: 28, org ids: tp-1-0-27, tp-1-0-1, tp-1-1-13
+getMessagesContentContextualAid: meta-cat-100 - 15 turning points, original messages length: 85, org ids: tp-1-0-1, tp-1-8-11, tp-1-11-13, tp-1-13-5, tp-1-22-24-merged-24-merged-27, tp-1-34-39, tp-1-52-55, tp-1-55-56-merged-56, tp-1-1-13, tp-1-107-130, tp-1-39-40, tp-1-57-58, tp-1-13-13, tp-1-0-27, tp-1-58-73
+getMessagesContentContextualAid: meta-section-0 - 3 turning points, original messages length: 28, org ids: tp-1-0-27, tp-1-0-1, tp-1-1-13
+2025-08-05 07:15:13 [32minfo[39m:     ...Potential turning point detected between messages meta-cat-100 and meta-section-0 (distance: 0.178, complexity: 4.7), signif: 0.88 category: problem, number of quotes: 3, emotionalTone: anxious
+getMessagesContentContextualAid: meta-section-0 - 3 turning points, original messages length: 28, org ids: tp-1-0-27, tp-1-0-1, tp-1-1-13
+getMessagesContentContextualAid: meta-cat-2 - 3 turning points, original messages length: 25, org ids: tp-1-1-13, tp-1-22-24-merged-24-merged-27, tp-1-39-40
+getMessagesContentContextualAid: meta-section-0 - 3 turning points, original messages length: 28, org ids: tp-1-0-27, tp-1-0-1, tp-1-1-13
+getMessagesContentContextualAid: meta-cat-2 - 3 turning points, original messages length: 25, org ids: tp-1-1-13, tp-1-22-24-merged-24-merged-27, tp-1-39-40
+2025-08-05 07:15:38 [32minfo[39m:     ...Potential turning point detected between messages meta-section-0 and meta-cat-2 (distance: 0.849, complexity: 4.5), signif: 0.82 category: meta-reflection, number of quotes: 3, emotionalTone: furious
+2025-08-05 07:15:38 [32minfo[39m:     - Chunk 1 processed in 89.6s. Est. remaining: 179.1s (33.3% complete)
+2025-08-05 07:15:38 [32minfo[39m:  - Dimension 2: Processing chunk 2/3 (5 messages)
+Meta message meta-cat-2 contains 25 messages.
+Meta message meta-cat-101 contains 27 messages.
+Meta message meta-section-1 contains 9 messages.
+Meta message meta-cat-3 contains 46 messages.
+Meta message meta-cat-4 contains 7 messages.
+2025-08-05 07:15:38 [32minfo[39m: For a total number of points: 5, there were 4 distances found as being greater than the dynamically adjusted threshold of 0.086. Across this span of messages of length 5, the following distances were found:
+    - The top 3 greatest distances are: 0.791, 0.519, 0.470
+      
+      
+      This means there were 4 potential turning points detected with valid meta-messages
+getMessagesContentContextualAid: meta-cat-2 - 3 turning points, original messages length: 25, org ids: tp-1-1-13, tp-1-22-24-merged-24-merged-27, tp-1-39-40
+getMessagesContentContextualAid: meta-cat-101 - 3 turning points, original messages length: 27, org ids: tp-1-5-8, tp-1-13-22, tp-1-40-52
+getMessagesContentContextualAid: meta-cat-2 - 3 turning points, original messages length: 25, org ids: tp-1-1-13, tp-1-22-24-merged-24-merged-27, tp-1-39-40
+getMessagesContentContextualAid: meta-cat-101 - 3 turning points, original messages length: 27, org ids: tp-1-5-8, tp-1-13-22, tp-1-40-52
+2025-08-05 07:16:18 [32minfo[39m: Now proceeding to process every turning point
+2025-08-05 07:16:18 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages meta-cat-2 and meta-cat-101 (distance: 0.519, complexity: 4.6), signif: 0.84 category: action, number of quotes: 3, emotionalTone: surprised
+getMessagesContentContextualAid: meta-cat-101 - 3 turning points, original messages length: 27, org ids: tp-1-5-8, tp-1-13-22, tp-1-40-52
+getMessagesContentContextualAid: meta-section-1 - 5 turning points, original messages length: 9, org ids: tp-1-5-8, tp-1-8-11, tp-1-11-13, tp-1-13-5, tp-1-13-13
+getMessagesContentContextualAid: meta-cat-101 - 3 turning points, original messages length: 27, org ids: tp-1-5-8, tp-1-13-22, tp-1-40-52
+getMessagesContentContextualAid: meta-section-1 - 5 turning points, original messages length: 9, org ids: tp-1-5-8, tp-1-8-11, tp-1-11-13, tp-1-13-5, tp-1-13-13
+2025-08-05 07:16:55 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages meta-cat-101 and meta-section-1 (distance: 0.331, complexity: 2.2), signif: 0.29 category: emotion, number of quotes: 3, emotionalTone: angry
+getMessagesContentContextualAid: meta-section-1 - 5 turning points, original messages length: 9, org ids: tp-1-5-8, tp-1-8-11, tp-1-11-13, tp-1-13-5, tp-1-13-13
+getMessagesContentContextualAid: meta-cat-3 - 4 turning points, original messages length: 46, org ids: tp-1-8-11, tp-1-13-5, tp-1-58-73, tp-1-107-130
+getMessagesContentContextualAid: meta-section-1 - 5 turning points, original messages length: 9, org ids: tp-1-5-8, tp-1-8-11, tp-1-11-13, tp-1-13-5, tp-1-13-13
+getMessagesContentContextualAid: meta-cat-3 - 4 turning points, original messages length: 46, org ids: tp-1-8-11, tp-1-13-5, tp-1-58-73, tp-1-107-130
+2025-08-05 07:17:15 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages meta-section-1 and meta-cat-3 (distance: 0.791, complexity: 4.8), signif: 0.88 category: problem, number of quotes: 3, emotionalTone: angry
+getMessagesContentContextualAid: meta-cat-3 - 4 turning points, original messages length: 46, org ids: tp-1-8-11, tp-1-13-5, tp-1-58-73, tp-1-107-130
+getMessagesContentContextualAid: meta-cat-4 - 3 turning points, original messages length: 7, org ids: tp-1-11-13, tp-1-13-13, tp-1-52-55
+getMessagesContentContextualAid: meta-cat-3 - 4 turning points, original messages length: 46, org ids: tp-1-8-11, tp-1-13-5, tp-1-58-73, tp-1-107-130
+getMessagesContentContextualAid: meta-cat-4 - 3 turning points, original messages length: 7, org ids: tp-1-11-13, tp-1-13-13, tp-1-52-55
+2025-08-05 07:17:39 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages meta-cat-3 and meta-cat-4 (distance: 0.470, complexity: 4.5), signif: 0.81 category: insight, number of quotes: 3, emotionalTone: angry
+2025-08-05 07:17:39 [32minfo[39m:     - Chunk 2 processed in 121.5s. Est. remaining: 105.5s (66.7% complete)
+2025-08-05 07:17:39 [32minfo[39m:  - Dimension 2: Processing chunk 3/3 (6 messages)
+Meta message meta-cat-4 contains 7 messages.
+Meta message meta-section-2 contains 28 messages.
+Meta message meta-cat-5 contains 13 messages.
+Meta message meta-section-3 contains 13 messages.
+Meta message meta-section-4 contains 78 messages.
+Meta message meta-cat-6 contains 36 messages.
+2025-08-05 07:17:40 [32minfo[39m: For a total number of points: 6, there were 4 distances found as being greater than the dynamically adjusted threshold of 0.086. Across this span of messages of length 6, the following distances were found:
+    - The top 3 greatest distances are: 0.832, 0.757, 0.355
+      
+      
+      This means there were 4 potential turning points detected with valid meta-messages
+getMessagesContentContextualAid: meta-cat-4 - 3 turning points, original messages length: 7, org ids: tp-1-11-13, tp-1-13-13, tp-1-52-55
+getMessagesContentContextualAid: meta-section-2 - 5 turning points, original messages length: 28, org ids: tp-1-13-22, tp-1-22-24-merged-24-merged-27, tp-1-31-34, tp-1-34-39, tp-1-39-40
+getMessagesContentContextualAid: meta-cat-4 - 3 turning points, original messages length: 7, org ids: tp-1-11-13, tp-1-13-13, tp-1-52-55
+getMessagesContentContextualAid: meta-section-2 - 5 turning points, original messages length: 28, org ids: tp-1-13-22, tp-1-22-24-merged-24-merged-27, tp-1-31-34, tp-1-34-39, tp-1-39-40
+2025-08-05 07:18:22 [32minfo[39m: Now proceeding to process every turning point
+2025-08-05 07:18:22 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages meta-cat-4 and meta-section-2 (distance: 0.757, complexity: 4.4), signif: 0.79 category: meta-reflection, number of quotes: 3, emotionalTone: angry
+getMessagesContentContextualAid: meta-section-2 - 5 turning points, original messages length: 28, org ids: tp-1-13-22, tp-1-22-24-merged-24-merged-27, tp-1-31-34, tp-1-34-39, tp-1-39-40
+getMessagesContentContextualAid: meta-cat-5 - 1 turning points, original messages length: 13, org ids: tp-1-40-52
+getMessagesContentContextualAid: meta-section-2 - 5 turning points, original messages length: 28, org ids: tp-1-13-22, tp-1-22-24-merged-24-merged-27, tp-1-31-34, tp-1-34-39, tp-1-39-40
+getMessagesContentContextualAid: meta-cat-5 - 1 turning points, original messages length: 13, org ids: tp-1-40-52
+2025-08-05 07:18:44 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages meta-section-2 and meta-cat-5 (distance: 0.215, complexity: 4.4), signif: 0.81 category: action, number of quotes: 3, emotionalTone: hopeful
+getMessagesContentContextualAid: meta-section-3 - 1 turning points, original messages length: 13, org ids: tp-1-40-52
+getMessagesContentContextualAid: meta-section-4 - 6 turning points, original messages length: 78, org ids: tp-1-52-55, tp-1-55-56-merged-56, tp-1-57-58, tp-1-58-73, tp-1-75-77-merged-78, tp-1-107-130
+getMessagesContentContextualAid: meta-section-3 - 1 turning points, original messages length: 13, org ids: tp-1-40-52
+getMessagesContentContextualAid: meta-section-4 - 6 turning points, original messages length: 78, org ids: tp-1-52-55, tp-1-55-56-merged-56, tp-1-57-58, tp-1-58-73, tp-1-75-77-merged-78, tp-1-107-130
+2025-08-05 07:18:58 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages meta-section-3 and meta-section-4 (distance: 0.832, complexity: 4.9), signif: 0.90 category: emotion, number of quotes: 3, emotionalTone: angry
+getMessagesContentContextualAid: meta-section-4 - 6 turning points, original messages length: 78, org ids: tp-1-52-55, tp-1-55-56-merged-56, tp-1-57-58, tp-1-58-73, tp-1-75-77-merged-78, tp-1-107-130
+getMessagesContentContextualAid: meta-cat-6 - 2 turning points, original messages length: 36, org ids: tp-1-55-56-merged-56, tp-1-75-77-merged-78
+getMessagesContentContextualAid: meta-section-4 - 6 turning points, original messages length: 78, org ids: tp-1-52-55, tp-1-55-56-merged-56, tp-1-57-58, tp-1-58-73, tp-1-75-77-merged-78, tp-1-107-130
+getMessagesContentContextualAid: meta-cat-6 - 2 turning points, original messages length: 36, org ids: tp-1-55-56-merged-56, tp-1-75-77-merged-78
+2025-08-05 07:19:19 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages meta-section-4 and meta-cat-6 (distance: 0.355, complexity: 4.0), signif: 0.71 category: meta-reflection, number of quotes: 3, emotionalTone: angry
+2025-08-05 07:19:19 [32minfo[39m:     - Chunk 3 processed in 100.3s. Est. remaining: 0.0s (100.0% complete)
+2025-08-05 07:19:19 [32minfo[39m: Dimension 2: Found 12 raw turning points
+2025-08-05 07:19:19 [32minfo[39m: mergeSimilarTurningPoints: Calculating dynamic phi divergence threshold for merging based on 12 TPs since enableExperimentalPhi is true.
+2025-08-05 07:19:19 [32minfo[39m: Dynamically calculated phi divergence threshold for merging: 0.400
+2025-08-05 07:19:19 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:19:19 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:19:19 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:19:19 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:19:19 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:19:19 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:19:19 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:19:19 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:19:19 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:19:19 [32minfo[39m: Dimension 2: Merged similar TPs to 10
+2025-08-05 07:19:19 [32minfo[39m: Dimension 2: Enhancing significance scores with phi-field influence.
+2025-08-05 07:19:19 [32minfo[39m: Dimension 2: Max complexity = 4.86, Saturation threshold = 3
+2025-08-05 07:19:19 [32minfo[39m: Dimension 2: Needs Escalation (Ψ)? true
+2025-08-05 07:19:19 [32minfo[39m: Dimension 2: Escalating to dimension 3
+2025-08-05 07:19:19 [32minfo[39m: Grouped turning points into 6 categories.
+2025-08-05 07:19:19 [32minfo[39m: Applying φ-aware thematic and chronological merging.
+2025-08-05 07:19:19 [32minfo[39m: Segmented the timeline into 4 thematic sections.
+2025-08-05 07:19:19 [32minfo[39m: Created a total of 12 meta-messages for dimensional expansion.
+2025-08-05 07:19:19 [32minfo[39m: Dimension 2: Created 12 meta-messages for dimension 3
+2025-08-05 07:19:19 [32minfo[39m: Starting dimensional analysis at n=3
+2025-08-05 07:19:19 [32minfo[39m:     Chunking 12 messages. MinMsgs: 2, MaxTokens: 1638, IdealMsgCount: 10, Overlap: 1
+2025-08-05 07:19:19 [32minfo[39m:       Created chunk 1 with 4 messages, 1490 tokens. Ends at index 3.
+2025-08-05 07:19:19 [32minfo[39m:       Starting next chunk with 1 overlapping messages, 91 tokens.
+2025-08-05 07:19:19 [32minfo[39m:       Created chunk 2 with 6 messages, 2057 tokens. Ends at index 8.
+2025-08-05 07:19:19 [32minfo[39m:       Starting next chunk with 1 overlapping messages, 695 tokens.
+2025-08-05 07:19:19 [32minfo[39m:       Created chunk 3 with 4 messages, 1461 tokens. Ends at index 11.
+2025-08-05 07:19:19 [32minfo[39m:     Finished chunking. Created 3 chunks. Avg Tokens: 1407, Avg Msgs: 4.0
+2025-08-05 07:19:19 [32minfo[39m: Dimension 3: Split into 3 chunks
+2025-08-05 07:19:19 [32minfo[39m:  - Dimension 3: Processing chunk 1/3 (4 messages)
+Meta message meta-cat-0 contains 1 messages.
+Meta message meta-cat-1 contains 9 messages.
+Meta message meta-cat-100 contains 27 messages.
+Meta message meta-section-0 contains 2 messages.
+2025-08-05 07:19:20 [32minfo[39m: For a total number of points: 4, there were 2 distances found as being greater than the dynamically adjusted threshold of 0.030. Across this span of messages of length 4, the following distances were found:
+    - The top 3 greatest distances are: 0.515, 0.487, 0.000
+      
+      
+      This means there were 2 potential turning points detected with valid meta-messages
+getMessagesContentContextualAid: meta-cat-0 - 1 turning points, original messages length: 1, org ids: tp-2-0-0
+getMessagesContentContextualAid: meta-cat-1 - 3 turning points, original messages length: 9, org ids: tp-2-0-1, tp-2-11-13, tp-2-52-55
+getMessagesContentContextualAid: meta-cat-0 - 1 turning points, original messages length: 1, org ids: tp-2-0-0
+getMessagesContentContextualAid: meta-cat-1 - 3 turning points, original messages length: 9, org ids: tp-2-0-1, tp-2-11-13, tp-2-52-55
+2025-08-05 07:19:35 [32minfo[39m: Now proceeding to process every turning point
+2025-08-05 07:19:35 [32minfo[39m:     ...Potential turning point detected between messages meta-cat-0 and meta-cat-1 (distance: 0.515, complexity: 4.9), signif: 0.90 category: emotion, number of quotes: 3, emotionalTone: furious
+getMessagesContentContextualAid: meta-cat-100 - 8 turning points, original messages length: 27, org ids: tp-2-0-1, tp-2-5-8, tp-2-8-11, tp-2-11-13, tp-2-40-52, tp-2-0-0, tp-2-52-55, tp-2-5-5
+getMessagesContentContextualAid: meta-section-0 - 2 turning points, original messages length: 2, org ids: tp-2-0-0, tp-2-0-1
+getMessagesContentContextualAid: meta-cat-100 - 8 turning points, original messages length: 27, org ids: tp-2-0-1, tp-2-5-8, tp-2-8-11, tp-2-11-13, tp-2-40-52, tp-2-0-0, tp-2-52-55, tp-2-5-5
+getMessagesContentContextualAid: meta-section-0 - 2 turning points, original messages length: 2, org ids: tp-2-0-0, tp-2-0-1
+2025-08-05 07:20:08 [32minfo[39m:     ...Potential turning point detected between messages meta-cat-100 and meta-section-0 (distance: 0.487, complexity: 4.8), signif: 0.90 category: meta-reflection, number of quotes: 3, emotionalTone: skeptical
+2025-08-05 07:20:08 [32minfo[39m:     - Chunk 1 processed in 48.5s. Est. remaining: 97.0s (33.3% complete)
+2025-08-05 07:20:08 [32minfo[39m:  - Dimension 3: Processing chunk 2/3 (6 messages)
+Meta message meta-section-0 contains 2 messages.
+Meta message meta-cat-2 contains 33 messages.
+Meta message meta-cat-101 contains 33 messages.
+Meta message meta-section-1 contains 5 messages.
+Meta message meta-cat-3 contains 14 messages.
+Meta message meta-cat-4 contains 4 messages.
+2025-08-05 07:20:08 [32minfo[39m: For a total number of points: 6, there were 4 distances found as being greater than the dynamically adjusted threshold of 0.030. Across this span of messages of length 6, the following distances were found:
+    - The top 3 greatest distances are: 0.754, 0.702, 0.427
+      
+      
+      This means there were 4 potential turning points detected with valid meta-messages
+getMessagesContentContextualAid: meta-section-0 - 2 turning points, original messages length: 2, org ids: tp-2-0-0, tp-2-0-1
+getMessagesContentContextualAid: meta-cat-2 - 2 turning points, original messages length: 33, org ids: tp-2-1-5, tp-2-13-40
+getMessagesContentContextualAid: meta-section-0 - 2 turning points, original messages length: 2, org ids: tp-2-0-0, tp-2-0-1
+getMessagesContentContextualAid: meta-cat-2 - 2 turning points, original messages length: 33, org ids: tp-2-1-5, tp-2-13-40
+2025-08-05 07:20:42 [32minfo[39m: Now proceeding to process every turning point
+2025-08-05 07:20:42 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages meta-section-0 and meta-cat-2 (distance: 0.702, complexity: 4.7), signif: 0.88 category: emotion, number of quotes: 3, emotionalTone: surprised
+getMessagesContentContextualAid: meta-cat-101 - 2 turning points, original messages length: 33, org ids: tp-2-1-5, tp-2-13-40
+getMessagesContentContextualAid: meta-section-1 - 1 turning points, original messages length: 5, org ids: tp-2-1-5
+getMessagesContentContextualAid: meta-cat-101 - 2 turning points, original messages length: 33, org ids: tp-2-1-5, tp-2-13-40
+getMessagesContentContextualAid: meta-section-1 - 1 turning points, original messages length: 5, org ids: tp-2-1-5
+2025-08-05 07:21:20 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages meta-cat-101 and meta-section-1 (distance: 0.300, complexity: 2.8), signif: 0.45 category: question, number of quotes: 2, emotionalTone: surprised
+getMessagesContentContextualAid: meta-section-1 - 1 turning points, original messages length: 5, org ids: tp-2-1-5
+getMessagesContentContextualAid: meta-cat-3 - 2 turning points, original messages length: 14, org ids: tp-2-5-5, tp-2-40-52
+getMessagesContentContextualAid: meta-section-1 - 1 turning points, original messages length: 5, org ids: tp-2-1-5
+getMessagesContentContextualAid: meta-cat-3 - 2 turning points, original messages length: 14, org ids: tp-2-5-5, tp-2-40-52
+2025-08-05 07:21:44 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages meta-section-1 and meta-cat-3 (distance: 0.427, complexity: 4.8), signif: 0.88 category: emotion, number of quotes: 3, emotionalTone: angry
+getMessagesContentContextualAid: meta-cat-3 - 2 turning points, original messages length: 14, org ids: tp-2-5-5, tp-2-40-52
+getMessagesContentContextualAid: meta-cat-4 - 1 turning points, original messages length: 4, org ids: tp-2-5-8
+getMessagesContentContextualAid: meta-cat-3 - 2 turning points, original messages length: 14, org ids: tp-2-5-5, tp-2-40-52
+getMessagesContentContextualAid: meta-cat-4 - 1 turning points, original messages length: 4, org ids: tp-2-5-8
+2025-08-05 07:22:10 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages meta-cat-3 and meta-cat-4 (distance: 0.754, complexity: 4.8), signif: 0.88 category: problem, number of quotes: 3, emotionalTone: angry
+2025-08-05 07:22:10 [32minfo[39m:     - Chunk 2 processed in 121.7s. Est. remaining: 85.1s (66.7% complete)
+2025-08-05 07:22:10 [32minfo[39m:  - Dimension 3: Processing chunk 3/3 (4 messages)
+Meta message meta-cat-4 contains 4 messages.
+Meta message meta-section-2 contains 36 messages.
+Meta message meta-cat-5 contains 4 messages.
+Meta message meta-section-3 contains 16 messages.
+2025-08-05 07:22:10 [32minfo[39m: For a total number of points: 4, there were 3 distances found as being greater than the dynamically adjusted threshold of 0.030. Across this span of messages of length 4, the following distances were found:
+    - The top 3 greatest distances are: 0.820, 0.784, 0.586
+      
+      
+      This means there were 3 potential turning points detected with valid meta-messages
+getMessagesContentContextualAid: meta-cat-4 - 1 turning points, original messages length: 4, org ids: tp-2-5-8
+getMessagesContentContextualAid: meta-section-2 - 5 turning points, original messages length: 36, org ids: tp-2-5-5, tp-2-5-8, tp-2-8-11, tp-2-11-13, tp-2-13-40
+getMessagesContentContextualAid: meta-cat-4 - 1 turning points, original messages length: 4, org ids: tp-2-5-8
+getMessagesContentContextualAid: meta-section-2 - 5 turning points, original messages length: 36, org ids: tp-2-5-5, tp-2-5-8, tp-2-8-11, tp-2-11-13, tp-2-13-40
+2025-08-05 07:22:37 [32minfo[39m: Now proceeding to process every turning point
+2025-08-05 07:22:37 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages meta-cat-4 and meta-section-2 (distance: 0.784, complexity: 4.6), signif: 0.84 category: insight, number of quotes: 3, emotionalTone: anxious
+getMessagesContentContextualAid: meta-section-2 - 5 turning points, original messages length: 36, org ids: tp-2-5-5, tp-2-5-8, tp-2-8-11, tp-2-11-13, tp-2-13-40
+getMessagesContentContextualAid: meta-cat-5 - 1 turning points, original messages length: 4, org ids: tp-2-8-11
+getMessagesContentContextualAid: meta-section-2 - 5 turning points, original messages length: 36, org ids: tp-2-5-5, tp-2-5-8, tp-2-8-11, tp-2-11-13, tp-2-13-40
+getMessagesContentContextualAid: meta-cat-5 - 1 turning points, original messages length: 4, org ids: tp-2-8-11
+2025-08-05 07:23:12 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages meta-section-2 and meta-cat-5 (distance: 0.820, complexity: 4.9), signif: 0.90 category: insight, number of quotes: 3, emotionalTone: angry
+getMessagesContentContextualAid: meta-cat-5 - 1 turning points, original messages length: 4, org ids: tp-2-8-11
+getMessagesContentContextualAid: meta-section-3 - 2 turning points, original messages length: 16, org ids: tp-2-40-52, tp-2-52-55
+getMessagesContentContextualAid: meta-cat-5 - 1 turning points, original messages length: 4, org ids: tp-2-8-11
+getMessagesContentContextualAid: meta-section-3 - 2 turning points, original messages length: 16, org ids: tp-2-40-52, tp-2-52-55
+2025-08-05 07:23:41 [32minfo[39m:     ...[Chunk 2] Potential turning point detected between messages meta-cat-5 and meta-section-3 (distance: 0.586, complexity: 3.9), signif: 0.70 category: emotion, number of quotes: 3, emotionalTone: skeptical
+2025-08-05 07:23:41 [32minfo[39m:     - Chunk 3 processed in 91.2s. Est. remaining: 0.0s (100.0% complete)
+2025-08-05 07:23:41 [32minfo[39m: Dimension 3: Found 9 raw turning points
+2025-08-05 07:23:41 [32minfo[39m: mergeSimilarTurningPoints: Calculating dynamic phi divergence threshold for merging based on 9 TPs since enableExperimentalPhi is true.
+2025-08-05 07:23:41 [32minfo[39m: Dynamically calculated phi divergence threshold for merging: 0.400
+2025-08-05 07:23:41 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:23:41 [32minfo[39m:     Merging similar TPs (Dim 3): tp-3-0-0 and tp-3-0-1
+2025-08-05 07:23:41 [32minfo[39m: Phi coherence check: true (threshold: 0.6000000000000001)
+2025-08-05 07:23:41 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:23:41 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:23:41 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:23:41 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:23:41 [32minfo[39m: Dimension 3: Merged similar TPs to 6
+2025-08-05 07:23:41 [32minfo[39m: Dimension 3: Enhancing significance scores with phi-field influence.
+2025-08-05 07:23:41 [32minfo[39m: Dimension 3: Max complexity = 5.00, Saturation threshold = 3
+2025-08-05 07:23:41 [32minfo[39m: Dimension 3: Needs Escalation (Ψ)? true
+2025-08-05 07:23:41 [32minfo[39m: Dimension 3: Escalating to dimension 4
+2025-08-05 07:23:41 [32minfo[39m: Grouped turning points into 4 categories.
+2025-08-05 07:23:41 [32minfo[39m: Applying φ-aware thematic and chronological merging.
+2025-08-05 07:23:41 [32minfo[39m: Segmented the timeline into 3 thematic sections.
+2025-08-05 07:23:41 [32minfo[39m: Created a total of 8 meta-messages for dimensional expansion.
+2025-08-05 07:23:41 [32minfo[39m: Dimension 3: Created 8 meta-messages for dimension 4
+2025-08-05 07:23:41 [32minfo[39m: Starting dimensional analysis at n=4
+2025-08-05 07:23:41 [32minfo[39m:     Chunking 8 messages. MinMsgs: 2, MaxTokens: 1638, IdealMsgCount: 8, Overlap: 1
+2025-08-05 07:23:41 [32minfo[39m:       Created chunk 1 with 7 messages, 1906 tokens. Ends at index 6.
+2025-08-05 07:23:41 [32minfo[39m:       Starting next chunk with 1 overlapping messages, 563 tokens.
+2025-08-05 07:23:41 [32minfo[39m:       Created chunk 2 with 2 messages, 1264 tokens. Ends at index 7.
+2025-08-05 07:23:41 [32minfo[39m:     Finished chunking. Created 2 chunks. Avg Tokens: 1304, Avg Msgs: 4.0
+2025-08-05 07:23:41 [32minfo[39m: Dimension 4: Split into 2 chunks
+2025-08-05 07:23:41 [32minfo[39m:  - Dimension 4: Processing chunk 1/2 (7 messages)
+Meta message meta-cat-0 contains 39 messages.
+Meta message meta-section-0 contains 2 messages.
+Meta message meta-cat-1 contains 1 messages.
+Meta message meta-cat-100 contains 40 messages.
+Meta message meta-section-1 contains 1 messages.
+Meta message meta-section-2 contains 40 messages.
+Meta message meta-cat-2 contains 1 messages.
+2025-08-05 07:23:48 [32minfo[39m: For a total number of points: 7, there were 6 distances found as being greater than the dynamically adjusted threshold of 0.011. Across this span of messages of length 7, the following distances were found:
+    - The top 3 greatest distances are: 0.609, 0.596, 0.289
+      
+      
+      This means there were 6 potential turning points detected with valid meta-messages
+getMessagesContentContextualAid: meta-cat-0 - 3 turning points, original messages length: 39, org ids: tp-3-0-0-merged-0, tp-3-1-5, tp-3-8-40
+getMessagesContentContextualAid: meta-section-0 - 1 turning points, original messages length: 2, org ids: tp-3-0-0-merged-0
+getMessagesContentContextualAid: meta-cat-0 - 3 turning points, original messages length: 39, org ids: tp-3-0-0-merged-0, tp-3-1-5, tp-3-8-40
+getMessagesContentContextualAid: meta-section-0 - 1 turning points, original messages length: 2, org ids: tp-3-0-0-merged-0
+2025-08-05 07:24:13 [32minfo[39m: Now proceeding to process every turning point
+2025-08-05 07:24:13 [32minfo[39m:     ...Potential turning point detected between messages meta-cat-0 and meta-section-0 (distance: 0.231, complexity: 4.7), signif: 0.86 category: emotion, number of quotes: 3, emotionalTone: furious
+getMessagesContentContextualAid: meta-section-0 - 1 turning points, original messages length: 2, org ids: tp-3-0-0-merged-0
+getMessagesContentContextualAid: meta-cat-1 - 1 turning points, original messages length: 1, org ids: tp-3-1-1
+getMessagesContentContextualAid: meta-section-0 - 1 turning points, original messages length: 2, org ids: tp-3-0-0-merged-0
+getMessagesContentContextualAid: meta-cat-1 - 1 turning points, original messages length: 1, org ids: tp-3-1-1
+2025-08-05 07:24:52 [32minfo[39m:     ...Potential turning point detected between messages meta-section-0 and meta-cat-1 (distance: 0.596, complexity: 4.6), signif: 0.85 category: emotion, number of quotes: 3, emotionalTone: surprised
+getMessagesContentContextualAid: meta-cat-1 - 1 turning points, original messages length: 1, org ids: tp-3-1-1
+getMessagesContentContextualAid: meta-cat-100 - 4 turning points, original messages length: 40, org ids: tp-3-1-5, tp-3-5-5, tp-3-5-8, tp-3-8-40
+getMessagesContentContextualAid: meta-cat-1 - 1 turning points, original messages length: 1, org ids: tp-3-1-1
+getMessagesContentContextualAid: meta-cat-100 - 4 turning points, original messages length: 40, org ids: tp-3-1-5, tp-3-5-5, tp-3-5-8, tp-3-8-40
+2025-08-05 07:25:29 [32minfo[39m:     ...Potential turning point detected between messages meta-cat-1 and meta-cat-100 (distance: 0.289, complexity: 4.8), signif: 0.88 category: topic, number of quotes: 3, emotionalTone: angry
+getMessagesContentContextualAid: meta-cat-100 - 4 turning points, original messages length: 40, org ids: tp-3-1-5, tp-3-5-5, tp-3-5-8, tp-3-8-40
+getMessagesContentContextualAid: meta-section-1 - 1 turning points, original messages length: 1, org ids: tp-3-1-1
+getMessagesContentContextualAid: meta-cat-100 - 4 turning points, original messages length: 40, org ids: tp-3-1-5, tp-3-5-5, tp-3-5-8, tp-3-8-40
+getMessagesContentContextualAid: meta-section-1 - 1 turning points, original messages length: 1, org ids: tp-3-1-1
+2025-08-05 07:25:54 [32minfo[39m:     ...Potential turning point detected between messages meta-cat-100 and meta-section-1 (distance: 0.288, complexity: 4.4), signif: 0.81 category: question, number of quotes: 3, emotionalTone: skeptical
+getMessagesContentContextualAid: meta-section-1 - 1 turning points, original messages length: 1, org ids: tp-3-1-1
+getMessagesContentContextualAid: meta-section-2 - 4 turning points, original messages length: 40, org ids: tp-3-1-5, tp-3-5-5, tp-3-5-8, tp-3-8-40
+getMessagesContentContextualAid: meta-section-1 - 1 turning points, original messages length: 1, org ids: tp-3-1-1
+getMessagesContentContextualAid: meta-section-2 - 4 turning points, original messages length: 40, org ids: tp-3-1-5, tp-3-5-5, tp-3-5-8, tp-3-8-40
+2025-08-05 07:26:10 [32minfo[39m:     ...Potential turning point detected between messages meta-section-1 and meta-section-2 (distance: 0.288, complexity: 4.7), signif: 0.88 category: problem, number of quotes: 3, emotionalTone: anxious
+getMessagesContentContextualAid: meta-section-2 - 4 turning points, original messages length: 40, org ids: tp-3-1-5, tp-3-5-5, tp-3-5-8, tp-3-8-40
+getMessagesContentContextualAid: meta-cat-2 - 1 turning points, original messages length: 1, org ids: tp-3-5-5
+getMessagesContentContextualAid: meta-section-2 - 4 turning points, original messages length: 40, org ids: tp-3-1-5, tp-3-5-5, tp-3-5-8, tp-3-8-40
+getMessagesContentContextualAid: meta-cat-2 - 1 turning points, original messages length: 1, org ids: tp-3-5-5
+2025-08-05 07:26:44 [32minfo[39m:     ...Potential turning point detected between messages meta-section-2 and meta-cat-2 (distance: 0.609, complexity: 3.7), signif: 0.64 category: problem, number of quotes: 3, emotionalTone: angry
+2025-08-05 07:26:44 [32minfo[39m:     - Chunk 1 processed in 182.9s. Est. remaining: 182.9s (50.0% complete)
+2025-08-05 07:26:44 [32minfo[39m:  - Dimension 4: Processing chunk 2/2 (2 messages)
+Meta message meta-cat-2 contains 1 messages.
+Meta message meta-cat-3 contains 4 messages.
+2025-08-05 07:26:44 [32minfo[39m: For a total number of points: 2, there were 1 distances found as being greater than the dynamically adjusted threshold of 0.011. Across this span of messages of length 2, the following distances were found:
+    - The top 3 greatest distances are: 0.744
+      
+      
+      This means there were 1 potential turning points detected with valid meta-messages
+getMessagesContentContextualAid: meta-cat-2 - 1 turning points, original messages length: 1, org ids: tp-3-5-5
+getMessagesContentContextualAid: meta-cat-3 - 1 turning points, original messages length: 4, org ids: tp-3-5-8
+getMessagesContentContextualAid: meta-cat-2 - 1 turning points, original messages length: 1, org ids: tp-3-5-5
+getMessagesContentContextualAid: meta-cat-3 - 1 turning points, original messages length: 4, org ids: tp-3-5-8
+2025-08-05 07:27:17 [32minfo[39m: Now proceeding to process every turning point
+2025-08-05 07:27:17 [32minfo[39m:     ...[Chunk 1] Potential turning point detected between messages meta-cat-2 and meta-cat-3 (distance: 0.744, complexity: 4.8), signif: 0.88 category: insight, number of quotes: 3, emotionalTone: angry
+2025-08-05 07:27:17 [32minfo[39m:     - Chunk 2 processed in 33.2s. Est. remaining: 0.0s (100.0% complete)
+2025-08-05 07:27:17 [32minfo[39m: Dimension 4: Found 7 raw turning points
+2025-08-05 07:27:17 [32minfo[39m: mergeSimilarTurningPoints: Calculating dynamic phi divergence threshold for merging based on 7 TPs since enableExperimentalPhi is true.
+2025-08-05 07:27:17 [32minfo[39m: Dynamically calculated phi divergence threshold for merging: 0.400
+2025-08-05 07:27:17 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:27:17 [32minfo[39m:     Merging similar TPs (Dim 4): tp-4-0-0 and tp-4-0-1
+2025-08-05 07:27:17 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:27:17 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:27:17 [32minfo[39m: Phi coherence check: true (threshold: 0.7000000000000001)
+2025-08-05 07:27:17 [32minfo[39m: Dimension 4: Merged similar TPs to 4
+2025-08-05 07:27:17 [32minfo[39m: Dimension 4: Enhancing significance scores with phi-field influence.
+2025-08-05 07:27:17 [32minfo[39m: Dimension 4: Max complexity = 4.88, Saturation threshold = 3
+2025-08-05 07:27:17 [32minfo[39m: Dimension 4: Needs Escalation (Ψ)? true
+2025-08-05 07:27:17 [32minfo[39m: Dimension 4: Finalizing at this level. Applying final filtering.
+2025-08-05 07:27:17 [32minfo[39m: Applying possibilistic gating network to 4 candidates.
+2025-08-05 07:27:17 [32minfo[39m: Choquet fusion: 0.500 integral value, selected 4/4 TPs (threshold: 0.100)
+2025-08-05 07:27:17 [32minfo[39m: Possibilistic fusion resulted in 4 total TPs
+2025-08-05 07:27:17 [32minfo[39m: Dimension 4: Found 4 higher-dimension TPs.
+2025-08-05 07:27:17 [32minfo[39m: Dimension 3 → 4: Convergence distance: 0.235. Converged: true
+2025-08-05 07:27:17 [32minfo[39m: Combining 6 local (dim 3) and 4 higher (dim 4) TPs.
+2025-08-05 07:27:17 [32minfo[39m: Total TPs before cross-level merge: 10
+2025-08-05 07:27:17 [32minfo[39m: Merging across levels. Input count: 10. Prioritizing higher dimension/significance.
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-4-0-0-merged-0 (Dim 4, Sig 1.00). Overlap: 0% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-4-1-1 (Dim 4) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-4-1-5 (Dim 4, Sig 1.00). Overlap: 20% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-4-5-5 (Dim 4) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-3-1-5 (Dim 3) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-3-5-5 (Dim 3) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-3-5-8 (Dim 3, Sig 1.00). Overlap: 25% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-3-0-0-merged-0 (Dim 3) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-3-8-40 (Dim 3, Sig 0.85). Overlap: 3% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-3-1-1 (Dim 3) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Finished merging across levels. Output count: 4.
+2025-08-05 07:27:17 [32minfo[39m: Merged across levels to 4 TPs.
+2025-08-05 07:27:17 [32minfo[39m: Applying possibilistic gating network to 4 candidates.
+2025-08-05 07:27:17 [32minfo[39m: Choquet fusion: 0.500 integral value, selected 4/4 TPs (threshold: 0.100)
+2025-08-05 07:27:17 [32minfo[39m: Possibilistic fusion resulted in 4 total TPs
+2025-08-05 07:27:17 [32minfo[39m: Final combined and filtered TPs: 4
+2025-08-05 07:27:17 [32minfo[39m: Dimension 3: Found 4 higher-dimension TPs.
+2025-08-05 07:27:17 [32minfo[39m: Dimension 2 → 3: Convergence distance: 0.418. Converged: true
+2025-08-05 07:27:17 [32minfo[39m: Combining 10 local (dim 2) and 4 higher (dim 4) TPs.
+2025-08-05 07:27:17 [32minfo[39m: Total TPs before cross-level merge: 14
+2025-08-05 07:27:17 [32minfo[39m: Merging across levels. Input count: 14. Prioritizing higher dimension/significance.
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-4-0-0-merged-0 (Dim 4, Sig 1.00). Overlap: 0% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-4-1-5 (Dim 4, Sig 1.00). Overlap: 20% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-3-5-8 (Dim 3, Sig 1.00). Overlap: 25% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-3-8-40 (Dim 3, Sig 1.00). Overlap: 3% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-2-0-1 (Dim 2) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-2-1-5 (Dim 2) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-2-5-8 (Dim 2) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-2-8-11 (Dim 2) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-2-11-13 (Dim 2) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-2-40-52 (Dim 2, Sig 1.00). Overlap: 8% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-2-0-0 (Dim 2) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-2-52-55 (Dim 2, Sig 0.90). Overlap: 25% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-2-13-40 (Dim 2) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-2-5-5 (Dim 2) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Finished merging across levels. Output count: 6.
+2025-08-05 07:27:17 [32minfo[39m: Merged across levels to 6 TPs.
+2025-08-05 07:27:17 [32minfo[39m: Applying possibilistic gating network to 6 candidates.
+2025-08-05 07:27:17 [32minfo[39m: Choquet fusion: 0.500 integral value, selected 6/6 TPs (threshold: 0.067)
+2025-08-05 07:27:17 [32minfo[39m: Possibilistic fusion resulted in 6 total TPs
+2025-08-05 07:27:17 [32minfo[39m: Final combined and filtered TPs: 6
+2025-08-05 07:27:17 [32minfo[39m: Dimension 2: Found 6 higher-dimension TPs.
+2025-08-05 07:27:17 [32minfo[39m: Dimension 1 → 2: Convergence distance: 0.458. Converged: true
+2025-08-05 07:27:17 [32minfo[39m: Combining 20 local (dim 1) and 6 higher (dim 4) TPs.
+2025-08-05 07:27:17 [32minfo[39m: Total TPs before cross-level merge: 26
+2025-08-05 07:27:17 [32minfo[39m: Merging across levels. Input count: 26. Prioritizing higher dimension/significance.
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-4-0-0-merged-0 (Dim 4, Sig 1.00). Overlap: 0% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-4-1-5 (Dim 4, Sig 1.00). Overlap: 20% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-3-5-8 (Dim 3, Sig 1.00). Overlap: 25% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-3-8-40 (Dim 3, Sig 1.00). Overlap: 3% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-2-40-52 (Dim 2, Sig 1.00). Overlap: 8% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-2-52-55 (Dim 2, Sig 1.00). Overlap: 25% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-1-0-1 (Dim 1) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-1-5-8 (Dim 1) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-1-8-11 (Dim 1) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-1-11-13 (Dim 1) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-1-13-22 (Dim 1) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-1-22-24-merged-24-merged-27 (Dim 1) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-1-34-39 (Dim 1) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-1-52-55 (Dim 1) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-1-55-56-merged-56 (Dim 1, Sig 1.00). Overlap: 33% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-1-1-13 (Dim 1) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-1-107-130 (Dim 1, Sig 0.98). Overlap: 0% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-1-31-34 (Dim 1) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-1-39-40 (Dim 1) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-1-57-58 (Dim 1) due to overlap (50% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-1-13-13 (Dim 1) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-1-0-27 (Dim 1) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-1-58-73 (Dim 1, Sig 0.87). Overlap: 0% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-1-75-77-merged-78 (Dim 1, Sig 0.86). Overlap: 3% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-1-40-52 (Dim 1) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Finished merging across levels. Output count: 10.
+2025-08-05 07:27:17 [32minfo[39m: Merged across levels to 10 TPs.
+2025-08-05 07:27:17 [32minfo[39m: Applying possibilistic gating network to 10 candidates.
+2025-08-05 07:27:17 [32minfo[39m: Choquet fusion: 0.500 integral value, selected 10/10 TPs (threshold: 0.040)
+2025-08-05 07:27:17 [32minfo[39m: Possibilistic fusion resulted in 10 total TPs
+2025-08-05 07:27:17 [32minfo[39m: Final combined and filtered TPs: 10
+2025-08-05 07:27:17 [32minfo[39m: Dimension 1: Found 10 higher-dimension TPs.
+2025-08-05 07:27:17 [32minfo[39m: Dimension 0 → 1: Convergence distance: 0.562. Converged: true
+2025-08-05 07:27:17 [32minfo[39m: Combining 82 local (dim 0) and 10 higher (dim 4) TPs.
+2025-08-05 07:27:17 [32minfo[39m: Total TPs before cross-level merge: 92
+2025-08-05 07:27:17 [32minfo[39m: Merging across levels. Input count: 92. Prioritizing higher dimension/significance.
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-4-0-0-merged-0 (Dim 4, Sig 1.00). Overlap: 0% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-4-1-5 (Dim 4, Sig 1.00). Overlap: 20% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-3-5-8 (Dim 3, Sig 1.00). Overlap: 25% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-3-8-40 (Dim 3, Sig 1.00). Overlap: 3% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-2-40-52 (Dim 2, Sig 1.00). Overlap: 8% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-2-52-55 (Dim 2, Sig 1.00). Overlap: 25% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-1-55-56-merged-56 (Dim 1, Sig 1.00). Overlap: 33% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-1-58-73 (Dim 1, Sig 1.00). Overlap: 0% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-1-75-77-merged-78 (Dim 1, Sig 1.00). Overlap: 0% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-1-107-130 (Dim 1, Sig 1.00). Overlap: 4% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-13-14 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-22-23 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-27-28 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-41-42 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-45-46 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-46-47 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-48-49 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-49-50-merged-50 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-55-56 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-56-57 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-58-59 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-60-61 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-64-65 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-69-70 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-70-71 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-72-73 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-73-74 (Dim 0) due to overlap (50% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-75-76 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-83-84 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-86-87 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-87-88-merged-90-merged-91 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-95-96 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-104-105 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-106-107 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-107-108 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-108-109 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-110-111 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-112-113 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-113-114 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-114-115 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-119-120 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-122-123 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-123-124 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-124-125 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-125-126 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-127-128 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-130-131 (Dim 0) due to overlap (50% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-0-132-133 (Dim 0, Sig 1.00). Overlap: 0% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-133-134 (Dim 0) due to overlap (50% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-0-141-142 (Dim 0, Sig 1.00). Overlap: 0% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-142-143 (Dim 0) due to overlap (50% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-0-144-145 (Dim 0, Sig 1.00). Overlap: 0% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-0-150-151 (Dim 0, Sig 1.00). Overlap: 0% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-0-152-153 (Dim 0, Sig 1.00). Overlap: 0% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-80-81 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-25-26 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-26-27 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-43-44 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-82-83 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-76-77 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-85-86 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-5-6-merged-6-merged-7 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-8-9 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-24-25 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-120-121-merged-121 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-63-64 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-74-75 (Dim 0) due to overlap (50% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-28-29-merged-29 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-31-32-merged-32-merged-33 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-42-43 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-78-79-merged-79 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-57-58 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-67-68 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Keeping TP tp-0-134-135-merged-136 (Dim 0, Sig 0.89). Overlap: 0% < 50%
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-34-35 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-93-94 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-10-11 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-11-12 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-52-53 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-97-98 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-99-100 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-40-41 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-4-5 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-36-37 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-0-1 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-1-2-merged-2-merged-3 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-94-95 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-37-38-merged-38 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-39-40 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-96-97 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-0-12-13 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Skipping TP tp-err-0-77 (Dim 0) due to overlap (100% >= 50%)
+2025-08-05 07:27:17 [32minfo[39m: Finished merging across levels. Output count: 16.
+2025-08-05 07:27:17 [32minfo[39m: Merged across levels to 16 TPs.
+2025-08-05 07:27:17 [32minfo[39m: Applying possibilistic gating network to 16 candidates.
+2025-08-05 07:27:17 [32minfo[39m: Choquet fusion: 0.500 integral value, selected 16/16 TPs (threshold: 0.025)
+2025-08-05 07:27:17 [32minfo[39m: Possibilistic fusion resulted in 16 total TPs
+2025-08-05 07:27:17 [32minfo[39m: Final combined and filtered TPs: 16
+2025-08-05 07:27:17 [32minfo[39m: Multi-layer detection returned 16 turning points
+2025-08-05 07:27:17 [32minfo[39m: TP tp-4-0-0-merged-0 at edges of convo – skipping scores
+2025-08-05 07:27:37 [32minfo[39m: TP tp-4-1-5: distPre=0.682, distPost=0.302, conf=0.492, necessity=0.336, φ=0.997
+2025-08-05 07:27:37 [32minfo[39m: TP tp-3-5-8: distPre=0.398, distPost=0.274, conf=0.336, necessity=0.350, φ=0.997
+2025-08-05 07:27:37 [32minfo[39m: TP tp-3-8-40: distPre=0.299, distPost=0.109, conf=0.204, necessity=0.474, φ=0.865
+2025-08-05 07:27:37 [32minfo[39m: TP tp-2-40-52: distPre=0.223, distPost=0.172, conf=0.198, necessity=0.502, φ=0.997
+2025-08-05 07:27:37 [32minfo[39m: TP tp-2-52-55: distPre=0.349, distPost=0.352, conf=0.351, necessity=0.444, φ=0.997
+2025-08-05 07:27:37 [32minfo[39m: TP tp-1-55-56-merged-56: distPre=0.322, distPost=0.331, conf=0.326, necessity=0.452, φ=0.997
+2025-08-05 07:27:37 [32minfo[39m: TP tp-1-58-73: distPre=0.137, distPost=0.117, conf=0.127, necessity=0.518, φ=0.865
+2025-08-05 07:27:37 [32minfo[39m: TP tp-1-75-77-merged-78: distPre=0.135, distPost=0.167, conf=0.151, necessity=0.567, φ=0.733
+2025-08-05 07:27:37 [32minfo[39m: TP tp-1-107-130: distPre=0.125, distPost=0.180, conf=0.153, necessity=0.552, φ=0.931
+2025-08-05 07:27:37 [32minfo[39m: TP tp-0-132-133: distPre=0.385, distPost=0.448, conf=0.416, necessity=0.336, φ=0.931
+2025-08-05 07:27:37 [32minfo[39m: TP tp-0-134-135-merged-136: distPre=0.326, distPost=0.337, conf=0.332, necessity=0.309, φ=0.656
+2025-08-05 07:27:37 [32minfo[39m: TP tp-0-141-142: distPre=0.432, distPost=0.441, conf=0.436, necessity=0.317, φ=0.997
+2025-08-05 07:27:37 [32minfo[39m: TP tp-0-144-145: distPre=0.372, distPost=0.394, conf=0.383, necessity=0.327, φ=0.997
+2025-08-05 07:27:37 [32minfo[39m: TP tp-0-150-151: distPre=0.406, distPost=0.622, conf=0.514, necessity=0.311, φ=1.000
+2025-08-05 07:27:37 [32minfo[39m: TP tp-0-152-153: distPre=0.341, distPost=0.653, conf=0.497, necessity=0.303, φ=0.931
+2025-08-05 07:27:37 [32minfo[39m: Aggregate scores: Confidence=0.328, Necessity=0.407, enabledExperimentalPhi=true
+
+Turning point detection took as MM:SS: 00:48:53 for 6126 tokens in the conversation
+
+=== DETECTED TURNING POINTS (ARC/CRA Framework) ===
+
+Detected 16 turning point using model google/gemini-2.5-flash.
+(softmax) Confidence Score: 0.328 | Necessity Score: 0.407
+2025-08-05 07:27:37 [32minfo[39m: 
+1. Escalation to Hostile Confrontation / Shift from Environmental Observa (emotion)
+2025-08-05 07:27:37 [32minfo[39m:    Messages: "0" → "1"
+2025-08-05 07:27:37 [32minfo[39m:    Dimension: n=4
+2025-08-05 07:27:37 [32minfo[39m:    Complexity Score: 4.88 of 5
+2025-08-05 07:27:37 [32minfo[39m:    Emotional Tone: furious-surprised
+2025-08-05 07:27:37 [32minfo[39m:    Semantic Shift Magnitude: 0.41
+2025-08-05 07:27:37 [32minfo[39m:    Sentiment: negative
+2025-08-05 07:27:37 [32minfo[39m:    Significance: 1.00
+2025-08-05 07:27:37 [32minfo[39m:    Quotes: Don't you feel rather nervous?, Would you have allowed yourself to know him if he had been convicted?, Yes, indeed.
+2025-08-05 07:27:37 [32minfo[39m: 
+2. Revelation of Personal Financial Burden (problem)
+2025-08-05 07:27:37 [32minfo[39m:    Messages: "1" → "5"
+2025-08-05 07:27:37 [32minfo[39m:    Dimension: n=4
+2025-08-05 07:27:37 [32minfo[39m:    Complexity Score: 3.71 of 5
+2025-08-05 07:27:37 [32minfo[39m:    Emotional Tone: angry
+2025-08-05 07:27:37 [32minfo[39m:    Semantic Shift Magnitude: 0.61
+2025-08-05 07:27:37 [32minfo[39m:    Sentiment: negative
+2025-08-05 07:27:37 [32minfo[39m:    Significance: 1.00
+2025-08-05 07:27:37 [32minfo[39m:    Quotes: source: MR. X: Oh, I have palpitation of the heart every time I open a letter., source: MR. X: Nothing but debts, debts!, source: MR. X: Did you ever have any debts?
+2025-08-05 07:27:37 [32minfo[39m: 
+3. The Deductive Unmasking (insight)
+2025-08-05 07:27:37 [32minfo[39m:    Messages: "5" → "8"
+2025-08-05 07:27:37 [32minfo[39m:    Dimension: n=3
+2025-08-05 07:27:37 [32minfo[39m:    Complexity Score: 4.86 of 5
+2025-08-05 07:27:37 [32minfo[39m:    Emotional Tone: angry
+2025-08-05 07:27:37 [32minfo[39m:    Semantic Shift Magnitude: 0.82
+2025-08-05 07:27:37 [32minfo[39m:    Sentiment: negative
+2025-08-05 07:27:37 [32minfo[39m:    Significance: 1.00
+2025-08-05 07:27:37 [32minfo[39m:    Quotes: source: Through need., source: Do you see now how I have figured out your mis-step?, source: I see in the mirror that you are a thief, a simple, common thief.
+2025-08-05 07:27:37 [32minfo[39m: 
+4. From Accusation to Emotional and Procedural Confro (emotion)
+2025-08-05 07:27:37 [32minfo[39m:    Messages: "8" → "40"
+2025-08-05 07:27:37 [32minfo[39m:    Dimension: n=3
+2025-08-05 07:27:37 [32minfo[39m:    Complexity Score: 3.89 of 5
+2025-08-05 07:27:37 [32minfo[39m:    Emotional Tone: skeptical
+2025-08-05 07:27:37 [32minfo[39m:    Semantic Shift Magnitude: 0.59
+2025-08-05 07:27:37 [32minfo[39m:    Sentiment: negative
+2025-08-05 07:27:37 [32minfo[39m:    Significance: 1.00
+2025-08-05 07:27:37 [32minfo[39m:    Quotes: source: I see in the mirror that you are a thief, a simple, common thief., source: Shift from Procedural Action to Emotional Confront, source: Unpacking Conversational Objections
+2025-08-05 07:27:37 [32minfo[39m: 
+5. Shift from Procedural Action to Emotional Confront (emotion)
+2025-08-05 07:27:37 [32minfo[39m:    Messages: "40" → "52"
+2025-08-05 07:27:37 [32minfo[39m:    Dimension: n=2
+2025-08-05 07:27:37 [32minfo[39m:    Complexity Score: 4.86 of 5
+2025-08-05 07:27:37 [32minfo[39m:    Emotional Tone: angry
+2025-08-05 07:27:37 [32minfo[39m:    Semantic Shift Magnitude: 0.83
+2025-08-05 07:27:37 [32minfo[39m:    Sentiment: negative
+2025-08-05 07:27:37 [32minfo[39m:    Significance: 1.00
+2025-08-05 07:27:37 [32minfo[39m:    Quotes: source: turning_point_before: Shift to Signature Arrangement (action), source: turning_point_after: Escalation to Accusation of Hatred (emotion), source: turning_point_after: The Unveiling of a Murderous Past (insight)
+2025-08-05 07:27:37 [32minfo[39m: 
+6. Unpacking Conversational Objections and Their Nega (meta-reflection)
+2025-08-05 07:27:37 [32minfo[39m:    Messages: "52" → "55"
+2025-08-05 07:27:37 [32minfo[39m:    Dimension: n=2
+2025-08-05 07:27:37 [32minfo[39m:    Complexity Score: 4.02 of 5
+2025-08-05 07:27:37 [32minfo[39m:    Emotional Tone: angry
+2025-08-05 07:27:37 [32minfo[39m:    Semantic Shift Magnitude: 0.36
+2025-08-05 07:27:37 [32minfo[39m:    Sentiment: negative
+2025-08-05 07:27:37 [32minfo[39m:    Significance: 1.00
+2025-08-05 07:27:37 [32minfo[39m:    Quotes: source: he died on the spot., source: Emotional Denial, source: Accusation of Hatred
+2025-08-05 07:27:37 [32minfo[39m: 
+7. from emotional denial Discussion (objection)
+2025-08-05 07:27:37 [32minfo[39m:    Messages: "55" → "57"
+2025-08-05 07:27:37 [32minfo[39m:    Dimension: n=1
+2025-08-05 07:27:37 [32minfo[39m:    Complexity Score: 4.57 of 5
+2025-08-05 07:27:37 [32minfo[39m:    Emotional Tone: angry
+2025-08-05 07:27:37 [32minfo[39m:    Semantic Shift Magnitude: 0.65
+2025-08-05 07:27:37 [32minfo[39m:    Sentiment: negative
+2025-08-05 07:27:37 [32minfo[39m:    Significance: 1.00
+2025-08-05 07:27:37 [32minfo[39m:    Quotes: source: Accusation of Hatred, source: Emotional Denial, source: turning_point_before label: Emotional Denial
+2025-08-05 07:27:37 [32minfo[39m: 
+8. Shift from Confession to Inquiry of Impunity (problem)
+2025-08-05 07:27:37 [32minfo[39m:    Messages: "58" → "73"
+2025-08-05 07:27:37 [32minfo[39m:    Dimension: n=1
+2025-08-05 07:27:37 [32minfo[39m:    Complexity Score: 4.38 of 5
+2025-08-05 07:27:37 [32minfo[39m:    Emotional Tone: skeptical
+2025-08-05 07:27:37 [32minfo[39m:    Semantic Shift Magnitude: 0.43
+2025-08-05 07:27:37 [32minfo[39m:    Sentiment: negative
+2025-08-05 07:27:37 [32minfo[39m:    Significance: 1.00
+2025-08-05 07:27:37 [32minfo[39m:    Quotes: source: I killed a man once, and I never had any scruples., source: [Cheerily] Oh, what nonsense!, source: How did you get out of it?
+2025-08-05 07:27:37 [32minfo[39m: 
+9. Confronting Lack of Accountability / Denial of Departure and Assertion (objection)
+2025-08-05 07:27:37 [32minfo[39m:    Messages: "75" → "107"
+2025-08-05 07:27:37 [32minfo[39m:    Dimension: n=1
+2025-08-05 07:27:37 [32minfo[39m:    Complexity Score: 4.88 of 5
+2025-08-05 07:27:37 [32minfo[39m:    Emotional Tone: anxious-skeptical
+2025-08-05 07:27:37 [32minfo[39m:    Semantic Shift Magnitude: 0.44
+2025-08-05 07:27:37 [32minfo[39m:    Sentiment: negative
+2025-08-05 07:27:37 [32minfo[39m:    Significance: 1.00
+2025-08-05 07:27:37 [32minfo[39m:    Quotes: he died on the spot., And you didn't give yourself up?, source: [Stammering] I only thought--that as I'm not needed--I wouldn't need to be present--and could go.
+2025-08-05 07:27:37 [32minfo[39m: 
+10. From Apprehension to Unveiling of Consequences (problem)
+2025-08-05 07:27:37 [32minfo[39m:    Messages: "107" → "130"
+2025-08-05 07:27:37 [32minfo[39m:    Dimension: n=1
+2025-08-05 07:27:37 [32minfo[39m:    Complexity Score: 4.73 of 5
+2025-08-05 07:27:37 [32minfo[39m:    Emotional Tone: anxious
+2025-08-05 07:27:37 [32minfo[39m:    Semantic Shift Magnitude: 0.39
+2025-08-05 07:27:37 [32minfo[39m:    Sentiment: negative
+2025-08-05 07:27:37 [32minfo[39m:    Significance: 1.00
+2025-08-05 07:27:37 [32minfo[39m:    Quotes: source: What's going to happen now?, source: Motive Clarified: Theft Due to Need, source: Revelation of Impending Legal Consequence
+2025-08-05 07:27:37 [32minfo[39m: 
+11. Challenge to Accusation of Unserved Sentence (objection)
+2025-08-05 07:27:37 [32minfo[39m:    Messages: "132" → "133"
+2025-08-05 07:27:37 [32minfo[39m:    Dimension: n=0
+2025-08-05 07:27:37 [32minfo[39m:    Complexity Score: 4.42 of 5
+2025-08-05 07:27:37 [32minfo[39m:    Emotional Tone: anxious
+2025-08-05 07:27:37 [32minfo[39m:    Semantic Shift Magnitude: 0.80
+2025-08-05 07:27:37 [32minfo[39m:    Sentiment: negative
+2025-08-05 07:27:37 [32minfo[39m:    Significance: 1.00
+2025-08-05 07:27:37 [32minfo[39m:    Quotes: source: that you have not served out your sentence here., source: How can you say that?
+2025-08-05 07:27:37 [32minfo[39m: 
+12. The Moment of Defeat / Emotional Re-engagement (emotion)
+2025-08-05 07:27:37 [32minfo[39m:    Messages: "134" → "137"
+2025-08-05 07:27:37 [32minfo[39m:    Dimension: n=0
+2025-08-05 07:27:37 [32minfo[39m:    Complexity Score: 4.80 of 5
+2025-08-05 07:27:37 [32minfo[39m:    Emotional Tone: discouraged-worried
+2025-08-05 07:27:37 [32minfo[39m:    Semantic Shift Magnitude: 0.74
+2025-08-05 07:27:37 [32minfo[39m:    Sentiment: negative
+2025-08-05 07:27:37 [32minfo[39m:    Significance: 0.89
+2025-08-05 07:27:37 [32minfo[39m:    Quotes: you have served one sentence, but not another. That's why you were so difficult to get at., [Completely defeated] May I go now?, Yes, you may go now.
+2025-08-05 07:27:37 [32minfo[39m: 
+13. Initiating the Next Round (action)
+2025-08-05 07:27:37 [32minfo[39m:    Messages: "141" → "142"
+2025-08-05 07:27:37 [32minfo[39m:    Dimension: n=0
+2025-08-05 07:27:37 [32minfo[39m:    Complexity Score: 4.41 of 5
+2025-08-05 07:27:37 [32minfo[39m:    Emotional Tone: angry
+2025-08-05 07:27:37 [32minfo[39m:    Semantic Shift Magnitude: 0.76
+2025-08-05 07:27:37 [32minfo[39m:    Sentiment: negative
+2025-08-05 07:27:37 [32minfo[39m:    Significance: 1.00
+2025-08-05 07:27:37 [32minfo[39m:    Quotes: the next move you can be checkmated., Shall we have another bout?, What evil do you intend to do now?
+2025-08-05 07:27:37 [32minfo[39m: 
+14. Unpreventable Threat Confirmed (action)
+2025-08-05 07:27:37 [32minfo[39m:    Messages: "144" → "145"
+2025-08-05 07:27:37 [32minfo[39m:    Dimension: n=0
+2025-08-05 07:27:37 [32minfo[39m:    Complexity Score: 4.68 of 5
+2025-08-05 07:27:37 [32minfo[39m:    Emotional Tone: angry
+2025-08-05 07:27:37 [32minfo[39m:    Semantic Shift Magnitude: 0.71
+2025-08-05 07:27:37 [32minfo[39m:    Sentiment: negative
+2025-08-05 07:27:37 [32minfo[39m:    Significance: 1.00
+2025-08-05 07:27:37 [32minfo[39m:    Quotes: source: You think of writing an anonymous letter to my wife, disclosing my secret., source: Yes, and you cannot prevent it., source: You dare not have me imprisoned, so you must let me go; and when I have gone I can do what I please.
+2025-08-05 07:27:37 [32minfo[39m: 
+15. Accusation of Cowardice and Murder (problem)
+2025-08-05 07:27:37 [32minfo[39m:    Messages: "150" → "151"
+2025-08-05 07:27:37 [32minfo[39m:    Dimension: n=0
+2025-08-05 07:27:37 [32minfo[39m:    Complexity Score: 4.78 of 5
+2025-08-05 07:27:37 [32minfo[39m:    Emotional Tone: furious
+2025-08-05 07:27:37 [32minfo[39m:    Semantic Shift Magnitude: 0.80
+2025-08-05 07:27:37 [32minfo[39m:    Sentiment: negative
+2025-08-05 07:27:37 [32minfo[39m:    Significance: 1.00
+2025-08-05 07:27:37 [32minfo[39m:    Quotes: source: Then you don't believe that I ever took from the case?, source: You were too cowardly, source: to tell your wife that she is married to a murderer.
+2025-08-05 07:27:37 [32minfo[39m: 
+16. Concession of Defeat and Request for Release (emotion)
+2025-08-05 07:27:37 [32minfo[39m:    Messages: "152" → "153"
+2025-08-05 07:27:37 [32minfo[39m:    Dimension: n=0
+2025-08-05 07:27:37 [32minfo[39m:    Complexity Score: 4.73 of 5
+2025-08-05 07:27:37 [32minfo[39m:    Emotional Tone: anxious
+2025-08-05 07:27:37 [32minfo[39m:    Semantic Shift Magnitude: 0.92
+2025-08-05 07:27:37 [32minfo[39m:    Sentiment: negative
+2025-08-05 07:27:37 [32minfo[39m:    Significance: 1.00
+2025-08-05 07:27:37 [32minfo[39m:    Quotes: Do you give up now?, Can I go?
+2025-08-05 07:27:37 [32minfo[39m: 
+=== ARC/CRA FRAMEWORK CONVERGENCE ANALYSIS ===
+
+2025-08-05 07:27:37 [32minfo[39m: Iteration 1:
+2025-08-05 07:27:37 [32minfo[39m:   Dimension: n=4
+2025-08-05 07:27:37 [32minfo[39m:   Convergence Distance: 0.000
+2025-08-05 07:27:37 [32minfo[39m:   Dimensional Escalation: No
+2025-08-05 07:27:37 [32minfo[39m:   Turning Points: 4
+2025-08-05 07:27:37 [32minfo[39m: Iteration 2:
+2025-08-05 07:27:37 [32minfo[39m:   Dimension: n=4
+2025-08-05 07:27:37 [32minfo[39m:   Convergence Distance: 0.235
+2025-08-05 07:27:37 [32minfo[39m:   Dimensional Escalation: Yes
+2025-08-05 07:27:37 [32minfo[39m:   Turning Points: 4
+2025-08-05 07:27:37 [32minfo[39m: Iteration 3:
+2025-08-05 07:27:37 [32minfo[39m:   Dimension: n=3
+2025-08-05 07:27:37 [32minfo[39m:   Convergence Distance: 0.418
+2025-08-05 07:27:37 [32minfo[39m:   Dimensional Escalation: Yes
+2025-08-05 07:27:37 [32minfo[39m:   Turning Points: 4
+2025-08-05 07:27:37 [32minfo[39m: Iteration 4:
+2025-08-05 07:27:37 [32minfo[39m:   Dimension: n=2
+2025-08-05 07:27:37 [32minfo[39m:   Convergence Distance: 0.458
+2025-08-05 07:27:37 [32minfo[39m:   Dimensional Escalation: Yes
+2025-08-05 07:27:37 [32minfo[39m:   Turning Points: 6
+2025-08-05 07:27:37 [32minfo[39m: Iteration 5:
+2025-08-05 07:27:37 [32minfo[39m:   Dimension: n=1
+2025-08-05 07:27:37 [32minfo[39m:   Convergence Distance: 0.562
+2025-08-05 07:27:37 [32minfo[39m:   Dimensional Escalation: Yes
+2025-08-05 07:27:37 [32minfo[39m:   Turning Points: 10
+2025-08-05 07:27:37 [32minfo[39m: Results saved to files.

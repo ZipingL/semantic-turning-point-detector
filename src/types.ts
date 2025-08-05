@@ -9,7 +9,6 @@ import type { Message, MessageSpan } from "./Message";
 // Core Interfaces
 // -----------------------------------------------------------------------------
 
-
 /**
  * Represents a single message in a conversation
  * This is used to track the content, author, and metadata of each message
@@ -61,6 +60,27 @@ export interface TurningPoint {
    * based on the classification provided by the LLM.
    */
   sentiment?: string;
+
+  /**
+   * @experimental
+   * Used for Non-Additive Fusion for Dimensional Escalation
+   */
+  supportScore?: number;
+
+  /**
+   * @experimental
+   */
+  phi?: number; // Experimental significance score for the turning point, used in the Choquet integral necessity calculation, only used if `enableExperimentalPhi` is set to true in the configuration.
+
+  /**
+   * An embedding vector representing the semantic content of this turning point, in which is th emebedding of the messages in the span of this turning point, up to the max length supported by the embedding model. By default this is 8000 tokens.
+   */
+  embedding?: Float32Array;
+
+  /* @experimental
+   * The epistemic primitives for this turning point.
+   */
+  epistemicPrimitives?: EpistemicPrimitives;
 }
 
 /**
@@ -80,283 +100,623 @@ export type TurningPointCategory = {
  * Configuration options for the turning point detector.
  * - Detailed descriptions for each option are provided below.
  */
+/**
+ * Configuration options for the turning point detector.
+ *
+ * This interface controls all aspects of the ARC/CRA semantic analysis framework,
+ * from basic LLM settings to advanced experimental features like phi-aware processing
+ * and epistemic primitives calculation.
+ */
 export interface TurningPointDetectorConfig {
   /**
    * Configurable turning point categories with descriptions.
-   * Each category should have a name and description to help the LLM classify turning points.
+   *
+   * These categories guide the LLM in classifying detected semantic shifts.
+   * Well-defined categories significantly improve classification accuracy and consistency.
    *
    * @remarks
-   * - Maximum of 15 categories allowed (default categories count: 11)
-   * - If more than 15 categories are provided, excess categories will be ignored with a warning
-   * - Categories should be descriptive and distinct to ensure accurate classification
-   * - Default categories include: Topic, Insight, Emotion, Meta-Reflection, Decision, Question, Problem, Action, Clarification, Objection, Other
+   * - Maximum of 15 categories allowed (default: 11 categories)
+   * - Categories should be mutually exclusive and clearly defined
+   * - Each category needs both a concise name and descriptive definition
+   * - More categories provide finer granularity but may confuse the LLM
+   * - Fewer categories ensure cleaner classification but lose nuance
    *
    * @example
    * ```typescript
    * turningPointCategories: [
    *   { category: "Topic", description: "A shift to a new subject or theme" },
    *   { category: "Insight", description: "A realization, discovery, or moment of understanding" },
-   *   { category: "Custom", description: "A custom category for specific use cases" }
+   *   { category: "Decision", description: "A choice or resolution being made" }
    * ]
    * ```
+   *
+   * @recommendation Use default categories initially, then customize based on your domain
    */
   turningPointCategories: TurningPointCategory[];
 
   /**
    * API Key for LLM requests.
    *
-   * If you prefer not to pass the API key as a variable, you can set the environment variable
-   * `LLM_API_KEY` for a different external endpoint. Alternatively, set the `OPENAI_API_KEY`
-   * environment variable to use the default OpenAI API endpoint.
+   * Required for all LLM-based analysis operations. The detector will first check this value,
+   * then fall back to environment variables based on your endpoint configuration.
    *
-   * By default, if a new OpenAI client is created without the `apiKey` set, it will look for
-   * the `OPENAI_API_KEY` environment variable.
+   * @environment
+   * - For custom endpoints: Set `LLM_API_KEY` environment variable
+   * - For OpenAI (default): Set `OPENAI_API_KEY` environment variable
+   *
+   * @security Store API keys securely and never commit them to version control
    */
   apiKey: string;
 
   /**
-   * The llm model used in analyzing turning points. Must be a model that exists on the configured endpoint, and thus if no custom endpoint is configured, must be a model that exists on the OpenAI API available on your apiKey.
+   * The LLM model used for turning point analysis.
+   *
+   * Must be available on your configured endpoint and support structured JSON output.
+   * Model choice significantly affects analysis quality, speed, and cost.
+   *
+   * @recommendations
+   * - For balanced performance: "gpt-4o-mini" or "claude-3-haiku"
+   * - For highest quality: "gpt-4" or "claude-3-opus"
+   * - For speed/cost: "gpt-3.5-turbo" (lower accuracy)
+   * - For local deployment: Compatible Ollama models with JSON support
+   *
+   * @performance Larger models provide better semantic understanding but increase latency and cost
    */
-
   classificationModel: string;
 
   /**
-   * The temperature setting for the LLM model.
-   * - Defaults to 0.6, not recommended to set higher than 1, as it may lead to incorrect responses that are not in a proper response format, since semantic turnign point relies on the LLM to return a JSON Schema object.
+   * Temperature setting for LLM model (0.0-1.0).
+   *
+   * Controls randomness in LLM responses. Lower values produce more consistent,
+   * deterministic outputs, which is crucial for reliable JSON schema compliance.
+   *
+   * @default 0.6
+   * @range 0.0-1.0
+   * @warning Values >0.8 may cause JSON parsing errors
+   * @recommendation Keep at 0.6 or lower for production use
    */
   temperature?: number;
 
   /**
-   * The top probability setting for the LLM model.
-   * - Lower means probabilities must be higher, and higher means more diverse responses, max is 1.0. Not recommended to go lower than 0.8 as it may lead to incorrect responses that have wrong syntax in JSON Schema format, given that in the case of those responses, lowering the diversity, may inadvertnly limit the LLM to provide the write json syntax, which is of course completely unrelated to the actual response, etc.
+   * Top-p (nucleus sampling) setting for LLM model (0.0-1.0).
+   *
+   * Controls the diversity of token selection by limiting the cumulative probability mass.
+   * Lower values increase consistency but may reduce semantic richness.
+   *
+   * @default 1.0
+   * @range 0.0-1.0
+   * @warning Values <0.8 may cause repetitive or incomplete JSON responses
+   * @recommendation Use 0.9-1.0 for best balance of diversity and reliability
    */
   top_p?: number;
 
-  /** Model for generating embeddings, e.g 'text-embedding-3-small', or a custom embedding model if embeddingEndpoint is set and is an OpenAI-compatible endpoint. */
+  /**
+   * Model for generating embeddings.
+   *
+   * Embeddings are crucial for semantic distance calculations that drive turning point detection.
+   * Model choice affects both accuracy and computational cost.
+   *
+   * @recommendations
+   * - For OpenAI: "text-embedding-3-small" (balanced), "text-embedding-3-large" (accuracy)
+   * - For custom endpoints: Any OpenAI-compatible embedding model
+   * - Ensure model supports sufficient context length for your message chunks
+   *
+   * @performance Larger embedding models provide better semantic representation but slower processing
+   */
   embeddingModel: string;
 
   /**
-   * You can also choose to utilize a custom endpoint, that also follows the OpenAI API format for embeddings, to utilize other embedding providers and models. This includes such as LM Studio, Ollama, and most other providers that support OpenAI format via chat requests. If left undefined, it will default to the OpenAI API endpoint, in which you can set an embedding [model](https://platform.openai.com/docs/guides/embeddings/embedding-models) offered by OpenAI.
-   * - If you use an external commercial provider for embeddings, you can configure the api key via setting the environment variable `EMBEDDINGS_API_KEY`.
+   * Custom endpoint for embedding generation.
+   *
+   * Allows use of alternative embedding providers while maintaining OpenAI API compatibility.
+   * Useful for cost optimization, privacy requirements, or local deployment.
+   *
+   * @examples
+   * - Local: "http://localhost:1234/v1" (LM Studio)
+   * - Hosted: "https://api.openrouter.ai/api/v1"
+   * @environment Set `EMBEDDINGS_API_KEY` for external providers
+   * @default undefined (uses OpenAI)
    */
   embeddingEndpoint?: string;
 
   /**
-   * RAM limit for embedding cache in MB (default: 256MB).
-   * - Note: On Node.js, the default memory limit for a process is 512MB on 32-bit systems and approximately 1GB on 64-bit systems.
-   *   This limit can be increased if needed. For TypeScript projects, compile your script to JavaScript and run it with:
-   *   `node --max-old-space-size=4096 yourScript.js` to set the RAM limit to 4GB.
+   * RAM limit for embedding cache in MB.
+   *
+   * Controls memory usage by caching embeddings to avoid recomputation.
+   * Higher values improve performance but consume more memory.
+   *
+   * @default 256
+   * @recommendation
+   * - For large conversations: 512-1024MB
+   * - For memory-constrained environments: 128-256MB
+   * - For batch processing: 1024MB+
+   * @note Increase Node.js memory limit with --max-old-space-size if needed
    */
   embeddingCacheRamLimitMB?: number;
 
   /**
-   * Threshold that determines when semantic changes between messages constitute a turning point.
+   * Threshold for detecting semantic shifts between messages (0.0-1.0).
    *
-   * @remarks
-   * Range: 0.0-1.0 (typically 0.2-0.8)
-   * - Higher values (>0.5) detect only major semantic shifts, resulting in fewer but more significant turning points
-   * - Lower values (<0.3) capture subtle changes in conversation flow, but may produce numerous minor turning points
-   * - At dimension > 0, this threshold is automatically scaled down to accommodate meta-message analysis
-   * - Adjust based on conversation density: use higher values for technical/focused discussions,
-   *   lower values for casual/meandering conversations
+   * This is the primary control for turning point sensitivity. Higher values detect
+   * only major semantic changes, lower values capture subtle shifts.
+   *
+   * @range 0.0-1.0
+   * @recommendations
+   * - Technical/focused discussions: 0.5-0.7 (detect major shifts)
+   * - Casual conversations: 0.3-0.5 (capture subtle changes)
+   * - Exploratory analysis: 0.2-0.4 (maximum sensitivity)
+   *
+   * @behavior
+   * - Automatically scaled down in higher dimensions (meta-analysis)
+   * - Can be dynamically adjusted if `dynamicallyAdjustSemanticShiftThreshold` is enabled
+   *
+   * @tuning Start with 0.4 and adjust based on results - too high misses shifts, too low creates noise
    */
   semanticShiftThreshold: number;
 
   /**
-   * Minimum token count when dividing conversations into processable chunks.
+   * Minimum token count for conversation chunks.
    *
-   * @remarks
-   * - Prevents creation of chunks that are too small for meaningful semantic analysis
-   * - Lower values allow finer-grained chunking but may miss broader context
-   * - Typically set between 200-500 tokens for balanced processing
-   * - For highly technical content, consider higher minimum (400+) to maintain context
-   * - For conversations with short messages, lower values (150-250) may be appropriate
-   * - This setting works in conjunction with minMessagesPerChunk
+   * Prevents chunks too small for meaningful semantic analysis while balancing
+   * processing efficiency and context preservation.
+   *
+   * @recommendations
+   * - General use: 300-500 tokens
+   * - Technical content: 400-600 tokens (preserve complex context)
+   * - Short messages: 200-350 tokens (avoid over-chunking)
+   *
+   * @relationship Works with `minMessagesPerChunk` - both conditions must be met
+   * @scaling Automatically reduced in higher dimensions for meta-message analysis
    */
   minTokensPerChunk: number;
 
   /**
-   * Maximum token count allowed for conversation chunks before splitting.
+   * Maximum token count for conversation chunks.
    *
-   * @remarks
-   * - Limits chunk size to prevent context window overflows when processing with LLMs
-   * - Higher values provide more context but consume more computational resources
-   * - Recommended to set below the classification model's context window, accounting for prompt overhead
-   *   (e.g., 4000-8000 for most models, 12000-16000 for larger models)
-   * - If set too low relative to minTokensPerChunk, many chunks will be exactly at the minimum size
-   * - At deeper dimensions, this value is automatically scaled down proportionally
+   * Prevents context window overflow while maximizing available context for analysis.
+   * Should account for prompt overhead and model limitations.
+   *
+   * @recommendations
+   * - GPT-4: 6000-8000 tokens (allows prompt overhead)
+   * - GPT-3.5: 3000-4000 tokens
+   * - Claude: 8000-12000 tokens
+   * - Custom models: Check context window and adjust accordingly
+   *
+   * @relationship Must be significantly larger than `minTokensPerChunk`
+   * @scaling Automatically reduced proportionally in higher dimensions
    */
   maxTokensPerChunk: number;
 
   /**
-   * Maximum dimension level for recursive analysis in the ARC framework.
+   * Maximum dimension level for ARC framework recursion.
    *
-   * @remarks
-   * - Controls how many levels of meta-analysis are performed on the conversation
+   * Controls the depth of meta-analysis performed on conversations.
+   * Higher dimensions detect complex narrative patterns but increase processing time exponentially.
+   *
+   * @dimensions
    * - Dimension 0: Direct message analysis
    * - Dimension 1: Analysis of turning point patterns
-   * - Dimension 2+: Higher-order pattern recognition
-   * - Higher values (3-5) enable detection of complex narrative arcs and subtle theme progressions,
-   *   but significantly increase processing time
-   * - For most conversations, 2-3 levels are sufficient
-   * - Very long conversations may benefit from higher values (4-5)
-   * - Actual escalation to higher dimensions only occurs when complexity saturation is reached
+   * - Dimension 2: Meta-patterns in turning point relationships
+   * - Dimension 3+: Higher-order thematic and structural analysis
+   *
+   * @recommendations
+   * - Most conversations: 2-3 levels
+   * - Complex narratives: 3-4 levels
+   * - Simple analysis: 1-2 levels
+   *
+   * @performance Each dimension roughly doubles processing time and cost
+   * @note Actual escalation only occurs when complexity saturation is reached
    */
   maxRecursionDepth: number;
 
   /**
-   * Minimum significance score required for a turning point to be included in final results.
+   * Minimum significance score for final results (0.0-1.0).
    *
-
-   * Range: 0.0-1.0
-   * - Acts as a quality filter to exclude minor or low-confidence turning points
-   * - Only applied when onlySignificantTurningPoints is true
-   * - Higher thresholds (>0.7) produce fewer, higher-quality turning points
-   * - Lower thresholds (<0.4) include more subtle conversation shifts
-   * - Typical setting: 0.5-0.7 for balanced results
-   * - Significance scores are determined by the classification model based on semantic
-   *   importance, not just embedding distance
-   * - Consider using lower values for technical/educational content where subtle shifts matter
-* Please note that the "scoring," such as confidence levels, will vary in scale depending on the embedding model used. It is important to understand these differences. When measuring across dialogues, ensure that you record the embedding model and the significance threshold used, as both factors will impact the results.
-  * 
-  * @remarks
-  * **Why Different Models Need Different Thresholds:**
-  * 
-  * Each embedding model has distinct similarity score distributions that require calibrated thresholds:
-  * 
-  * **OpenAI Models (text-embedding-3-large/small):**
-  * - Similarity range: 0.3-0.9 (compressed distribution)
-  * - Threshold: `0.7` - Works well due to higher baseline similarities
-  * - Characteristics: More conservative, tends to cluster similar concepts tightly
-  * 
-  * **Snowflake Arctic Embed v2 (Recommended: 0.5-0.6):**
-  * - Similarity range: 0.1-0.7 (expanded distribution) 
-  * - Threshold: `0.5` - Optimal for capturing genuine semantic shifts
-  * - **Why Arctic May Be Superior:**
-  *   - **Better Discrimination**: Spreads similarity scores across full range (0.1-0.7 vs 0.3-0.9)
-  *   - **Retrieval-Optimized**: Specifically trained for semantic search and distinction tasks
-  *   - **Semantic Sensitivity**: More responsive to subtle meaning changes in conversations
-  *   - **Real-World Performance**: Often outperforms larger models in semantic turning point detection
-  * 
-  * **Quality Indicators (Arctic vs OpenAI):**
-  * ```
-  * Arctic Results:  0.70, 0.82, 0.89, 0.94, 0.99  ← Wide discrimination range
-  * OpenAI Results:  0.75, 0.75, 0.85, 0.85, 0.85  ← Compressed, less nuanced
-  * ```
-  * 
-  * **Arctic's Advantages for Conversation Analysis:**
-  * - **Granular Significance**: Provides 0.70→0.99 range vs OpenAI's 0.75→0.85 clustering
-  * - **Better Context Understanding**: Trained on diverse text for retrieval tasks
-  * - **Semantic Shift Detection**: More sensitive to conversational flow changes
-  * - **Efficiency**: Smaller model with specialized training often outperforms general-purpose large models
-  * 
-  * **Impact of Miscalibrated Thresholds:**
-  * - **Too High (0.7+ for Arctic)**: Filters out genuinely significant turning points
-  * - **Too Low (0.3- for any model)**: Includes noise and minor variations
-  * - **Model Mismatch**: Causes artificially low confidence scores despite quality detection
-  * 
-  * **Auto-Calibration Pattern:**
-  * ```typescript
-  * significanceThreshold: this.config.embeddingModel.includes("arctic") 
-  *   ? 0.5  // Arctic: Lower threshold captures quality discrimination
-  *   : 0.75  // OpenAI: Higher threshold compensates for compressed range
-   * 
+   * Filters turning points based on computed Choquet integral necessity scores.
+   * Acts as a quality gate to ensure only meaningful turning points are returned.
+   *
+   * @range 0.0-1.0 (probability-like scale)
+   * @interpretation
+   * - >0.7: High significance (major narrative moments)
+   * - 0.5-0.7: Moderate significance (notable shifts)
+   * - 0.3-0.5: Low significance (subtle changes)
+   * - <0.3: Minimal significance (may be noise)
+   *
+   * @recommendations
+   * - Strict filtering: 0.6-0.7
+   * - Balanced analysis: 0.4-0.5
+   * - Exploratory analysis: 0.2-0.3
+   *
+   * @interaction Only applies when `onlySignificantTurningPoints` is true
    */
   significanceThreshold: number;
+
   /**
    * Controls turning point filtering strategy and result prioritization.
    *
-   * @remarks
-   * This parameter determines how turning points are filtered and returned:
+   * Fundamentally changes how results are filtered, ordered, and returned.
+   * Choose based on your analysis goals and downstream processing requirements.
    *
-   * When `true` (focused analysis):
-   * - Enforces filtering based on `significanceThreshold`
-   * - Strictly limits results to `maxTurningPoints`
-   * - Prioritizes results by significance score over chronological order
-   * - Ideal for comparative analysis across different conversations or configurations
+   * @mode true (Focused Analysis)
+   * - Enforces `significanceThreshold` filtering
+   * - Limits results to `maxTurningPoints`
+   * - Orders by significance score (highest first)
+   * - Best for: Comparative analysis, key moment extraction, summarization
    *
-   * When `false` (comprehensive analysis):
-   * - Returns all detected turning points regardless of significance
-   * - Ignores the `maxTurningPoints` limit
-   * - Orders results chronologically by position in conversation
-   * - Preferred for detailed conversation analysis and identifying all semantic shifts
+   * @mode false (Comprehensive Analysis)
+   * - Returns ALL detected turning points
+   * - Ignores `maxTurningPoints` limit
+   * - Orders chronologically by conversation position
+   * - Best for: Detailed exploration, conversation mapping, research analysis
    *
-   * @example
-   * // For detailed exploration of a single conversation:
-   * detector.onlySignificantTurningPoints = false;
-   *
-   * // For comparing key shifts across multiple conversations:
-   * detector.onlySignificantTurningPoints = true;
+   * @recommendation Use `true` for production applications, `false` for analysis and debugging
    */
   onlySignificantTurningPoints: boolean;
 
-  /** Minimum messages per chunk */
-  minMessagesPerChunk: number;
-  /** Maximum turning points in final results */
-  maxTurningPoints: number;
-  /** Enable verbose logging */
-  debug: boolean;
   /**
-   * Setting a custom endpoint overrides the default `api.openai.com/v1` endpoint, allowing for the use of other LLM providers that adhere to the same API structure. The Semantic Turning Point utilizes advanced parameters, specifically `format`, which instructs the response to be returned as a JSON Schema object. However, not all OpenAI-compatible methods will support this feature. The examples below all support formatted responses, and it's important to note that Semantic Turning Point does not utilize tool calls.
+   * Minimum messages required per chunk.
    *
-   * Some examples include:
-   * - [Ollama](https://github.com/ollama/ollama/tree/main/docs)
-   * - [OpenRouter](https://openrouter.ai/models)
-   * - [vLLM](https://github.com/vllm-project/vllm)
-   * - [LM Studio](https://lmstudio.ai/)
-   * - [Text Generation API](https://github.com/oobabooga/text-generation-webui/wiki/12-%E2%80%90-OpenAI-API)
+   * Ensures chunks contain sufficient conversational context for semantic analysis.
+   * Prevents over-fragmentation of short message sequences.
    *
+   * @recommendations
+   * - Standard conversations: 3-5 messages
+   * - Long-form discussions: 2-3 messages
+   * - Chat-style rapid exchanges: 5-8 messages
+   *
+   * @relationship Works with `minTokensPerChunk` - both conditions must be met
+   */
+  minMessagesPerChunk: number;
+
+  /**
+   * Maximum turning points returned in final results.
+   *
+   * Controls output size for focused analysis mode. Helps manage downstream
+   * processing load and maintains focus on most significant shifts.
+   *
+   * @recommendations
+   * - Conversation summaries: 5-10 turning points
+   * - Detailed analysis: 15-25 turning points
+   * - Comprehensive mapping: 30+ turning points
+   *
+   * @note Only applies when `onlySignificantTurningPoints` is true
+   * @interaction Combined with `significanceThreshold` for quality control
+   */
+  maxTurningPoints: number;
+
+  /**
+   * Enable verbose logging for debugging and monitoring.
+   *
+   * Provides detailed insights into the analysis process, performance metrics,
+   * and decision points. Essential for tuning and troubleshooting.
+   *
+   * @output
+   * - Chunking statistics and decisions
+   * - Embedding generation and caching
+   * - Semantic distance calculations
+   * - Turning point detection rationale
+   * - Dimensional escalation triggers
+   * - Performance timing and memory usage
+   *
+   * @recommendation Enable during development and tuning, disable in production
+   */
+  debug: boolean;
+
+  /**
+   * Custom LLM endpoint for analysis requests.
+   *
+   * Enables use of alternative LLM providers, local models, or specialized endpoints
+   * while maintaining OpenAI API compatibility.
+   *
+   * @requirements
+   * - Must support OpenAI-compatible chat completions API
+   * - Must support structured output (JSON schema format parameter)
+   * - Should handle temperature and top_p parameters
+   *
+   * @examples
+   * - "http://localhost:1234/v1" (LM Studio)
+   * - "https://api.openrouter.ai/api/v1" (OpenRouter)
+   * - "http://localhost:11434/v1" (Ollama with OpenAI compatibility)
+   *
+   * @testing Verify JSON schema support before production use
    */
   endpoint?: string;
 
-  /** Complexity saturation threshold (dimension escalation trigger) */
+  /**
+   * Complexity saturation threshold for dimensional escalation (1.0-5.0).
+   *
+   * Triggers escalation to higher dimensions when turning points show high complexity.
+   * Controls the sensitivity of the ARC framework's dimensional transitions.
+   *
+   * @range 1.0-5.0 (complexity score scale)
+   * @recommendations
+   * - Conservative escalation: 4.0-4.5
+   * - Balanced analysis: 3.5-4.0
+   * - Aggressive escalation: 3.0-3.5
+   *
+   * @mechanism When average complexity exceeds threshold, meta-analysis begins
+   * @dynamic Can be automatically adjusted if `enableDynamicComplexitySaturation` is enabled
+   */
   complexitySaturationThreshold: number;
-  /** Enable convergence measurement across iterations */
+
+  /**
+   * Enable convergence measurement across ARC iterations.
+   *
+   * Tracks how turning point detection stabilizes across dimensional escalations.
+   * Useful for understanding analysis convergence and optimizing parameters.
+   *
+   * @metrics
+   * - Distance between turning point sets across iterations
+   * - Stability of semantic patterns
+   * - Dimensional escalation effectiveness
+   *
+   * @overhead Minimal performance impact, recommended for analysis workflows
+   */
   measureConvergence: boolean;
 
-  /** Inject a custom system instruction into the LLM prompt, not recommended unless you know what you are doing
-   * - Will repeat your system instruction after the contextual aid text, and before the system prompt ending.
-   * - This enforces and reminds the llm of the task, which may become blured from the contextual aid text.
+  /**
+   * Custom system instruction injection.
+   *
+   * Allows fine-tuning LLM behavior for domain-specific analysis requirements.
+   * Inserted after contextual aid text but before main system prompt.
+   *
+   * @warning Advanced feature - improper use can break JSON schema compliance
+   * @examples
+   * - "Focus on technical terminology shifts"
+   * - "Prioritize emotional tone changes"
+   * - "Consider domain-specific context"
+   *
+   * @recommendation Test thoroughly before production use
    */
   customSystemInstruction?: string;
 
   /**
-   * Inject a custom user message into the LLM prompt, in which the analysis content is added as context.
-   * - Not recommended unless you know what you are doing.
-   * - Repeats your custom user message after the system prompt ending.
+   * Custom user message injection.
+   *
+   * Modifies the user prompt structure for specialized analysis approaches.
+   * Allows customization of how conversation content is presented to the LLM.
+   *
+   * @warning Advanced feature - can break analysis if misused
+   * @use_case Domain-specific prompting strategies
+   * @recommendation Only use if default prompting is insufficient
    */
   customUserInstruction?: string;
 
-  /** The maximum number of characters to use when adding a message content as context to analyze */
+  /**
+   * Maximum characters per message for analysis context.
+   *
+   * Truncates very long messages to prevent context window overflow while
+   * preserving essential semantic content.
+   *
+   * @default 8000 characters (approximately 2000 tokens)
+   * @recommendations
+   * - Standard analysis: 6000-8000 characters
+   * - Long-form content: 10000-12000 characters
+   * - Memory-constrained: 4000-6000 characters
+   *
+   * @behavior Truncation preserves message structure and key content
+   */
   max_character_length?: number;
 
+  /**
+   * Custom logger instance for output control.
+   *
+   * Allows integration with existing logging infrastructure and custom output formatting.
+   *
+   * @accepts winston.Logger or Console interface
+   * @default console (when debug=true)
+   * @integration Useful for structured logging and monitoring systems
+   */
   logger?: winston.Logger | Console;
 
   /**
-   * This option determines whether to fail and halt the process if an analysis
-   * encounters an error during a potential turning point.
+   * Control error handling behavior during analysis.
    *
-   * - Instead of returning a placeholder for an empty analysis that will be ignored,
-   *   the process will stop on failure.
-   * - This option is provided because, although an analysis may fail,
-   *   it is important to consider that the analysis spans multiple message intervals.
-   *   A single failure in one interval is treated the same as an analysis
-   *   that does not indicate a significant turning point.
-   * - This is useful, as one may debug and discover the appropriate settings for the llm request, and once discovered would set this to true, or incorporate a retry mechanism.
+   * Determines whether to halt processing on LLM errors or continue with graceful degradation.
+   *
+   * @mode true: Fail fast on errors (debugging/development)
+   * @mode false: Continue with degraded results (production resilience)
+   *
+   * @considerations
+   * - Single chunk failures don't invalidate entire analysis
+   * - Failed analyses are treated as "no turning point detected"
+   * - Enable for development to catch configuration issues
    */
   throwOnError?: boolean;
 
   /**
-* Configures the number of parallel requests for LLM analysis. The ARC process involves recursively breaking down the conversation into separate, independent segments for analysis. This allows for parallel processing, which can increase both costs and resource usage. The default value is 1 when using a custom endpoint, or 4 if none is set (thus defaulting to OpenAI). If you are using an external service, such as a commercial API like OpenAI or OpenRouter.ai, you may increase this number as desired. However, setting it higher than 20 may risk reaching rate limits, depending on the constraints imposed by the service.
-
-
+   * Parallel processing concurrency for LLM analysis requests.
+   *
+   * Controls how many analysis requests are processed simultaneously.
+   * Balances speed against rate limits and resource consumption.
+   *
+   * @recommendations
+   * - OpenAI API: 3-8 concurrent requests
+   * - OpenRouter/commercial: 5-10 concurrent requests
+   * - Custom endpoints: 1-3 concurrent requests
+   * - Local models: 1-2 concurrent requests
+   *
+   * @limits Most APIs have rate limits around 60 RPM (requests per minute)
+   * @scaling Higher concurrency increases speed but may hit rate limits
    */
   concurrency?: number;
 
   /**
-   * Concurrency to use when doing embeddings, is default to 5 as embeddings do not require much resources and can be done in parallel.
+   * Parallel processing concurrency for embedding generation.
+   *
+   * Embeddings are typically faster and less resource-intensive than LLM analysis,
+   * allowing higher concurrency levels.
+   *
+   * @default 5
+   * @recommendations
+   * - OpenAI embeddings: 8-15 concurrent requests
+   * - Custom embedding endpoints: 3-8 concurrent requests
+   * - Local embedding models: 2-5 concurrent requests
+   *
+   * @performance Embeddings have lower latency than chat completions
    */
   embeddingConcurrency?: number;
+
+  /**
+   * @experimental
+   * Enable phi-aware significance scoring.
+   *
+   * Integrates an experimental third epistemic axis (φ) into significance calculations.
+   * Enhances turning point selection with emergent thematic importance weighting.
+   *
+   * @mechanism
+   * - Computes phi scores based on thematic coherence and narrative position
+   * - Uses phi as fuzzy capacity in Choquet integral necessity calculation
+   * - Balances structural complexity with existential significance
+   *
+   * @stability Experimental - subject to algorithmic changes
+   * @recommendation Use false for production, true for research/experimentation
+   * @performance Adds ~15-20% computational overhead
+   */
+  enableExperimentalPhi?: boolean;
+
+  /**
+   * Enable dynamic semantic shift threshold adjustment.
+   *
+   * Automatically lowers semantic shift threshold in lower dimensions to capture
+   * more potential turning points for higher-dimensional meta-analysis.
+   *
+   * @behavior
+   * - Dimension 0: Uses configured threshold
+   * - Dimension 1+: Progressively lowers threshold
+   * - Facilitates richer meta-pattern detection
+   *
+   * @recommendation Enable for complex narrative analysis, disable for focused detection
+   */
+  dynamicallyAdjustSemanticShiftThreshold?: boolean;
+
+  /**
+   * Enable statistical complexity saturation adjustment.
+   *
+   * Dynamically adjusts complexity saturation threshold based on observed
+   * turning point complexity distribution rather than fixed values.
+   *
+   * @mechanism
+   * - Analyzes complexity score distribution
+   * - Adjusts threshold to target specific percentile
+   * - Improves adaptive behavior across different conversation types
+   *
+   * @benefit Reduces manual parameter tuning for diverse content
+   */
+  enableDynamicComplexitySaturation?: boolean;
+
+  /**
+   * Target percentile for dynamic complexity saturation (0.0-1.0).
+   *
+   * When dynamic adjustment is enabled, sets the target percentage of turning points
+   * that should trigger complexity saturation and dimensional escalation.
+   *
+   * @default 0.15 (15% of turning points trigger escalation)
+   * @range 0.05-0.30
+   * @recommendations
+   * - Conservative escalation: 0.10-0.15
+   * - Balanced escalation: 0.15-0.20
+   * - Aggressive escalation: 0.20-0.30
+   */
+  dynamicSaturationTargetPercentile?: number;
+
+  /**
+   * Minimum samples required for dynamic complexity adjustment.
+   *
+   * Ensures sufficient data before statistical adjustment kicks in.
+   * Prevents premature optimization from small sample sizes.
+   *
+   * @default 10
+   * @recommendation 8-15 for most use cases
+   * @behavior Falls back to fixed threshold until minimum reached
+   */
+  dynamicSaturationMinSamples?: number;
+
+  /**
+   * Phi merge threshold multiplier for experimental phi processing.
+   *
+   * Controls how aggressively phi-enhanced turning points are merged or separated.
+   * Higher values require stronger phi coherence for merging operations.
+   *
+   * @experimental Used only when `enableExperimentalPhi` is true
+   * @range 0.8-2.0
+   * @default 1.5
+   * @effect Higher values = fewer, more distinct turning points
+   */
+  phiMergeThresholdMultiplier?: number;
+
+  /**
+   * @experimental
+   * Enable counterfactual analysis for turning point validation.
+   *
+   * Performs "what-if" analysis to strengthen turning point selection by
+   * considering alternative interpretations and narrative paths.
+   *
+   * @mechanism
+   * - Generates counterfactual scenarios for detected turning points
+   * - Evaluates robustness of turning point significance
+   * - Filters points that don't survive counterfactual testing
+   *
+   * @stability Experimental feature under active development
+   * @performance Approximately doubles analysis time
+   */
+  enableCounterfactualAnalysis?: boolean;
+
+  /**
+   * Overlap threshold for turning point boundary detection (0.0-1.0).
+   *
+   * Controls how much overlap is allowed between adjacent turning point spans
+   * before they are considered for merging or boundary adjustment.
+   *
+   * @range 0.0-1.0
+   * @recommendations
+   * - Strict separation: 0.1-0.2
+   * - Balanced overlap: 0.3-0.4
+   * - Permissive overlap: 0.5-0.6
+   *
+   * @interaction Works with epistemic filtering for boundary refinement
+   */
+  overlapThreshold?: number;
+
+  /**
+   * Epistemic threshold for primitive-based filtering (0.0-1.0).
+   *
+   * Minimum epistemic score required for turning points to pass
+   * compatibility and necessity assessment in the possibilistic framework.
+   *
+   * @range 0.0-1.0
+   * @interpretation Probability-like measure of epistemic validity
+   * @recommendation 0.01-0.03 for balanced filtering (removes ~5-15% of weak points)
+   */
+  epistemicThreshold?: number;
+
+  /**
+   * Epistemic primitives configuration for advanced filtering.
+   *
+   * Defines the epistemic assessment criteria used in possibilistic
+   * turning point evaluation and selection.
+   *
+   * @components
+   * - compatibility: Evidence alignment scoring
+   * - necessity: Non-falsifiability assessment
+   * - possibility: Maximum plausibility calculation
+   * - surprisal: Unexpectedness measurement
+   *
+   * @advanced Used by epistemic primitive calculation engine
+   */
+  epistemicPrimitives?: EpistemicPrimitives;
+
+  /**
+   * Support score threshold for experimental features.
+   *
+   * Used in conjunction with experimental epistemic and phi processing
+   * to control the minimum support required for turning point validation.
+   *
+   * @experimental Subject to change as epistemic framework evolves
+   * @range 0.0-1.0
+   * @interaction Combined with other experimental thresholds
+   */
+  supportScore?: number;
 }
 
 /**
@@ -461,3 +821,16 @@ export interface ConvergenceState {
   /** Whether dimension escalation occurred */
   didEscalate: boolean;
 }
+
+export type EpistemicPrimitives = {
+  compatibility: number; // How well TP aligns with evidence
+  necessity: number; // How non-falsifiable the TP is
+  possibility: number; // Maximum plausibility
+  surprisal: number; // Unexpectedness given evidence
+};
+
+export type EpistemicSupportSet = {
+  boundedRegion: Float32Array[]; // Smolyak sparse grid points
+  supportPoints: MessageEmbedding[];
+  rejectionThreshold: number;
+};

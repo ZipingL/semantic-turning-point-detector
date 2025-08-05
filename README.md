@@ -1,447 +1,344 @@
-# Semantic Turning Point Detector: Detect meaningful shifts, structure conversations, and extract insights from dialogue.
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15616959.svg)](https://doi.org/10.5281/zenodo.15616960)
-[![DOI](https://img.shields.io/badge/DOI-10.21203/rs.3.rs--6605714/v1-blue.svg)](https://doi.org/10.21203/rs.3.rs-6605714/v1)
-
-The **Semantic Turning Point Detector** is a lightweight but powerful tool for detecting **semantic turning points** in conversations or textual sequences. It recursively analyzes message chains (dialogues, transcripts, chat logs) and identifies where **key shifts in meaning, topic, or insight** occur. These turning points are crucial for:
-
-- **Conversation segmentation** — breaking down long dialogues into meaningful, coherent sections.  
-- **Insight extraction** — detecting where significant moments or topic changes happen in natural conversations.  
-- **Dialogue modeling** — preparing structured inputs for downstream AI models or analytics pipelines.  
-- **AI reasoning pipelines** — providing higher-level structure to conversational data for further analysis, summarization, or reasoning.  
-- **Confidence scoring** — every run returns a **0-to-1 confidence score** that rates how “healthy” (coherent vs. chaotic) the detected structure is.  
-
-## Confidence Score and ways to possibly interpret it
-
-The confidence score is based essentially on cosine similarity applied between embeddings of texts. Thus, the confidence score provides a notion of the semantic distance from a turning point to another, aggregated together. This flattened number, thus represents a quicker angle in assessing, from a limited but useful perspective, the health or confidence of the results. 
-
-| Score | What it Usually Means | Actionable Take-away |
-|:-----:|-----------------------|----------------------|
-| **0.0 – 0.2** | Almost no semantic movement. Flat or repetitive text. | Segmentation likely not useful. |
-| **0.2 – 0.3** | Weak shifts. Some structure, but still bland. | May need larger chunks or lower thresholds. |
-| **0.3 – 0.4** | **Good** — clear but gentle turning points. | Acceptable for overviews. |
-| **0.4 – 0.6** | **Ideal** — strong, natural conversation flow. | Recommended “sweet-spot” range. |
-| **0.6 – 1.0** | Too many jumps → chaotic / fragmented input. | Clean the transcript or lower shift threshold. |
-
-> **Why high > 0.6 is “bad”**  
-> A very high score means the embedding distances between consecutive messages are huge – the text keeps veering off topic, so the detector sees “turning points” everywhere. That usually signals noisy, disjoint or machine-generated content, not a well-paced human dialogue.
-
-### Example Use Cases
-- Automatically segment chat logs into meaningful sections.
-- Detect moments of insight or topic change in long-form interviews.
-- Prepare structured datasets for dialogue summarization or reasoning tasks.
-- Integrate with LLM workflows to improve response context awareness.
-
-This repository provides a **TypeScript implementation** of the **Adaptive Recursive Convergence (ARC) with Cascading Re-Dimensional Attention (CRA)** framework described in our research paper. Unlike traditional summarization which condenses content, this detector identifies moments where conversations shift in topic, tone, insight, or purpose, demonstrating a practical application of multi-dimensional reasoning.
-
-## Background and Architecture
-
-The Semantic Turning Point Detector is a concrete implementation of the ARC/CRA theoretical framework. It demonstrates how conversation analysis can benefit from dimensional expansion and adaptive complexity management. Key features include:
-
-- **Multi-dimensional analysis** that can escalate from dimension n to n+1 when complexity saturates
-- **Complexity classification** using the framework's χ function that maps to {1,2,3,4,5} scale
-- **Transition operator Ψ** that determines whether to remain in the current dimension or escalate
-- **Contraction-based convergence** that mathematically guarantees stable results
-- **Bounded dimensional escalation** that prevents infinite recursion
-- **Model-agnostic design** that works across different LLM architectures and sizes
-
-## Example Usage 
+# Semantic Turning Point Detector: From Discovery to Direction
 
 
+[![GitHub](https://img.shields.io/github/stars/gaiaverseltd/semantic-turning-point-detector?style=social)](
 
 
-```typescript
-/**
- * Example function demonstrating how to use the SemanticTurningPointDetector
- * Implements an adaptive approach based on conversation complexity
- */
-async function runTurningPointDetectorExample() {
-  const thresholdForMinDialogueShift = 24;
-  
-  // Calculate adaptive recursion depth based on conversation length
-  // This directly implements the ARC concept of adaptive dimensional analysis
-  const determineRecursiveDepth = (messages: Message[]) => {
-    return Math.floor(messages.length / thresholdForMinDialogueShift);
-  }
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15616960.svg)](https://doi.org/10.5281/zenodo.15616960)
 
-  const startTime = new Date().getTime();
+[![DOI](https://img.shields.io/badge/DOI-10.21203/rs.3.rs--6605714/-blue.svg)](https://www.researchsquare.com/article/rs-6605714/)
 
-  // Create detector with configuration based on the ARC/CRA framework
-  const detector = new SemanticTurningPointDetector({
-    apiKey: process.env.OPENAI_API_KEY || '',
-    
-    // Dynamic configuration based on conversation complexity
-    semanticShiftThreshold: 0.5 - (0.05 * determineRecursiveDepth(conversation)),
-    minTokensPerChunk: 512,
-    maxTokensPerChunk: 4096,
-    embeddingModel: "text-embedding-3-large",
-    
-    // ARC framework: dynamic recursion depth based on conversation complexity
-    maxRecursionDepth: Math.min(determineRecursiveDepth(conversation), 5),
-    
-    onlySignificantTurningPoints: true,
-    significanceThreshold: 0.75,
-    
-    // ARC framework: chunk size scales with complexity
-    minMessagesPerChunk: Math.ceil(determineRecursiveDepth(conversation) * 3.5),
-    
-    // ARC framework: number of turning points scales with conversation length
-    maxTurningPoints: Math.max(6, Math.round(conversation.length / 7)),
-    
-    // CRA framework: explicit complexity saturation threshold for dimensional escalation
-    complexitySaturationThreshold: 4.5,
-    
-    // Enable convergence measurement for ARC analysis
-    measureConvergence: true,
+The **Semantic Turning Point Detector** is a practical instantiation of a bold theoretical ambition: to make AI aware not just of *what* has changed in a conversation, but *why* that change matters. Built atop the **ARC/CRA/DAO** triadic framework, this tool identifies, scores, and clusters **semantic turning points** in dialogues—moments where insight, contradiction, revelation, or emotional upheaval reshape the conversation’s trajectory.
 
-    
-    
-    // classificationModel: 'phi-4-mini-Q5_K_M:3.8B',
-    classificationModel:'qwen2.5:7b-instruct-q5_k_m',
-    debug: true,
-    //ollama
-    endpoint: 'http://localhost:11434/v1'
-  });
+The Zenodo submission for this project is available [here](https://zenodo.org/record/15616960). It offers a comprehensive and accessible background article that explains what the detector is and why it is important. The article is designed for readers without prior knowledge of the underlying theory, architecture, or technical concepts, yet it provides a strong analogical foundation to help understand the detector's purpose and functionality.
 
-  try {
-    // Detect turning points using the ARC/CRA framework
-    const tokensInConvoFile = await detector.getMessageArrayTokenCount(conversation);
-    const turningPointResult = await detector.detectTurningPoints(conversation);
-    const turningPoints = turningPointResult.points;
-    const confidenceScore = turningPointResult.confidence;
-    const endTime = new Date().getTime();
-    const difference = endTime - startTime;
-    const formattedTimeDateDiff = new Date(difference).toISOString().slice(11, 19);
- 
-    
-    // Display results with complexity scores from the ARC framework
-    console.log('\n=== DETECTED TURNING POINTS (ARC/CRA Framework) ===\n');
-    console.info(`Detected ${turningPoints.length} turning points with a confidence score of ${confidenceScore.toFixed(2)} using model ${detector.getModelName()} - on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}`);
-   
-    console.log(`\nTurning point detection took as MM:SS: ${formattedTimeDateDiff} for ${tokensInConvoFile} tokens in the conversation\n`);
-    turningPoints.forEach((tp, i) => {
-      console.log(`${i + 1}. ${tp.label} (${tp.category})`);
-      console.log(`   Messages: "${tp.span.startId}" → "${tp.span.endId}"`);
-      console.log(`   Dimension: n=${tp.detectionLevel}`);
-      console.log(`   Complexity Score: ${tp.complexityScore.toFixed(2)} of 5`);
-      console.log(`   Best indicator message ID: "${tp.best_id}"`);
-      console.log(`   Emotion: ${tp.emotionalTone || 'unknown'}`);
-      console.log(`   Significance: ${tp.significance.toFixed(2)}`);
-      console.log(`   Keywords: ${tp.keywords?.join(', ') || 'none'}`);
-      
-      if (tp.quotes?.length) {
-        console.log(`   Notable quotes:\n${tp.quotes.flatMap(q => `- "${q}"`).join('\n')}`);
-      }
-      console.log();
-    });
-    
-    // Get and display convergence history to demonstrate the ARC framework
-    const convergenceHistory = detector.getConvergenceHistory();
-    
-    console.log('\n=== ARC/CRA FRAMEWORK CONVERGENCE ANALYSIS ===\n');
-    convergenceHistory.forEach((state, i) => {
-      console.log(`Iteration ${i + 1}:`);
-      console.log(`  Dimension: n=${state.dimension}`);
-      console.log(`  Convergence Distance: ${state.distanceMeasure.toFixed(3)}`);
-      console.log(`  Dimensional Escalation: ${state.didEscalate ? 'Yes' : 'No'}`);
-      console.log(`  Turning Points: ${state.currentTurningPoints.length}`);
-      console.log();
-    });
-    
-    // Save turning points to file
-    fs.writeJSONSync('results/turningPoints.json', turningPoints, { spaces: 2, encoding: 'utf-8' });
-    
-    // Also save convergence analysis
-    fs.writeJSONSync('results/convergence_analysis.json', convergenceHistory, { spaces: 2, encoding: 'utf-8' });
-    
-    console.log('Results saved to files.');
-  } catch (err) {
-    console.error('Error detecting turning points:', err);
-  }
-}
+## 🔍 What Makes a Turning Point Semantic?
+
+Semantic turning points aren’t topic changes—they are **inflection moments**. They mark emotional ruptures, intellectual pivots, or narrative fractures. These aren’t obvious unless viewed through an epistemic lens tuned to
+
+* **significance (φ)**
+* **necessity (Choquet-based fusion)**
+* **structural recursion** across dimensions
+
+These are *not* surface-level detections. They emerge from deep alignment between:
+
+* **internal coherence** (ARC),
+* **contextual correspondence** (CRA), and
+* **intentional salience** (DAO).
+
+---
+
+
+## 🧠 The Tri-Axial Framework
+
+### ARC — Adaptive Recursive Convergence
+
+ARC recursively refines messages in a conversation, contracting them through semantic clustering. Each recursion layer is only allowed if complexity exceeds a saturation threshold. Contraction ensures convergence and dimensional stabilization.
+
+### CRA — Cascading Re-dimensional Attention
+
+CRA identifies when complexity cannot be resolved in the current dimension. It triggers expansion into higher-order meta-messages. These are abstractions over message spans—like narrative paragraphs formed from message sets.
+
+### DAO — Dimensional Attention Optimization *(New Third Pillar)*
+
+**DAO is the newly introduced third pillar** that transforms the detector from a structural analyzer into an epistemically-aware system. It introduces:
+
+* **φ-field generation**: a scalar significance field from emotion, sentiment, and LLM-rated importance.
+* **Choquet fusion of epistemic signals**, ensuring turning points are supported across multiple dimensions.
+* **Counterfactual admissibility checks**, which challenge and refine candidate turning points.
+* **Possibilistic gating networks** that replace simple filtering with necessity-based selection.
+
+**Together, ARC structures. CRA contextualizes. DAO prioritizes through epistemic awareness.**
+
+---
+
+## 🔁 Why This Third Pillar Matters
+
+The introduction of DAO as the third pillar represents a fundamental shift from confidence-based to **necessity-based** turning point evaluation. Traditional approaches collapse meaning into size, assuming bigger models = deeper insight. Our **φ-aware framework** reveals that **small models, like Qwen3:1.7B**, often outperform larger ones in semantic precision because they are epistemically stricter—they refuse to hallucinate.
+
+**Before DAO (ARC/CRA only):**
+- Structural detection based on complexity and dimensional escalation
+- Simple significance filtering
+- Confidence scores based on model certainty
+
+**After DAO (Complete Tri-Axial Framework):**
+- Epistemic primitives: compatibility, necessity, possibility, surprisal
+- φ-aware Choquet integral fusion across dimensions
+- Counterfactual analysis for robustness
+- Necessity scores that capture epistemically essential shifts
+
+Through rigorous testing on real philosophical dialogues like *Strindberg's Pariah*, the **DAO-enhanced detector** achieved:
+
+---
+
+## 📦 Install
+
+```bash
+npm install @gaiaverse/semantic-turning-point-detector
 ```
 
-### Configuration Options
+---
 
-All configuration options are detailed and documented in the `SemanticTurningPointDetectorConfig` interface. Refer to the interface and its jSDoc comments for descriptions of each parameter at 
-[src/types.ts](src/types.ts#L93).
+## ✨ Usage Example
 
-#### Notes on environment variables that exist:
+```ts
+import { SemanticTurningPointDetector } from '@gaiaverse/semantic-turning-point-detector';
+import fs from 'fs-extra';
 
-- `OPENAI_API_KEY`: Your OpenAI API key for embedding and classification models.
-- `LLM_API_KEY`: If setting a custom `endpoint` for an LLM, this key will be used to authenticate requests.
-- `EMBEDDINGS_API_KEY`: If using a custom embedding endpoint with authentication, this key will be used to authenticate requests.
-
-### Installation
-
-- `npm i @gaiaverse/semantic-turning-point-detector`
-
-## Relation to the ARC/CRA Framework
-
-### Adaptive Recursive Convergence (ARC)
-
-The ARC framework posits that complex problems can be solved through iterative refinement at various dimensions, with controlled dimensional escalation when local refinements cannot resolve complexity. Our implementation demonstrates:
-
-1. **Atomic Memory**: Implementation of shared memory via caching to avoid redundant calculations
-2. **Local Sub-processes**: Partitioning of conversation into manageable chunks for parallel processing
-3. **Complexity Function χ**: Mapping significance to a discrete {1,2,3,4,5} complexity scale
-4. **Global Transition Operator Ψ**: Logic for dimensional escalation based on complexity saturation
-5. **Contraction Mappings**: Ensuring convergence within each dimension
-
-### Cascading Re-Dimensional Attention (CRA)
-
-CRA provides a mechanism for detecting saturation and determining when dimensional expansion is necessary. Our implementation demonstrates:
-
-1. **Attention-Based Detection**: Using semantic distances and embeddings to identify significant shifts
-2. **Dimensional Escalation**: Creating higher-dimensional abstractions (meta-messages) when dimension n saturates
-3. **Re-labeling in Higher Dimensions**: Reprocessing information at higher dimensions for more abstract patterns
-4. **Bounded Recursion**: Ensuring the system doesn't expand dimensions indefinitely
-
-## Repository Layout
-
-```
-semantic-turning-point-detector/
-├── README.md                         // This file
-├── package.json                      // NPM metadata
-├── src/
-│   ├── semanticTurningPointDetector.ts  // Main implementation of ARC/CRA framework
-│   ├── tokensUtil.ts                    // Utility for token counting
-│   └── conversation.ts                  // Sample conversation for testing
-├── results/
-│   ├── turningPoints.json              // Output of turning point detection
-│   └── convergence_analysis.json       // Convergence metrics from the ARC process
-└── ...
-```
-
-## Usage
-
-Here's how to use the Semantic Turning Point Detector with the ARC/CRA framework:
-
-```typescript
-import { SemanticTurningPointDetector, Message } from './src/semanticTurningPointDetector';
-
-// Sample conversation
-const conversation: Message[] = [
-  { id: 'msg-1', author: 'user', message: 'Hello, I need help with my project.' },
-  { id: 'msg-2', author: 'assistant', message: 'I\'d be happy to help! What kind of project are you working on?' },
-  // ... more messages
-];
-
-// Dynamic configuration based on conversation complexity
-const thresholdForMinDialogueShift = 24;
-const determineRecursiveDepth = (messages: Message[]) => {
-  return Math.floor(messages.length / thresholdForMinDialogueShift);
-}
-
-// Create detector with ARC/CRA framework parameters
+const conversation = fs.readJsonSync("pariah.json");
 const detector = new SemanticTurningPointDetector({
   apiKey: process.env.OPENAI_API_KEY,
-  
-  // Dynamic configuration based on conversation complexity
-  semanticShiftThreshold: 0.5 - (0.05 * determineRecursiveDepth(conversation)),
-  embeddingModel: "text-embedding-3-large",
-  
-  // ARC framework: dynamic recursion depth based on conversation complexity
-  maxRecursionDepth: Math.min(determineRecursiveDepth(conversation), 5),
-  
-  // ARC framework: chunk size scales with complexity
-  minMessagesPerChunk: Math.ceil(determineRecursiveDepth(conversation) * 3.5),
-  
-  // CRA framework: complexity saturation threshold for dimensional escalation
-  complexitySaturationThreshold: 4.5,
-  
-  // Enable convergence measurement for ARC analysis
-  measureConvergence: true,
+  maxRecursionDepth: 5,
+  enableExperimentalPhi: true,
+  enableCounterfactualAnalysis: true,
+  complexitySaturationThreshold: 3,
+  dynamicallyAdjustSemanticShiftThreshold: true,
+  classificationModel: 'gpt-4.1-nano',
+  embeddingModel: 'text-embedding-3-large',
+  endpoint: 'https://api.openai.com/v1',
+  debug: false,
 });
 
-// Detect turning points using the ARC/CRA framework
-async function analyzeConversation() {
-  const turningPoints = await detector.detectTurningPoints(conversation);
-  console.log('Detected Turning Points:', turningPoints);
-  
-  // Get convergence history to analyze the ARC process
-  const convergenceHistory = detector.getConvergenceHistory();
-  console.log('ARC Framework Convergence Analysis:', convergenceHistory);
-}
-
-analyzeConversation().catch(console.error);
+const result = await detector.detectTurningPoints(conversation);
+console.log("Detected", result.points.length, "turning points.");
+console.log("Confidence:", result.confidence.toFixed(3));
+console.log("Necessity:", result.necessity?.toFixed(3));
 ```
+
+---
+
+## 📈 Scoring Meaning
+
+| Score   | Meaning              | Action                               |
+| ------- | -------------------- | ------------------------------------ |
+| 0.0–0.2 | Flat or redundant    | Skip / combine                       |
+| 0.3–0.4 | Moderate transitions | Acceptable summary                   |
+| 0.4–0.6 | Sharp turns          | Ideal detection range                |
+| 0.6–1.0 | Fragmented / chaotic | Clean transcript or lower thresholds |
+
+Necessity (ϕ-aware Choquet score) now complements Confidence. It captures not just how different a section is—but how **epistemically essential** that shift was. Models with higher necessity scores exhibit sharper, consensus-backed recognition of meaning.
+
+---
+
+## 🧪 Theoretical Foundations
+
+The detector is grounded in:
+
+* **Banach Fixed-Point Theorem** for convergence
+* **Choquet Integral Fusion** over fuzzy φ capacities
+* **Counterfactual patch admissibility** for pruning weak turning points
+* **Possibilistic Gating**: selecting salient over spurious points
+
+All tied together under the triadic equation:
+
+```
+dE/dt = Φ_arc(E) + Ψ_cra(E) + α ∇φ_dao(E)
+```
+
+
 
 ## Key Components
 
-### 1. Complexity Function χ
+Our implementation directly translates the tri-axial epistemic architecture—ARC, CRA, and DAO—into a functional system.
 
-The paper defines a discrete complexity function χ(x) → {1,2,3,4,5} that determines when dimensional escalation is necessary. In our implementation:
+### 1\. Adaptive Recursive Convergence (ARC) & Complexity
+
+ARC's goal is to achieve internal coherence. A key part of this is the **Complexity Function (χ)**, which determines if the current representational dimension is saturated. When complexity is too high, it signals the need for dimensional escalation.
 
 ```typescript
-// Calculate complexity score (chi function) from significance and semantic distance
-private calculateComplexityScore(significance: number, semanticShiftMagnitude: number): number {
-  // Maps [0,1] significance to [1,5] complexity range
-  let complexity = 1 + significance * 4;
-  // Adjust based on semantic shift magnitude
-  complexity += (semanticShiftMagnitude - 0.5) * 0.5;
-  // Ensure complexity is in [1,5] range
+// A simplified complexity score based on significance.
+// When phi-awareness (DAO) is enabled, this score is further modulated.
+private calculateComplexityScore(significance: number): number {
+  // Maps [0,1] significance to a [1,5] complexity scale.
+  const complexity = 1 + significance * 4;
   return Math.max(1, Math.min(5, complexity));
 }
 ```
 
-This function maps continuous significance metrics to the discrete complexity scores defined in the paper.
+### 2\. Cascading Re-Dimensional Attention (CRA) & Dimensional Expansion
 
-### 2. Transition Operator Ψ
+CRA acts as the epistemic auditor. When the **Transition Operator (Ψ)** detects that complexity has saturated (`maxComplexity >= complexitySaturationThreshold`), it triggers dimensional escalation. This is handled within our `multiLayerDetection` loop, which recursively calls itself with a higher dimension.
 
-The transition operator Ψ(x,n) determines whether to remain in dimension n or escalate to dimension n+1:
+The expansion from dimension *n* to *n+1* is achieved by creating **meta-messages**—higher-order abstractions that group related turning points. Our framework now generates these using multiple strategies:
 
-```typescript
-// Implement Transition Operator Ψ from the ARC/CRA framework
-const maxComplexity = Math.max(...mergedLocalTurningPoints.map(tp => tp.complexityScore));
-const needsDimensionalEscalation = maxComplexity >= this.config.complexitySaturationThreshold;
+  * **Categorical Grouping:** Bundles turning points by their assigned category.
+  * **Thematic Clustering (φ-Aware):** When the third pillar (DAO) is enabled, it groups turning points based on thematic resonance, using a similarity score derived from emotional tone, sentiment, and significance.
+  * **Temporal Sectioning:** Groups turning points into chronological phases or sections.
 
-if (needsDimensionalEscalation) {
-  // Create meta-messages from turning points for dimension n+1
-  const metaMessages = this.createMetaMessagesFromTurningPoints(mergedLocalTurningPoints, messages);
-  // Recursively process in dimension n+1
-  return this.multiLayerDetection(metaMessages, dimension + 1);
-} else {
-  // Remain in current dimension
-  return this.filterSignificantTurningPoints(mergedLocalTurningPoints);
-}
-```
-
-This directly implements the paper's formal definition of Ψ.
-
-### 3. Dimensional Expansion (n → n+1)
-
-When complexity saturates in dimension n, the system creates meta-messages that represent higher-dimensional abstractions:
 
 ```typescript
-// Create meta-messages from turning points for higher-level analysis
-// This implements the dimensional expansion from n to n+1
+// Snippet from createMetaMessagesFromTurningPoints, showcasing multiple strategies
 private createMetaMessagesFromTurningPoints(
   turningPoints: TurningPoint[],
-  originalMessages: Message[]
+  originalMessages: Message[],
 ): Message[] {
-  // Group turning points by category
-  const groupedByCategory: Record<string, TurningPoint[]> = {};
-  turningPoints.forEach(tp => {
-    const category = tp.category;
-    if (!groupedByCategory[category]) {
-      groupedByCategory[category] = [];
-    }
-    groupedByCategory[category].push(tp);
-  });
-  
-  // Create meta-messages (one per category for dimension n+1)
-  const metaMessages: Message[] = [];
-  
-  // Process each category...
-  
+  // ... logic to group by category ...
+
+  if (this.config.enableExperimentalPhi) {
+    // ... logic for thematic clustering and temporal sectioning ...
+  } else {
+    // ... fallback to simpler chronological sectioning ...
+  }
   return metaMessages;
 }
 ```
 
-### 4. Contraction Mapping for Convergence
+### 3\. Differentiating Attentional Orientation (DAO) & The φ-Field
 
-The ARC framework guarantees convergence through contraction mappings:
+DAO introduces the third epistemic axis of **significance**. It is operationalized through a **φ-Significance Field**, which assigns a salience score to each turning point based on its emotional intensity and thematic importance. This field directly influences merging, filtering, and significance calculations.
 
 ```typescript
-// Calculate a difference measure between two states for convergence tracking
-private calculateStateDifference(
-  state1: TurningPoint[],
-  state2: TurningPoint[]
-): number {
-  if (state1.length === 0 || state2.length === 0) return 1.0;
-  
-  // Calculate average significance difference
-  const avgSignificance1 = state1.reduce((sum, tp) => sum + tp.significance, 0) / state1.length;
-  const avgSignificance2 = state2.reduce((sum, tp) => sum + tp.significance, 0) / state2.length;
-  
-  // Normalize by max possible difference
-  return Math.abs(avgSignificance1 - avgSignificance2);
-}
-```
-
-## Model-Agnostic Performance
-
-One of the key innovations of our framework is its model-agnostic nature. The same implementation works effectively across different LLMs:
-
-| Model | Processing Time | Max Dimension | Turning Points | Max Complexity |
-|-------|----------------|---------------|----------------|----------------|
-| Qwen 2.5 (7B) | 2:58 | n=2 | 5 | 5.00 |
-| Phi-4-mini (3.8B) | 2:07 | n=1 | 10 | 4.84 |
-| GPT-4o | 0:48 | n=1 | 10 | 4.84 |
-
-This consistent behavior demonstrates that ARC/CRA captures fundamental principles of recursive convergence and dimensional expansion regardless of model architecture. See the results that can be found in the `results` directory after running the detector, and the provided ones for the model.
-
-To see the results as well from the readme, checkout [README.results.md](README.results.md) for the output of the detector on a sample conversation, for each model used.
-
-
-## Example Output
-
-Running the detector produces turning points with complexity scores and dimensional information:
-
-```json
-{
-  "id": "tp-0-8-9",
-  "label": "Memory, Not Wear Insight",
-  "category": "Insight",
-  "span": {
-    "startId": "msg-8",
-    "endId": "msg-9",
-    "startIndex": 8,
-    "endIndex": 9
-  },
-  "semanticShiftMagnitude": 0.881,
-  "keywords": ["memory", "wear", "temporal stresses", "cognition"],
-  "quotes": ["It's memory, not wear! CRG-007 is recording temporal stresses into its alloy, actively consuming itself through cognition."],
-  "emotionalTone": "surprise",
-  "detectionLevel": 0,
-  "significance": 0.98,
-  "complexityScore": 4.79
-}
-```
-
-The convergence analysis shows how the framework transitions between dimensions:
-
-```json
-[
-  {
-    "dimension": 1,
-    "convergenceDistance": 0.032,
-    "hasConverged": true,
-    "didEscalate": true,
-    "turningPoints": 3
-  },
-  {
-    "dimension": 2,
-    "convergenceDistance": 0.070,
-    "hasConverged": true,
-    "didEscalate": true,
-    "turningPoints": 2
+// Computes the φ-field by interpreting LLM-derived data.
+private computePhiSignificanceField(
+  turningPoints: TurningPoint[],
+): Map<string, number> {
+  const phiMap = new Map<string, number>();
+  // ... logic to calculate phi from emotional intensity and significance ...
+  for (const tp of turningPoints) {
+    const normSignificance = Math.min(1.0, tp.significance || 0);
+    const toneIntensity = emotionalIntensity[tp.emotionalTone.toLowerCase()] || 0.1;
+    const sentimentModifier = tp.sentiment === "negative" ? 1.1 : 1.0;
+    const phi = normSignificance * 0.7 + toneIntensity * sentimentModifier * 0.3;
+    phiMap.set(tp.id, Math.max(0, Math.min(1, phi)));
   }
-]
+  return phiMap;
+}
 ```
 
-## Theoretical Foundations
+### 4\. Possibilistic Fusion & Counterfactual Analysis
 
-The implementation is grounded in the mathematical foundations described in our paper:
+Instead of simple filtering, the framework now uses a sophisticated **Possibilistic Gating Network**. This uses a **Choquet integral** to fuse turning points from different dimensions, prioritizing those that are not only significant but also epistemically necessary and compatible with the broader evidence. Finally, an optional **Counterfactual Analysis** layer further refines the selection by assessing the structural importance of each turning point.
 
-1. **Banach Fixed-Point Theorem**: Ensures convergence in each dimension through contraction mappings
-2. **Complexity-Based Transitions**: Uses a discrete complexity classifier to determine dimensional saturation
-3. **Bounded Dimensional Escalation**: Prevents infinite recursion through careful complexity management
-4. **Knowledge Graph Embeddings**: Leverages semantic relationships through vector representations
-5. **Dynamic Attention Mechanisms**: Identifies significant shifts using attention-like mechanisms
+```typescript
+// The final filtering stage combines multiple advanced techniques
+private filterSignificantTurningPoints(
+  turningPoints: TurningPoint[],
+  phiMap: Map<string, number> = new Map(),
+): TurningPoint[] {
+    // 1. Calculate Epistemic Primitives (compatibility, necessity, etc.)
+    // ...
+    // 2. Fuse candidates using a Possibilistic Gating Network (Choquet Integral)
+    const fusedTurningPoints = this.createPossibilisticGatingNetwork(byDimension);
+    // 3. (Optional) Enhance selection with Counterfactual Analysis
+    const enhancedTurningPoints = this.counterfactualAnalyzer.enhanceTurningPointSelection(fusedTurningPoints);
+    // 4. Enforce hard cap and return sorted results
+    // ...
+}
+```
 
-## Conclusion
+## Project Structure
 
-The Semantic Turning Point Detector demonstrates that the theoretical ARC/CRA framework can be successfully implemented in practice. By combining local refinements with dimensional escalation triggered by complexity saturation, we achieve a system that adaptively processes conversations at the appropriate level of abstraction.
+This semantic turning point detector is organized into modular components that implement the ARC/CRA/DAO framework for conversation analysis. Below is an overview of the key files:
 
-This implementation validates the core claims of our paper:
-- Adaptive recursion can be achieved through complexity-based dimensional transitions
-- Formal convergence is guaranteed through contraction mappings
-- Dimensional escalation is bounded and occurs only when necessary
-- The framework is model-agnostic and works across different LLM architectures
+```
+src/
+├── conversation.ts                    # Sample sci-fi conversation for testing/demo
+├── conversationPariah.json           # Test dataset: Strindberg's "The Stronger" dialogue
+├── counterfactual.ts                  # Experimental robustness testing via perturbation analysis
+├── index.ts                          # Main export file exposing public API
+├── Message.ts                        # Core message types and MetaMessage class for dimensional escalation
+├── prompt.ts                         # LLM prompt templates and response formatting
+├── resultsV4.md                      # Analysis results comparing different models (GPT-4, Gemini, Qwen, etc.)
+├── semanticTurningPointDetector.ts   # Main detector class implementing ARC/CRA framework
+├── stripContent.ts                   # Content preprocessing utilities
+├── tokensUtil.ts                     # Token counting and text processing utilities
+└── types.ts                          # TypeScript interfaces and configuration types
+```
 
-# References
+### Core Files
 
-Liu, Ziping, and Moriba Jah. (2025). "Adaptive Recursive Convergence and Semantic Turning Points: A Self-Verifying Architecture for Progressive AI Reasoning." *Research Square*, PREPRINT. Version 1<sup>\*</sup> published 19 May 2025. <a href="https://doi.org/10.21203/rs.3.rs-6605714/v1"><img src="https://img.shields.io/badge/DOI-10.21203/rs.3.rs--6605714/v1-blue.svg" alt="DOI" style="vertical-align: middle;"></a>.
+- **semanticTurningPointDetector.ts** - The main implementation featuring:
+  - Multi-dimensional ARC analysis (n → n+1 escalation)
+  - Experimental phi-field enhancement for significance scoring
+  - Possibilistic gating networks for robust turning point fusion
+  - Configurable LLM integration (OpenAI, OpenRouter, Ollama, etc.)
 
-<sup>\* A second version is under review.</sup>
+- **types.ts** - Comprehensive type definitions including:
+  - `TurningPointDetectorConfig` with 30+ configuration options
+  - `TurningPoint` interface with semantic metadata
+  - Epistemic primitives for advanced filtering
+  - Convergence tracking types
+
+- **`Message.ts`** - Message handling with:
+  - Base `Message` interface for conversation data
+  - `MetaMessage` class for representing higher-dimensional turning point clusters
+  - Span management and indexing utilities
+
+### Analysis & Testing
+
+- **resultsV4.md** - Real analysis results showing:
+  - Performance across different LLM models (GPT-4.1, Gemini-2.5-flash, Qwen3)
+  - Convergence patterns in dimensional escalation
+  - Confidence vs. necessity scoring comparisons
+
+- **counterfactual.ts** - Experimental feature providing:
+  - Robustness testing through perturbation analysis
+  - Enhanced turning point selection via "what-if" scenarios
+  - Quality assurance for detected semantic shifts
+
+### Utilities & Support
+
+- **`prompt.ts`** - Advanced prompting system with:
+  - Modular prompt architecture for LLM clarity
+  - JSON schema response formatting
+  - Context management for dimensional analysis
+
+- **`tokensUtil.ts`** - Text processing including:
+  - Accurate token counting for various models
+  - Text truncation with ratio estimation
+  - Memory-efficient caching strategies
+
+
+For detailed configuration options, see the comprehensive JSDoc documentation in semanticTurningPointDetector.ts and type definitions in types.ts.
+
+## Results
+
+As current there is a scattering of results, so unless otherwise noted, the latest results are found in [README.RESULTS.V4.md](results/README.RESULTS.V4.md).
+This file contains detailed analysis of the detector's performance across various models, including:
+- **Model comparisons**: GPT-4.1, Gemini-2.5-flash:thinking, Qwen3:1.7B, Qwen3:30B-2507, and GPT-4.1-nano.
+- **Turning point detection accuracy**: How many turning points were detected and their significance.
+- **Convergence patterns**: How the detector's performance changes with different configurations and model choices.
+- **Confidence vs. necessity**: Analysis of how the detector's confidence scores align with the necessity of detected turning points.
+
+
+These results are from analysis of the well known Pariah dialogue by Strindberg, which is a rich source of semantic turning points. The analysis demonstrates the detector's ability to identify key moments of insight, contradiction, and emotional upheaval in the conversation. The version of how it was used can be found in [conversationPariah.json](src/conversationPariah.json). 
+
+
+Below is a brief comparison that visualizes and highlights the key improvements in the detector's functionality compared to the previous version, v3.3.6.
+
+
+
+
+#### Original (pre-DAO, confidence-based)
+```cypher
+Message   0   10   20   30   40   50   60   70   80   90  100  110  120  130  140  150
+Index     │   │    │    │    │    │    │    │    │    │    │    │    │    │    │    │
+          ▼   ▼    ▼    ▼    ▼    ▼    ▼    ▼    ▼    ▼    ▼    ▼    ▼    ▼    ▼    ▼
+gpt4.1nano ●   ●        ●         ●         ●              ●         ●         ●    ●    ●
+Gemini         ●    ●                  ●         ●    ●    ●    ●         ●         ●
+gpt-4.1   ●   ●             ●                              ●         ●          ●    ●
+qwen1.7b  ●   ●                  ●              ●    ●    ●    ●    ●    ●         ●
+qwen30b   ●                        ●   ●              ●    ●         ●    ●    ●    ●
+```
+
+#### After DAO (v4.0.0, necessity/φ-aware, same binning)
+```cypher
+Message   0   10   20   30   40   50   60   70   80   90  100  110  120  130  140  150
+Index     │   │    │    │    │    │    │    │    │    │    │    │    │    │    │    │
+          ▼   ▼    ▼    ▼    ▼    ▼    ▼    ▼    ▼    ▼    ▼    ▼    ▼    ▼    ▼    ▼
+Qwen-1.7b ●                                   ● ● ● ● ● ● ● ●
+GPT-4.1-n ● ●                                       ●       ●     ● ●
+GPT-4.1   ● ● ● ● ●     ●   ●   ● ●       ● ●     ● ●
+Qwen-30B  ●                   ● ●         ●     ● ●
+Gemini    ●           ● ●   ●     ●       ●     ● ● ● ●
+```
+
+## 📖 Citation
+
+Liu, Z., & Jah, M. (2025). *Adaptive Recursive Convergence and Semantic Turning Points: A Self-Verifying Architecture for Progressive AI Reasoning.* Research Square Preprint. [https://doi.org/10.21203/rs.3.rs-6605714/v1](https://doi.org/10.21203/rs.3.rs-6605714/v1)
+
+
+
+## Miscellaneous
+
+[![wakatime](https://wakatime.com/badge/user/e012350f-8b4a-4ec4-ae89-56e558bfec5d/project/0bc83f4e-e5ca-423c-bee6-b2b9b49f4965.svg)](https://wakatime.com/badge/user/e012350f-8b4a-4ec4-ae89-56e558bfec5d/project/0bc83f4e-e5ca-423c-bee6-b2b9b49f4965)

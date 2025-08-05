@@ -85,23 +85,18 @@ export class MetaMessage implements Message {
     this.spanData = spanData;
     this.representedTurningPoints = representedTurningPoints;
     this.dimension = dimension;
- 
+
     for (const tp of representedTurningPoints || []) {
-      // Store the original messages that are associated with this turning point
-      // based on the turning point's indices which reference the ORIGINAL message array
       const messages: Message[] = [];
 
-      // Check if indices are valid - they might reference positions in a larger array
-      // than what we currently have
-      const startIndex = Math.min(tp.span.startIndex, originalMessages.length - 1);
-      const endIndex = Math.min(tp.span.endIndex, originalMessages.length - 1);
+      // Validate indices before using them
+      if (tp.span.startIndex >= 0 && tp.span.startIndex < originalMessages.length &&
+        tp.span.endIndex >= 0 && tp.span.endIndex < originalMessages.length &&
+        tp.span.startIndex <= tp.span.endIndex) {
 
-      // If the indices are valid for our current array, use them
-      if (startIndex >= 0 && startIndex < originalMessages.length &&
-        endIndex >= 0 && endIndex < originalMessages.length) {
-        messages.push(...originalMessages.slice(startIndex, endIndex + 1));
+        messages.push(...originalMessages.slice(tp.span.startIndex, tp.span.endIndex + 1));
       }
-      // Otherwise, try to find messages by ID
+      // Try ID-based lookup as fallback
       else {
         const startMessage = originalMessages.find(m => m.id === tp.span.startId);
         const endMessage = originalMessages.find(m => m.id === tp.span.endId);
@@ -110,13 +105,13 @@ export class MetaMessage implements Message {
         if (endMessage && startMessage !== endMessage) messages.push(endMessage);
       }
 
-      if (messages.length === 0) {
-        console.warn(`Warning: No messages found for turning point ${tp.id}. Using indirect reference.`);
-        // As a last resort, just use the original messages directly
-        // This at least prevents crashes, though contextual information might be limited
-        this.messagesByTurningPoint.set(tp.id, originalMessages);
-      } else {
+
+      // Only store if we found valid messages
+      if (messages.length > 0) {
         this.messagesByTurningPoint.set(tp.id, messages);
+      } else {
+        console.error(`No valid messages found for turning point ${tp.id}`);
+        // Don't store anything rather than storing wrong data
       }
     }
   }
@@ -134,8 +129,24 @@ export class MetaMessage implements Message {
     return this.messagesByTurningPoint;
   }
   getMessagesInTurningPointSpanToMessagesArray(): Message[] {
-    // convert the map values to a single array
-    return Array.from(this.messagesByTurningPoint.values()).flat();
+    const allMessages: Message[] = [];
+    const seenIds = new Set<string>(); // Prevent duplicates
+
+    for (const messages of this.messagesByTurningPoint.values()) {
+      for (const msg of messages) {
+        if (!seenIds.has(msg.id)) {
+          allMessages.push(msg);
+          seenIds.add(msg.id);
+        }
+      }
+    }
+
+    // Limit size to prevent memory issues
+    if (allMessages.length > 1000) {
+      console.warn(`Large message array (${allMessages.length}) in MetaMessage ${this.id}`);
+    }
+
+    return allMessages;
   }
 
   /**
@@ -161,64 +172,113 @@ export class MetaMessage implements Message {
     maxContentLengthChar: number = 8000,
     originalMessages: Message[] = [],
     type: 'before-and-after' | 'within' = 'within',
-  ) {
+    outputFormat: 'markdown' | 'modular-tags' = 'markdown',
+  ): string {
 
     if (originalMessages.some(m => m instanceof MetaMessage)) {
       throw new Error(`Error: Original messages should not contain any meta-messages. Found: ${originalMessages.filter(m => m instanceof MetaMessage).map(m => m.id).join(', ')}`);
     }
 
-    // create a span id for this before and after message (simialr to how the meta message is created)
-    const prefix = beforeMessage instanceof MetaMessage && afterMessage instanceof MetaMessage ? 'meta-' : 'base-';
-    const spanId = `${prefix}${beforeMessage.id}-${afterMessage.id}`;
-
-
     if (originalMessages.length === 0) {
-      throw new Error(`No messages found for turning point ${spanId} in span ${beforeMessage.spanData.startIndex}-${afterMessage.spanData.endIndex}, originalMessages length: ${originalMessages.length}\n- tp.span data: ${JSON.stringify(beforeMessage.spanData)}, tp. after span data: ${JSON.stringify(afterMessage.spanData)}`);
+      throw new Error(`No messages found for span ${beforeMessage.spanData.startIndex}-${afterMessage.spanData.endIndex}, originalMessages length: ${originalMessages.length}`);
     }
 
-    // const messageContent = MetaMessage.getMessagesContentContextualAid(
-    //   metaMessage.getTurningPoints(),
-    //   messages,
-    //   metaMessage,
-    //   dimension,
-    //   type,
-    //   0,
-    //   maxContentLengthChar
-    // );
-    // use new param props 
-    if (beforeMessage instanceof MetaMessage && afterMessage instanceof MetaMessage) {
-
-
+    try {
+      // Get contextual content from both messages
       const beforeMessageContextual = beforeMessage.getMessagesContentContextualAid({
         dimension,
         contextualType: type,
-        messagesToUse: messagesToUse ?? 1,
+        messagesToUse,
         maxContentLengthChar
       });
 
       const afterMessageContextual = afterMessage.getMessagesContentContextualAid({
         dimension,
         contextualType: type,
-        messagesToUse: messagesToUse ?? 1,
+        messagesToUse,
         maxContentLengthChar
       });
 
-      return `## Below is contextual content of the actual converation message content concerning the meta message group of turning points that are being analyzed, and the messages that are before and after the turning point to analyze\n\n` +
-        `### These are messages of the conversation  are ${type === 'within' ? 'are at the start of the messages within' : 'before'} the group of turning points that are being analyzed\n` +
-        `${beforeMessageContextual.split('\n').map(line => `   ${line}`).join('\n')}` +
-        `\n### These are messages that end at this group of turning points that are ${type === 'within' ? 'within' : 'after'
-        } the group of turning points that are being analyzed\n` +
-        `${afterMessageContextual.split('\n').map(line => `   ${line}`).join('\n')}` +
-        `\n---- end of messages content before and after the turning point to analyze ----\n\n\n`;
-    } else {
-      throw new Error(`Before and after messages must be instances of MetaMessage`);
+      const formatAsModularTags = ({
+        beforeContent,
+        afterContent,
+        type,
+        beforeMessageId,
+        afterMessageId,
+        dimension
+      }: {
+        beforeContent: string,
+        afterContent: string,
+        type: 'before-and-after' | 'within',
+        beforeMessageId: string,
+        afterMessageId: string,
+        dimension: number
+      }): string => {
+        const contextType = type === 'within' ? 'within-span' : 'surrounding-span';
+
+        return [
+          `<contextual-analysis type="${contextType}" dimension="${dimension}">`,
+          `  <meta-span from="${beforeMessageId}" to="${afterMessageId}">`,
+          `    <before-context>`,
+          beforeContent.split('\n').map(line => `      ${line}`).join('\n'),
+          `    </before-context>`,
+          `    <after-context>`,
+          afterContent.split('\n').map(line => `      ${line}`).join('\n'),
+          `    </after-context>`,
+          `  </meta-span>`,
+          `</contextual-analysis>\n`
+        ].join('\n');
+      }
+
+      // Return modular tag format if requested
+      if (outputFormat === 'modular-tags') {
+        return formatAsModularTags({
+          beforeContent: beforeMessageContextual,
+          afterContent: afterMessageContextual,
+          type,
+          beforeMessageId: beforeMessage.id,
+          afterMessageId: afterMessage.id,
+          dimension
+        });
+      }
+
+      // Original markdown format
+      const contextDescription = type === 'within'
+        ? 'messages within the turning point groups'
+        : 'messages surrounding the turning point groups';
+
+      const beforeHeader = type === 'within'
+        ? 'Messages at the start of the first turning point group'
+        : 'Messages before the turning point groups';
+
+      const afterHeader = type === 'within'
+        ? 'Messages at the end of the last turning point group'
+        : 'Messages after the turning point groups';
+
+      return [
+        `## Contextual Content: ${contextDescription}`,
+        `The following provides context for analyzing the meta-turning point between these groups.\n`,
+
+        `### ${beforeHeader}`,
+        beforeMessageContextual.split('\n').map(line => `   ${line}`).join('\n'),
+
+        `### ${afterHeader}`,
+        afterMessageContextual.split('\n').map(line => `   ${line}`).join('\n'),
+
+        `---- End of contextual messages ----\n\n`
+      ].join('\n');
+
+    } catch (error) {
+      console.error('Error generating contextual aid:', error);
+
+      if (outputFormat === 'modular-tags') {
+        return `<contextual-error>Unable to generate contextual information: ${error.message}</contextual-error>`;
+      }
+
+      return `## Contextual Content Error\nUnable to generate contextual information: ${error.message}\n\n`;
     }
-
-
-
-
-
   }
+
 
 
   /**
@@ -245,7 +305,10 @@ export class MetaMessage implements Message {
 
     consoleLogger?: Console;
   }): number => {
-
+    // Validate inputs
+    if (id === null || id === undefined || id === '' || !messages || messages.length === 0) {
+      throw new Error(`Invalid inputs: id=${id}, messages.length=${messages?.length}`);
+    }
     // Check if message has getIndex method (MetaMessage instances)
     // - if so, check if the beforeMessage (MetaMessage) has the same id as the one we are looking for, if so use that for faster lookup
     if (
@@ -265,21 +328,13 @@ export class MetaMessage implements Message {
 
     // IMPORTANT FIX: Check if ID is a numeric string (an index from meta-message parsing)
     // This handles the case where we extract "4" from "SpanIndices: 4-10"
+    // Enhanced numeric ID validation
     if (/^\d+$/.test(id)) {
-      // It's a numeric index from meta-message content, use it directly
       const numericIndex = parseInt(id, 10);
       if (numericIndex >= 0 && numericIndex < messages.length) {
         return numericIndex;
       }
-      // If it's outside valid range, log but continue to other checks
-      consoleLogger.info(
-        `Warning: Numeric ID ${id} is outside valid range for original messages originalMessages possible id list: ${messages
-          .map((msg) => msg.id)
-          .join(", ")}`
-      );
-      throw new Error(
-        `Numeric ID ${id} is outside valid range for original messages`
-      );
+      throw new Error(`Numeric ID ${id} out of range [0, ${messages.length - 1}]`);
     }
 
     // Special handling for meta-message IDs
@@ -333,69 +388,69 @@ export class MetaMessage implements Message {
 
     return index;
   };
-/**
- * Retrieves and formats message content from turning points to provide contextual analysis.
- * 
- * This method extracts messages from the first and last turning points in the group,
- * formats them according to the specified parameters, and returns a structured
- * representation that can be used for analysis or display.
- * 
- * @param options Configuration options for content retrieval and formatting
- * @param options.dimension - Dimensional level of analysis (0 = base conversation, 1+ = meta-analysis of turning point groups)
- * @param options.contextualType - How to present message context:
- *   - "within": Shows messages within the turning point group (first and last messages)
- *   - "before-and-after": Shows messages that appear before and after the turning point group
- * @param options.messagesToUse - Number of messages to include in each context section (default: 2)
- * @param options.maxContentLengthChar - Maximum length in characters for each message content (default: 8000)
- * 
- * @returns Formatted string containing structured message content with appropriate headers and context
- * 
- * @example
- * // Get messages within a turning point group
- * const withinContent = metaMessage.getMessagesContentContextualAid({
- *   dimension: 1,
- *   contextualType: "within"
- * });
- * 
- * @example
- * // Get messages before and after a turning point group with custom limits
- * const surroundingContent = metaMessage.getMessagesContentContextualAid({
- *   contextualType: "before-and-after",
- *   messagesToUse: 3,
- *   maxContentLengthChar: 5000
- * });
- */
-public getMessagesContentContextualAid({
-  dimension = 0,
-  contextualType = "within",
-  messagesToUse = 2,
-  maxContentLengthChar = 8000
-}: {
-  /** 
-   * Dimensional level of analysis:
-   * - 0: Base conversation analysis (individual messages)
-   * - 1+: Meta-analysis of turning point groups (higher abstraction)
-   */
-  dimension?: number,
-  
   /**
-   * Context presentation strategy:
-   * - "within": Shows messages within the turning point span (first and last)
-   * - "before-and-after": Shows messages surrounding the turning point
+   * Retrieves and formats message content from turning points to provide contextual analysis.
+   * 
+   * This method extracts messages from the first and last turning points in the group,
+   * formats them according to the specified parameters, and returns a structured
+   * representation that can be used for analysis or display.
+   * 
+   * @param options Configuration options for content retrieval and formatting
+   * @param options.dimension - Dimensional level of analysis (0 = base conversation, 1+ = meta-analysis of turning point groups)
+   * @param options.contextualType - How to present message context:
+   *   - "within": Shows messages within the turning point group (first and last messages)
+   *   - "before-and-after": Shows messages that appear before and after the turning point group
+   * @param options.messagesToUse - Number of messages to include in each context section (default: 2)
+   * @param options.maxContentLengthChar - Maximum length in characters for each message content (default: 8000)
+   * 
+   * @returns Formatted string containing structured message content with appropriate headers and context
+   * 
+   * @example
+   * // Get messages within a turning point group
+   * const withinContent = metaMessage.getMessagesContentContextualAid({
+   *   dimension: 1,
+   *   contextualType: "within"
+   * });
+   * 
+   * @example
+   * // Get messages before and after a turning point group with custom limits
+   * const surroundingContent = metaMessage.getMessagesContentContextualAid({
+   *   contextualType: "before-and-after",
+   *   messagesToUse: 3,
+   *   maxContentLengthChar: 5000
+   * });
    */
-  contextualType?: "before-and-after" | "within",
-  
-  /**
-   * Number of messages to include in each context section
-   * (beginning/end of turning point or before/after turning point)
-   */
-  messagesToUse?: number,
-  
-  /**
-   * Maximum character length for individual message content before truncation
-   */
-  maxContentLengthChar?: number
-}): string {
+  public getMessagesContentContextualAid({
+    dimension = 0,
+    contextualType = "within",
+    messagesToUse = 2,
+    maxContentLengthChar = 8000
+  }: {
+    /** 
+     * Dimensional level of analysis:
+     * - 0: Base conversation analysis (individual messages)
+     * - 1+: Meta-analysis of turning point groups (higher abstraction)
+     */
+    dimension?: number,
+
+    /**
+     * Context presentation strategy:
+     * - "within": Shows messages within the turning point span (first and last)
+     * - "before-and-after": Shows messages surrounding the turning point
+     */
+    contextualType?: "before-and-after" | "within",
+
+    /**
+     * Number of messages to include in each context section
+     * (beginning/end of turning point or before/after turning point)
+     */
+    messagesToUse?: number,
+
+    /**
+     * Maximum character length for individual message content before truncation
+     */
+    maxContentLengthChar?: number
+  }): string {
     // Get turning points and original messages
     const turningPoints = this.getTurningPoints();
     const originalMessages = this.getMessagesInTurningPointSpanToMessagesArray();

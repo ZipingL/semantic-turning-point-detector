@@ -7,6 +7,9 @@ node_modules
 !results/turningPointsGpt4o.json
 !results/turningPointsPariah.json
 !results/turningPointsPariahNano.json
+ 
+
+
 *.txt
 
 results/*.log
@@ -16,3 +19,25 @@ descriptoin_drafting.md
 descriptoin_drafting.pdf
 masked_confidence_scoring_overview.md
 *.jinja
+
+*.md
+debug_*.json
+
+*.pdf
+*.log
+*.pid
+
+# DO NOT IGNORE resulits/README.RESULTS.V4.md
+!results/README.RESULTS.V4.md
+
+results/turningPoints.json
+
+!results/output_pariah_logs_v4/output_gemini-2.5-flash-thinking.log
+!results/output_pariah_logs_v4/output_gpt_4-1-nano.log
+!results/output_pariah_logs_v4/output_gpt_4-1.log
+!results/output_pariah_logs_v4/output_gwen3-1-7b.log
+!results/output_pariah_logs_v4/output_qwen30b-2507.log
+
+*.zip
+
+

@@ -46,88 +46,84 @@ export type StripMarkdownOptions = {
  */
 export function selectivelyStripMarkdown(
   markdown: string,
-  options?: StripMarkdownOptions
+  opt: StripMarkdownOptions = {}
 ): string {
-  let result = markdown;
+  const {
+    removeLists   = false,
+    headingStyle  = "bold",
+    headingPrefix = "heading: "
+  } = opt;
 
-  // --- Configuration Defaults ---
-  const shouldRemoveLists = options?.removeLists ?? false;
-  const headingStyle = options?.headingStyle ?? 'bold'; // Default to 'bold'
-  const headingPrefix = options?.headingPrefix ?? 'heading: '; // Default prefix
-
-  // --- Heading Replacement ---
-  // Use a replacer function to dynamically format the heading text
-  result = result.replace(/^#{1,6}\s+(.*)/gm, (match, headingText) => {
-    // 'match' is the full matched string, e.g., "## Heading Title"
-    // 'headingText' is the captured group (.*), e.g., "Heading Title"
+  // 1. headings
+  const fmt = (txt: string) => {
     switch (headingStyle) {
-      case 'italic':
-        return `*${headingText}*`;
-      case 'bold-italic':
-        return `***${headingText}***`;
-      case 'prefix':
-        return `${headingPrefix}${headingText}`;
-      case 'plain':
-        return headingText;
-      case 'bold': // Fallthrough for default 'bold'
-      default:
-        return `**${headingText}**`;
+      case "italic":       return `*${txt}*`;
+      case "bold-italic":  return `***${txt}***`;
+      case "prefix":       return `${headingPrefix}${txt}`;
+      case "plain":        return txt;
+      default:             return `**${txt}**`;
     }
-  });
+  };
+  let out = markdown.replace(/^#{1,6}\s+(.*)$/gm, (_, h) => fmt(h.trim()));
 
-  // --- List Removal (Optional) ---
-  if (shouldRemoveLists) {
-    // Remove unordered list markers (*, -, +), preserving indentation
-    result = result.replace(/^(\s*)(?:[-*+])\s+(.*)/gm, '$1$2');
-    // Remove ordered list markers (1., 2.), preserving indentation
-    result = result.replace(/^(\s*)(?:\d+\.)\s+(.*)/gm, '$1$2');
+  // 2. lists
+  if (removeLists) {
+    out = out
+      .replace(/^(\s*)[-*+]\s+/gm, "$1")   // unordered
+      .replace(/^(\s*)\d+\.\s+/gm, "$1");  // ordered
   }
-
-  return result;
+  return out;
 }
 
 
+export type OutputStyle = "modular" | "markdown";
 
-/**
- * A helper function that formats a given message in a form that ensures the content is not long and easily distinguishable as part of contextual information when requesting a llm or nlp model to process it.
- * @param semanticSettings 
- * @param m 
- * @param dimension 
- * @param addHeader 
- * @param sliceId 
- * @returns 
- */
-export function returnFormattedMessageContent(semanticSettings: Partial<TurningPointDetectorConfig>, m: Message, dimension: number = 0, addHeader = false, sliceId = false): string {
+function htmlEscape(s: string) {
+  return s.replace(/[&<>"']/g, c =>
+    ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[c]!)
+  );
+}
 
-  const messageContent = selectivelyStripMarkdown(
-    m.message)
-  const header = addHeader ? `${dimension === 0 ? `"${m.author}"` : `Turning Point: "${m.author}"`}
+export function returnFormattedMessageContent(
+  cfg:  Partial<TurningPointDetectorConfig>,
+  msg:  Message,
+  dim            = 0,
 
-  [${dimension === 0 ? 'Author\'s name' : 'Source of Turning Point (this is a turning point comprising of messages (2-or-more) that are part of a larger single conversation)'
-    }): "${m.author}" \nID: "${m.id}"` : ']';
-  return `${header}\n` +
-    `------ start of message content from ${dimension === 0 ? 'author' : 'meta'}:"${m.author.replace(
-      // replace all non-word characters and whitespace with an empty string
-      /[^\w\s]/g,
-      '-'
-    )}"` +
-    
-    ` author="${m.author}" id="${m.id}" dimension="${dimension}"------\n\n` +
-                `${messageContent
-      ?.slice(
-        0,
-        dimension === 0 ? Math.min(
-          semanticSettings?.max_character_length != undefined
-            ? semanticSettings?.max_character_length / 2
-            : 20000,
-          8000
-        ) : messageContent.length
-      )
-      .split("\n")
-      .map((line) => `    ${line}`)
-      .join("\n")}\n[content may be truncated, original length: ${m.message.length}]\n\n---------- end of message content for id="${m.id}"
-    }" author="${m.author}" ----------\n`;
+  opt: {
+    outputStyle?:  OutputStyle;
+    markdownOpts?: StripMarkdownOptions;
+    maxLen?:       number;
+    addHeader?:    boolean;
+  } = {}
+): string {
 
+  // ---------------- config ----------------
+  const style   = opt.outputStyle ?? "markdown";
+  const maxLen  = Math.min(
+    opt.maxLen ?? cfg.max_character_length ?? 20_000,
+    dim === 0 ? 8_000 : 20_000
+  );
 
+  // ---------------- body ----------------
+  const plain = selectivelyStripMarkdown(msg.message, opt.markdownOpts);
+  const body  = plain.slice(0, maxLen);
+  const truncated =
+    plain.length > maxLen ? `\n[truncated, original ${plain.length} chars]` : "";
 
+  const indented = body.split("\n").map(l => "    " + l).join("\n");
+
+  // ---------------- meta ----------------
+  const kind  = dim === 0 ? "message" : "turning_point";
+  const head  = opt?.addHeader ? `${msg.author}\n` : "";
+  const attrs = `${
+    dim === 0 ? 'author' : 'source'
+  }="${htmlEscape(msg.author)}" id="${msg.id}" dim="${dim}"`;
+
+  // ---------------- output modes ----------------
+  if (style === "markdown") {
+    return `${head}**${kind.toUpperCase()} (${msg.id})**\n\n\`\`\`text\n${indented}${truncated}\n\`\`\`\n`;
+  }
+
+  // modular (XML-ish)
+  return `${head}<${kind} ${attrs}>\n${indented}${truncated}\n</${kind}>\n`;
 }
