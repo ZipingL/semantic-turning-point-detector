@@ -74,7 +74,7 @@ Through rigorous testing on real philosophical dialogues like *Strindberg's Pari
 ## 📦 Install
 
 ```bash
-npm install @gaiaverse/semantic-turning-point-detector
+npm install @zipingl/semantic-turning-point-detector
 ```
 
 ---
@@ -82,10 +82,31 @@ npm install @gaiaverse/semantic-turning-point-detector
 ## ✨ Usage Example
 
 ```ts
-import { SemanticTurningPointDetector } from '@gaiaverse/semantic-turning-point-detector';
+import { SemanticTurningPointDetector } from '@zipingl/semantic-turning-point-detector';
 import fs from 'fs-extra';
 
-const conversation = fs.readJsonSync("pariah.json");
+const conversation = fs.readJsonSync([
+  {
+    "author": "system",
+    "message": "You are a helpful assistant that identifies semantic turning points in conversations.",
+  },
+  {
+    "author": "user",
+    "message": "...",
+  },
+  {
+    "author": "assistant",
+    "message": "...",
+  },
+  {
+    "author": "user",
+    "message": "...",
+  },
+  {
+    "author": "assistant",
+    "message": "...",
+  },
+]);
 const detector = new SemanticTurningPointDetector({
   apiKey: process.env.OPENAI_API_KEY,
   maxRecursionDepth: 5,

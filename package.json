@@ -1,13 +1,13 @@
 {
-  "name": "@gaiaverse/semantic-turning-point-detector",
+  "name": "@zipingl/semantic-turning-point-detector",
   "description": "Detects key semantic turning points in conversations using recursive semantic distance analysis. Ideal for conversation analysis, dialogue segmentation, insight detection, and AI-assisted reasoning tasks.",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "license": "MIT",
-  "author": "gaiaverseltd, Ziping Liu <ziping@gaiaverse.ai>",
+  "author": "Ziping Liu <liuziping@gmail.com>",
   "type": "commonjs",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gaiaverseltd/semantic-turning-point-detector.git"
+    "url": "https://github.com/zipingl/semantic-turning-point-detector.git"
   },
   "main": "dist",
   "keywords": [
